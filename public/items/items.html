@@ -1,0 +1,26 @@
+<center><h1>OSRS Item Tracker</h1></center>
+
+<center>
+  <div id="itemSearch" ng-controller="ItemController as vm">
+    <form ng-submit="vm.submit(vm.itemSearch)">
+      <input class="searchBar" placeholder="Search for an item..." type="text" ng-model="vm.itemSearch" ng-submit="vm.submit(vm.itemSearch)">
+    </form>
+    <br>
+    <div id="itemInfo" ng-show="vm.showInfo">
+      <img ng-src="{{ vm.itemArray[vm.i].info.item.icon_large }}" alt="">
+      <div>Item: {{ vm.itemArray[vm.i].info.item.name }}</div>
+      <div>Description: {{ vm.itemArray[vm.i].info.item.description }}</div>
+      <div>Current trend: {{ vm.itemArray[vm.i].info.item.current.trend }}</div>
+      <div>Today's trend: {{ vm.itemArray[vm.i].info.item.today.trend }}</div>
+      <span>
+        <button ng-show="vm.showButton" ng-click="vm.previousItem()">Previous</button>
+        <button ng-click="vm.delete()">Remove current</button>
+        <button ng-show="vm.showButton" ng-click="vm.nextItem()">Next</button>
+      </span>
+    </div>
+  </div>
+  <br>
+  <div id="graph-bg">
+    <div id="item-graph"></div>
+  </div>
+</center>

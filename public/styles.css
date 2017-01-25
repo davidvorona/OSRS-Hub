@@ -1,0 +1,250 @@
+/* main css */
+
+body {
+  background: url('img/rsbackground.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding: 10px;
+  text-rendering: optimizeLegibility;
+}
+
+@font-face {
+  font-family: 'RuneScape UF';
+  src: url('runescape_uf.ttf');
+}
+
+/* page title */
+
+h1 {
+  color: #FFFF00;
+  font-size: 40px;
+  font-family: 'RuneScape UF';
+}
+
+/* nav-bar and dropdown menu */
+
+.sidebar-nav {
+  padding: 9px 0;
+}
+
+.nav-item a {
+  font-family: 'Verdana';
+  font-size: 1.25em;
+  color: white;
+}
+
+.nav-item a:hover {
+  color: black;
+}
+
+.nav-item a:focus {
+  color: black;
+}
+
+.dropdown-menu .sub-menu {
+  left: 100%;
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+  margin-top: -1px;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  background-color: transparent;
+  cursor: default;
+}
+
+.dropdown-menu li a {
+  font-size: 1em;
+  color: white;
+}
+
+.dropdown-menu li:hover .dropdown-menu li a {
+  color: black;
+}
+
+/* search bar */
+
+.searchBar {
+  font-size: 30px;
+  font-family: 'RuneScape UF';
+  color: black;
+  text-align: center;
+  width: 30%;
+  height: 1.5em;
+}
+
+/* player page and table */
+
+#table-title {
+  display: block;
+  margin: auto;
+  max-width: 600px;
+  padding: 5px;
+  width: 100%;
+  color: #fafafa;
+  font-size: 30px;
+  font-weight: 400;
+  font-style: normal;
+  font-family: "Roboto", helvetica, arial, sans-serif;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+}
+
+th:hover {
+  cursor: pointer;
+}
+
+.st-sort-ascent:before {
+  content: '\25B2';
+}
+
+.st-sort-descent:before {
+  content: '\25BC';
+}
+
+ /* TABLE */
+
+table {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 320px;
+  margin: auto;
+  max-width: 600px;
+  padding:5px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+
+th {
+  color: #D5DDE5;;
+  background: #1b1e24;
+  border-bottom: 4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size: 23px;
+  font-weight: 100;
+  padding: 24px;
+  text-align: left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align: middle;
+}
+
+th:first-child {
+  border-top-left-radius: 3px;
+}
+
+th:last-child {
+  border-top-right-radius: 3px;
+  border-right: none;
+}
+
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom: 1px solid #C1C3D1;
+  color: #666B85;
+  font-size: 16px;
+  font-weight: normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+
+tr:hover td {
+  background: #807A83; /* #4E5066; */
+  color: #FFFFFF;
+  border-top: 1px solid #22262e;
+  border-bottom: 1px solid #22262e;
+}
+
+tr:first-child {
+  border-top: none;
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+
+tr:nth-child(odd) td {
+  background: #EBEBEB;
+}
+
+tr:nth-child(odd):hover td {
+  background: #807A83; /* #4E5066 */
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius: 3px;
+}
+
+tr:last-child td:last-child {
+  border-bottom-right-radius: 3px;
+}
+
+td {
+  background: #FFFFFF;
+  padding: 20px;
+  text-align: left;
+  vertical-align: middle;
+  font-weight: 300;
+  font-size: 18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
+  text-align: center;
+}
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: left;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+
+/* item page and graph */
+
+#itemSearch {
+  margin: auto;
+  font-family: 'RuneScape UF';
+  font-size: 1.25em;
+  color: white;
+}
+
+#itemInfo {
+  background-color: #7d653e;
+  border-radius: 5px;
+  width: 50%;
+  padding-bottom: 5px;
+}
+
+#graph-bg {
+  background-color: #7d653e;
+  border-radius: 5px;
+  width: 50%;
+  height: 50%;
+}
+
+button {
+  color: black;
+}

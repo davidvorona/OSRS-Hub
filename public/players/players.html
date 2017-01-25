@@ -1,0 +1,31 @@
+<center><h1>OSRS Players</h1></center>
+
+<center>
+  <div id="playerSearch" ng-controller="PlayerController as pc" ng-init="pc.favoriteSelected()">
+    <form ng-submit="pc.submit(pc.playerSearch)">
+      <input class="searchBar" placeholder="Search for a player..." type="text" ng-model="pc.playerSearch" ng-submit="pc.submit(pc.playerSearch)">
+    </form>
+    <br>
+    <div ng-show="pc.showPlayer">
+      <div id="table-title">{{ pc.playerSearch }}</div>
+      <table st-table="pc.displayCollection" st-safe-src="pc.playerInfo">
+        <thead>
+          <tr>
+            <th st-sort="type">Skill</th>
+            <th st-sort="rank">Rank</th>
+            <th st-sort="level">Level</th>
+            <th st-sort"exp">XP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="row in pc.displayCollection">
+            <td>{{ row.type }}: </td>
+            <td>{{ row.rank }}</td>
+            <td>{{ row.level }}</td>
+            <td>{{ row.exp }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</center>
