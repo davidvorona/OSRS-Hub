@@ -1,6 +1,6 @@
 # OSRS-Hub
 
-A companion app for the class MMORPG, Runescape - 2007 version.
+A companion app for the classic MMORPG, Runescape - 2007 version.
 
 ## Items
 
