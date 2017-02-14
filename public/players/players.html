@@ -7,6 +7,9 @@
     </form>
     <br>
     <div ng-show="pc.showPlayer">
+      <button id="x-button" ng-click="pc.removeFromFavorites()">X
+        <span class="tooltiptext">Remove from favorites</span>
+      </button>
       <div id="table-title">{{ pc.playerSearch }}</div>
       <table st-table="pc.displayCollection" st-safe-src="pc.playerInfo">
         <thead>

@@ -1,5 +1,5 @@
 angular.module("FavoritesController", ["ngRoute"])
-  .controller("FavoritesController", function FavoritesController(FavoritesFactory) {
+  .controller("FavoritesController", function FavoritesController(FavoritesFactory, $route) {
       const fc = this;
 
       fc.displayFaves = () => {
@@ -13,6 +13,7 @@ angular.module("FavoritesController", ["ngRoute"])
       };
 
       fc.choice = (player) => {
+          $route.reload(); // added so 'Players' route reloads
           localStorage.setItem("favoritesChoice", player);
       };
   });

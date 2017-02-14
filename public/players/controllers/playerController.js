@@ -13,7 +13,6 @@ angular.module("PlayerController", ["ngRoute"])
       pc.showPlayer = false;
       pc.displayCollection = {};
 
-      // TODO: 1. this only works when navigating from different tab (not "PLAYERS")
       pc.favoriteSelected = () => {
           if (localStorage.favoritesChoice) {
               pc.playerSearch = FavoritesFactory.chooseFavorite();
@@ -44,6 +43,11 @@ angular.module("PlayerController", ["ngRoute"])
                     pc.showPlayer = true;
                 });
           }
+      };
+
+      pc.removeFromFavorites = () => {
+          if (pc.playerSearch in localStorage) localStorage.removeItem(pc.playerSearch);
+          else console.log("You haven't saved this player!");
       };
 
       pc.defaultSort = {
