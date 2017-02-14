@@ -1,7 +1,7 @@
 /* main css */
 
 body {
-  background: url('img/rsbackground.png') no-repeat center center fixed;
+  background: url("img/rsbackground.png") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -11,8 +11,8 @@ body {
 }
 
 @font-face {
-  font-family: 'RuneScape UF';
-  src: url('runescape_uf.ttf');
+  font-family: "RuneScape UF";
+  src: url("runescape_uf.ttf");
 }
 
 /* page title */
@@ -20,7 +20,7 @@ body {
 h1 {
   color: #FFFF00;
   font-size: 40px;
-  font-family: 'RuneScape UF';
+  font-family: "RuneScape UF";
 }
 
 /* nav-bar and dropdown menu */
@@ -30,7 +30,7 @@ h1 {
 }
 
 .nav-item a {
-  font-family: 'Verdana';
+  font-family: "Verdana";
   font-size: 1.25em;
   color: white;
 }
@@ -70,7 +70,7 @@ h1 {
 
 .searchBar {
   font-size: 30px;
-  font-family: 'RuneScape UF';
+  font-family: "RuneScape UF";
   color: black;
   text-align: center;
   width: 30%;
@@ -99,11 +99,11 @@ th:hover {
 }
 
 .st-sort-ascent:before {
-  content: '\25B2';
+  content: "\25B2";
 }
 
 .st-sort-descent:before {
-  content: '\25BC';
+  content: "\25BC";
 }
 
  /* TABLE */
@@ -226,7 +226,7 @@ td.text-right {
 
 #itemSearch {
   margin: auto;
-  font-family: 'RuneScape UF';
+  font-family: "RuneScape UF";
   font-size: 1.25em;
   color: white;
 }

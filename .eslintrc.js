@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "airbnb",
+    "extends": "videoamp",
     "installedESLint": true,
     "plugins": [
         "angular"
