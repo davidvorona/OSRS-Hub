@@ -1,0 +1,24 @@
+<center><h1>OSRS Builds</h1></center>
+
+<center>
+  <div id="build" ng-controller="BuildController as bc">
+    <form ng-submit="bc.submit(bc.combatLvl)">
+      <div id="combatText">Enter a combat level: </div><input id="enterCombat" type="text" ng-model="bc.combatLvl" ng-submit="bc.submit(bc.combatLvl)">
+    </form>
+    <br>
+    <div ng-show="bc.showBuild">
+      <div class="display-inline">Level {{ bc.combatLvl }} - Build type: </div>
+      <div class="nav navbar-nav build-info">
+        <div class="nav-item dropdown keep-white">
+          <a class="dropdown-toggle auto-cursor" ng-mouseover="bc.displayTypes()">{{ bc.buildType }}
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu build-types">
+            <li ng-repeat="vals in bc.buildTypes"><a ng-click="bc.choice(vals)">{{ vals }}</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- <div>You have between x and y points remaining.</div>
+      <div>Name and save build</div> -->
+    </div>
+  </div>
+</center>

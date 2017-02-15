@@ -26,7 +26,7 @@ const hiscoreScraper = {
         ];
         let skillVals;
 
-        for (let i = 0; i < player.length - 4; i += 1) {
+        for (let i = 0; i < skillTypes.length; i += 1) {
             skillVals = player[i].split(",");
             skillObj.type = skillTypes[i];
             skillObj.rank = parseInt(skillVals[0]);

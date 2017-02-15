@@ -33,6 +33,7 @@ h1 {
   font-family: "Verdana";
   font-size: 1.25em;
   color: white;
+  text-decoration: none;
 }
 
 .nav-item a:hover {
@@ -55,6 +56,7 @@ h1 {
   display: block;
   background-color: transparent;
   cursor: default;
+  margin-top: 0;
 }
 
 .dropdown-menu li a {
@@ -279,4 +281,52 @@ td.text-right {
 
 button {
   color: black;
+}
+
+/* build calculator */
+
+#build {
+  color: white;
+  font-size: 1.25em;
+}
+
+#combatText {
+  display: inline;
+  font-size: 30px;
+}
+
+#enterCombat {
+  display: inline;
+  width: 2em;
+  margin-left: 5px;
+  font-size: 30px;
+  color: black;
+  text-align: center;
+  outline: none;
+}
+
+.auto-cursor {
+  cursor: default;
+}
+
+.dropdown a {
+  text-decoration: none;
+  color: white;
+}
+
+.build-info {
+  display: inline-block;
+  float: none;
+}
+
+.keep-white a:hover {
+  color: white;
+}
+
+.build-types li a {
+  text-align: justify;
+}
+
+.display-inline {
+  display: inline;
 }

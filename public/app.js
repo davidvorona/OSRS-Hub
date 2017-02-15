@@ -7,6 +7,7 @@ const rsApp = angular.module("rsApp", [
     "ItemController",
     "PlayerFactory",
     "PlayerController",
+    "BuildController",
     "smart-table"
 ]);
 
@@ -25,6 +26,11 @@ rsApp.config(($routeProvider, $locationProvider) => {
       .when("/players", {
           templateUrl: "public/players/players.html",
           controller: "PlayerController"
+      })
+
+      .when("/build", {
+          templateUrl: "public/build/build.html",
+          controller: "BuildController"
       })
 
       .otherwise({
