@@ -17,6 +17,26 @@
           </ul>
         </div>
       </div>
+      <br>
+      <br>
+      <table st-table="bc.displayCollection" st-safe-src="bc.combatArr">
+        <thead>
+          <tr>
+            <th st-sort="skill">Skill</th>
+            <th st-sort="level">Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Combat:</td>
+            <td>{{ bc.combatLvl }}</td>
+          </tr>
+          <tr ng-repeat="row in bc.displayCollection">
+            <td>{{ row.skill }}: </td>
+            <td>{{ row.level }}</td>
+          </tr>
+        </tbody>
+      </table>
       <!-- <div>You have between x and y points remaining.</div>
       <div>Name and save build</div> -->
     </div>

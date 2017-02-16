@@ -15,6 +15,10 @@ body {
   src: url("runescape_uf.ttf");
 }
 
+li {
+  list-style: none;
+}
+
 /* page title */
 
 h1 {
