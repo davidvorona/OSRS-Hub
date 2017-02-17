@@ -45,11 +45,11 @@
       </table>
       <br>
       <!-- <div>You have between x and y points remaining.</div> -->
-      <form ng-show="!bc.savedBuild" ng-submit="bc.saveBuild(bc.buildName)">
+      <form ng-hide="bc.savedBuild" ng-submit="bc.saveBuild(bc.buildName)">
         <div class="display-inline">Name this build: </div><input class="find-save" type="text" ng-model="bc.buildName" ng-submit="bc.saveBuild(bc.buildName)">
         <input class="find-save-button" type="submit" value="Save" ng-submit="bc.saveBuild(bc.buildName)">
       </form>
-      <div ng-show"bc.savedBuild">This is a saved build.</div>
+      <div ng-show="bc.savedBuild">This is a saved build.</div>
       <br>
     </div>
   </div>

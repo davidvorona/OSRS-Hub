@@ -148,8 +148,13 @@ angular.module("BuildController", ["ngRoute"])
           bc.buildName = buildName;
           combatToPG = Object.assign(bc.combatArr);
           combatToPG = toObject(combatToPG);
-          $http.post(`/build/${buildName}`, combatToPG);
-          bc.savedBuild = true;
+          $http.post(`/build/${buildName}`, combatToPG)
+            .then(() => {
+                console.log("Save successful.");
+                bc.savedBuild = true;
+            }, (error) => {
+                console.log(`Error: ${error}`);
+            });
       };
 
       bc.findBuild = (buildName) => {
