@@ -8,6 +8,7 @@ const hiscoreScraper = {
             if (error) return console.log(error);
             req.player = response.body;
             next();
+            return req.player;
         });
     },
 
@@ -36,8 +37,8 @@ const hiscoreScraper = {
             skillObj = {};
         }
 
-        req.player = playerArr;
         next();
+        return res.json(playerArr);
     }
 };
 

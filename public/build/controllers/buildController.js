@@ -2,7 +2,7 @@
 // controller scope for access between SPA Angular routes;
 // only transformed upon posting to db,
 // then reset to default vals
-let combatToPG = [
+const baseCombatObj = [
     { skill: "Attack", level: 1 },
     { skill: "Defence", level: 1 },
     { skill: "Strength", level: 1 },
@@ -12,6 +12,8 @@ let combatToPG = [
     { skill: "Prayer", level: 1 }
 ];
 
+let combatToPG = {};
+
 const toObject = (data) => {
     const obj = {};
     data.forEach((el) => {
@@ -20,11 +22,11 @@ const toObject = (data) => {
     return obj;
 };
 
-const toDataStructure = (data) => {
+const toTableStructure = (data) => {
     const arrOfObj = [];
     Object.keys(data).forEach((key, i) => {
         arrOfObj[i] = {};
-        arrOfObj[i].skill = key;
+        arrOfObj[i].skill = key.charAt(0).toUpperCase() + key.slice(1);
         arrOfObj[i].level = data[key];
     });
     return arrOfObj;
@@ -81,7 +83,7 @@ const buildifyTable = (buildType, combatLvl, combatArr) => {
         Object.keys(combatObj).forEach((keys) => {
             combatObj[keys] = spreadLvl;
         });
-        return toDataStructure(combatObj);
+        return toTableStructure(combatObj);
     }
 
     const pureType = buildType;
@@ -90,12 +92,14 @@ const buildifyTable = (buildType, combatLvl, combatArr) => {
 
     combatObj[pureType] = pureLvl <= 99 ? pureLvl : 99;
 
-    return toDataStructure(combatObj);
+    return toTableStructure(combatObj);
 };
 
+/* WARNING: DEV ONLY */
 const buyingGf = (gp) => {
     console.log(`Buying gf ${gp}gp`);
 };
+/* ***************** */
 
 // src: http://www.runehq.com/calculator/combat-level
 const osCombatLevel = (combatObj) => {
@@ -111,29 +115,55 @@ const osCombatLevel = (combatObj) => {
 
 // tint row red on being selected as pureType
 angular.module("BuildController", ["ngRoute"])
-  .controller("BuildController", function BuildController($scope) {
+  .controller("BuildController", function BuildController($scope, $http, BuildFactory) {
       const bc = this;
       bc.showBuild = false;
       bc.buildType = "Spread";
-      bc.combatArr = Object.assign(combatToPG); // shallow clone of object
+      bc.combatArr = Object.assign(baseCombatObj); // shallow clone of object
+      bc.savedBuild = false;
 
       bc.submit = (combatLvl) => {
           bc.combatLvl = combatLvl;
-          bc.combatArr = Object.assign(combatToPG);
+          bc.combatArr = Object.assign(baseCombatObj);
           bc.combatArr = buildifyTable(bc.buildType, combatLvl, bc.combatArr);
           bc.displayCollection = buildifyTable(bc.buildType, combatLvl, bc.combatArr);
           bc.showBuild = true;
+          bc.savedBuild = false;
       };
 
       bc.displayTypes = () => {
-          bc.buildTypes = ["Spread", "Melee", "Strength", "Attack", "Defence", "Ranged", "Magic"];
+          // TODO: add Melee build
+          bc.buildTypes = ["Spread", "Strength", "Attack", "Defence", "Ranged", "Magic"];
       };
 
       bc.choice = (buildType) => {
           bc.buildType = buildType;
-          bc.combatArr = Object.assign(combatToPG);
+          bc.combatArr = Object.assign(baseCombatObj);
           bc.combatArr = buildifyTable(bc.buildType, bc.combatLvl, bc.combatArr);
           bc.displayCollection = buildifyTable(bc.buildType, bc.combatLvl, bc.combatArr);
+          bc.savedBuild = false;
+      };
+
+      bc.saveBuild = (buildName) => {
+          bc.buildName = buildName;
+          combatToPG = Object.assign(bc.combatArr);
+          combatToPG = toObject(combatToPG);
+          $http.post(`/build/${buildName}`, combatToPG);
+          bc.savedBuild = true;
+      };
+
+      bc.findBuild = (buildName) => {
+          bc.buildName = buildName;
+          BuildFactory.getBuild(bc.buildName)
+            .then((response) => {
+                bc.combatLvl = osCombatLevel(response.data[0]);
+                bc.combatArr = toTableStructure(response.data[0]);
+                bc.displayCollection = toTableStructure(response.data[0]);
+                bc.showBuild = true;
+                bc.savedBuild = true;
+            }, (error) => {
+                console.log(`Error: ${error}`);
+            });
       };
 
       $scope.$on("$destroy", () => {

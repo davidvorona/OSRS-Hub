@@ -2,6 +2,12 @@
 
 <center>
   <div id="build" ng-controller="BuildController as bc">
+    <form ng-submit="bc.findBuild(bc.buildName)">
+      <div class="display-inline">Find a build: </div><input class="find-save" type="text" ng-model="bc.buildName" ng-submit="bc.findBuild(bc.buildName)">
+      <input class="find-save-button" type="submit" value="Find" ng-submit="bc.findBuild(bc.buildName)">
+    </form>
+    <br>
+    OR
     <form ng-submit="bc.submit(bc.combatLvl)">
       <div id="combatText">Enter a combat level: </div><input id="enterCombat" type="text" ng-model="bc.combatLvl" ng-submit="bc.submit(bc.combatLvl)">
     </form>
@@ -37,8 +43,14 @@
           </tr>
         </tbody>
       </table>
-      <!-- <div>You have between x and y points remaining.</div>
-      <div>Name and save build</div> -->
+      <br>
+      <!-- <div>You have between x and y points remaining.</div> -->
+      <form ng-show="!bc.savedBuild" ng-submit="bc.saveBuild(bc.buildName)">
+        <div class="display-inline">Name this build: </div><input class="find-save" type="text" ng-model="bc.buildName" ng-submit="bc.saveBuild(bc.buildName)">
+        <input class="find-save-button" type="submit" value="Save" ng-submit="bc.saveBuild(bc.buildName)">
+      </form>
+      <div ng-show"bc.savedBuild">This is a saved build.</div>
+      <br>
     </div>
   </div>
 </center>

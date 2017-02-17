@@ -7,6 +7,7 @@ const rsApp = angular.module("rsApp", [
     "ItemController",
     "PlayerFactory",
     "PlayerController",
+    "BuildFactory",
     "BuildController",
     "smart-table"
 ]);

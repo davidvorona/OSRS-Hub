@@ -309,6 +309,18 @@ button {
   outline: none;
 }
 
+.find-save {
+  display: inline;
+  color: black;
+  outline: none;
+  text-align: center;
+}
+
+.find-save-button {
+  background-color: red;
+  border-color: red;
+}
+
 .auto-cursor {
   cursor: default;
 }
