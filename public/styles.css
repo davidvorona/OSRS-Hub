@@ -346,3 +346,79 @@ button {
 .display-inline {
   display: inline;
 }
+
+/* user auth */
+
+.nav-login {
+  color: black;
+  outline: none;
+}
+
+.nav-login-button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  display: inline;
+  font-family: "Verdana";
+  color: white;
+  text-decoration: none;
+}
+
+.nav-login-button:hover {
+  color: black;
+  background-color: white;
+}
+
+.nav-text {
+  color: white;
+  font-family: "Verdana";
+}
+
+#account-box {
+  position: relative;
+  background-color: #7d653e;
+  border-radius: 5px;
+  width: 25%;
+  height: 465px;
+}
+
+#account-container {
+  position: absolute;
+  margin-top: 10%;
+}
+
+.account-input {
+  display: block;
+  margin-top: 5%;
+  color: black;
+  width: 80%;
+  height: 1.25em;
+  font-size: 30px;
+  font-family: "Courier New";
+}
+
+#account-form-button {
+  background-color: red;
+  outline: none;
+  border: none;
+  border-radius: 2px;
+  margin-top: 5%;
+  font-family: "Runescape UF";
+  font-size: 2em;
+  color: white;
+  width: 25%;
+}
+
+#account-form-button:hover {
+  background-color: white;
+  color: red;
+}
+
+#logo-img {
+  width: 40%;
+  border-radius: 5px;
+}
+
+.happy-password {
+  background-color: #3CBC8D;
+}

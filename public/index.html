@@ -17,6 +17,10 @@
     <script type="text/javascript" src="bower_components/angular-mocks/angular-mocks.js"></script>
     <script type="text/javascript" src="bower_components/angular-smart-table/dist/smart-table.js"></script>
     <script type="text/javascript" src="public/app.js"></script>
+    <script type="text/javascript" src="public/account/services/sessionService.js"></script>
+    <script type="text/javascript" src="public/account/factories/accountFactory.js"></script>
+    <script type="text/javascript" src="public/account/controllers/accountController.js"></script>
+    <script type="text/javascript" src="public/account/controllers/loginController.js"></script>
     <script type="text/javascript" src="public/players/factories/favoritesFactory.js"></script>
     <script type="text/javascript" src="public/players/controllers/favoritesController.js"></script>
     <script type="text/javascript" src="public/items/factories/itemFactory.js"></script>
@@ -47,6 +51,21 @@
         </li>
         <li class="nav-item"><a href="/build">Build</a></li>
         <li class="pull-right nav-item"><a href="http://oldschool.runescape.com/" target="_blank">Old School RS</a></li>
+        <li class="pull-right nav-item dropdown" ng-controller="LoginController as lc">
+          <a class="dropdown-toggle" href="/create">Account
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <form ng-submit="lc.login(lc.credentials)">
+                <div class="nav-text">Username: </div><input class="nav-login" type="text" ng-model="lc.credentials.username">
+                <div class="nav-text">Password: </div><input class="nav-login" type="text" ng-model="lc.credentials.password" ng-submit="lc.login(lc.credentials)">
+                <center><input class="nav-login-button" type="submit" value="LOGIN" ng-submit="lc.login(lc.credentials)"></center>
+              </form>
+              <center class="nav-text">or</center>
+              <center><a class="nav-login-button" href="/create">CREATE ACCOUNT</a></center>
+            </li>
+          </ul>
+        </li>
       </ul>
     </div>
 

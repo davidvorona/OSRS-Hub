@@ -32,7 +32,7 @@ const toTableStructure = (data) => {
     return arrOfObj;
 };
 
-// still in dev:
+// TODO:
 // use remainingCmb to get how many
 // possible lvls left in each skill
 const extractRemainingCmb = (pureLvl, pureType) => {

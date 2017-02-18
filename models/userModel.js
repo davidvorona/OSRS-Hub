@@ -1,0 +1,12 @@
+const pg = require("pg");
+
+const connectionString = process.env.DATABASE_URL || "postgres://localhost:5432/osrs_hub";
+// const SALT_WORK_FACTOR = 10;
+
+const client = new pg.Client(connectionString);
+client.connect();
+const query = client.query(
+  "CREATE TABLE users(id SERIAL PRIMARY KEY, hashed_id VARCHAR(60), " +
+    "username VARCHAR(40) not null unique, password BYTEA, " +
+    "date_created DATE not null)");
+query.on("end", () => { client.end(); });

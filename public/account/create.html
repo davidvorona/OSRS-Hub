@@ -1,0 +1,15 @@
+<center><h1>Create an Account</h1></center>
+
+<center>
+  <div id="account-box" ng-controller="AccountController as ac">
+    <div id="account-container">
+      <img id="logo-img" src="../public/img/gnome_child.png">
+      <form id="account-form" ng-submit="ac.create(ac.credentials)">
+        <input class="account-input" placeholder="Username..." type="text" ng-model="ac.credentials.username">
+        <input ng-style="ac.happyPassword" placeholder="Password..." class="account-input" type="password" ng-model="ac.credentials.password">
+        <input ng-style="ac.happyPassword" placeholder="Retype password..." class="account-input" type="password"
+          ng-model="ac.credentials.password2" ng-change="ac.checkPassword(ac.credentials.password, ac.credentials.password2)">
+        <input id="account-form-button" type="submit" value="Create" ng-submit="ac.create(ac.credentials)">
+      </form>
+    </div>
+</center>
