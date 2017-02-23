@@ -8,6 +8,7 @@ const userController = {
         const username = req.body.username;
         const password = bcrypt.hashSync(req.body.password, 10);
         const dateCreated = req.body.dateCreated;
+        const rsName = req.body.rsName;
         const results = [];
 
         pg.connect(connectionString, (err, client, done) => {
@@ -18,8 +19,8 @@ const userController = {
             }
 
             // SQL Query > Find User
-            const query = client.query("INSERT INTO users (username, password, date_created) " +
-              "values ($1, $2, $3) RETURNING id, username", [username, password, dateCreated]);
+            const query = client.query("INSERT INTO users (username, password, rsName, date_created) " +
+              "values ($1, $2, $3, $4) RETURNING id, username, rsName", [username, password, rsName, dateCreated]);
 
             query.on("error", (error) => {
                 done();
@@ -37,7 +38,10 @@ const userController = {
                 done();
                 res.body = {};
                 req.body.id = results[0].id;
+                res.body.username = results[0].username;
+                results[0].password = null;
                 res.body.user = results;
+                res.body.user[0].id = null;   // might need to change this
                 return next();
             });
         });
@@ -56,11 +60,12 @@ const userController = {
             }
 
             // SQL Query > Find User
-            const query = client.query("SELECT id, username, password FROM users " +
+            const query = client.query("SELECT hashed_id, username, password, rsName FROM users " +
               `WHERE (username = '${username}')`);
 
             // stream results back one row at a time
             query.on("row", (row) => {
+                console.log("Found user: ", row);
                 if (bcrypt.compareSync(password, row.password.toString())) results.push(row);
             });
 
@@ -75,10 +80,18 @@ const userController = {
             // after all data is returned, close connection and return results
             query.on("end", () => {
                 done();
-                res.body = {};
-                req.body.id = results[0].id;
-                res.body.user = results;
-                return next();
+                if (results.length > 0) {
+                    console.log("Response to be sent: ", results);
+                    res.body = {};
+                    req.body.hashed = results[0].hashed_id;   // should this be moved for security?
+                    req.body.username = results[0].username;
+                    results[0].password = null;
+                    results[0].id = null;
+                    results[0].hashed_id = null;
+                    res.body.user = results;
+                    return next();
+                }
+                return res.json({ data: "User does not exist." });
             });
         });
     },
@@ -108,6 +121,7 @@ const userController = {
 
             query.on("end", () => {
                 done();
+                req.body.id = null;
                 return next();
             });
         });

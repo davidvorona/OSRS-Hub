@@ -1,12 +1,14 @@
 angular.module("Session", ["ngRoute"])
   .service("Session", function() {
-      this.create = (sessionId, userId) => {
-          this.id = sessionId;
-          this.userId = userId;
+      this.create = (sessId, username, rsName) => {
+          this.id = sessId;
+          this.username = username;
+          this.rsName = rsName;
       };
 
       this.destroy = () => {
           this.id = null;
-          this.userId = null;
+          this.username = null;
+          this.rsName = null;
       };
   });

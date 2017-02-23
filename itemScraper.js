@@ -1,6 +1,6 @@
 // angular $http module sends request to url, scrapeController executes
 const request = require("request");
-const items = require("./public/data/items.json");
+const items = require("./public/data/items.json"); // TODO: this should be updated or use official api
 
 const itemScraper = {
     formatSearch: (string) => {

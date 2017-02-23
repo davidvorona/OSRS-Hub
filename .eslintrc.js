@@ -13,6 +13,6 @@ module.exports = {
       "window": true,
       "Plotly": true,
       "angular": true,
-      'localStorage': true
+      "localStorage": true
     }
 };

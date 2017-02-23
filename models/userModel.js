@@ -8,5 +8,5 @@ client.connect();
 const query = client.query(
   "CREATE TABLE users(id SERIAL PRIMARY KEY, hashed_id VARCHAR(60), " +
     "username VARCHAR(40) not null unique, password BYTEA, " +
-    "date_created DATE not null)");
+    "rsName VARCHAR(40), date_created DATE not null)");
 query.on("end", () => { client.end(); });

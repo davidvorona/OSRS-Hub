@@ -15,6 +15,7 @@
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
     <script type="text/javascript" src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script type="text/javascript" src="bower_components/angular-smart-table/dist/smart-table.js"></script>
     <script type="text/javascript" src="public/app.js"></script>
     <script type="text/javascript" src="public/account/services/sessionService.js"></script>
@@ -37,7 +38,7 @@
     <link rel="stylesheet" href="public/styles.css">
   </head>
 
-  <body>
+  <body ng-controller="ApplicationController" ng-init="autoLogin()">
     <div class="container-fluid">
       <ul class="nav navbar-nav navbar-fixed-top">
         <li class="nav-item"><a href="/">Home</a></li>
@@ -55,14 +56,20 @@
           <a class="dropdown-toggle" href="/create">Account
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li>
+            <li ng-if="!currentUser">
               <form ng-submit="lc.login(lc.credentials)">
                 <div class="nav-text">Username: </div><input class="nav-login" type="text" ng-model="lc.credentials.username">
-                <div class="nav-text">Password: </div><input class="nav-login" type="text" ng-model="lc.credentials.password" ng-submit="lc.login(lc.credentials)">
+                <div class="nav-text">Password: </div><input class="nav-login" type="password" ng-model="lc.credentials.password" ng-submit="lc.login(lc.credentials)">
                 <center><input class="nav-login-button" type="submit" value="LOGIN" ng-submit="lc.login(lc.credentials)"></center>
               </form>
               <center class="nav-text">or</center>
-              <center><a class="nav-login-button" href="/create">CREATE ACCOUNT</a></center>
+              <center><a class="nav-login-button" href="/account">CREATE ACCOUNT</a></center>
+            </li>
+            <li ng-if="currentUser">
+                <div class="nav-text">Welcome, {{ currentUser }}</div>
+                <a class="nav-login-button" href="/account">Preferences</a>
+                <a class="nav-login-button">My Builds</a>
+                <a class="nav-login-button" ng-click="lc.logout()">LOGOUT</a>
             </li>
           </ul>
         </li>

@@ -35,19 +35,28 @@ app.use(session({
     cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 7 days
 }));
 
-// ng-submit durective hits these routes, returns json, and angular displays on webpage
-app.post("/create", userController.createUser, userController.addHash,
+app.post("/create", userController.createUser, userController.addHash, sessionController.setCookie,
   sessionController.setSSIDCookie, sessionController.startSession, (req, res) => {
       res.json(res.body);
       console.log("User created.");
   }
 );
 
-app.post("/login", userController.authenticateUser, userController.addHash,
-  sessionController.setSSIDCookie, sessionController.startSession, () => {
+app.post("/login", userController.authenticateUser, sessionController.setCookie,
+  sessionController.setSSIDCookie, sessionController.startSession, (req, res) => {
+      res.json(res.body);
       console.log("User authenticated.");
   }
 );
+
+app.get("/logout", sessionController.endSession, (req, res) => {
+    res.json(res.body);
+    console.log("User logged out.");
+});
+
+app.get("/cookies", sessionController.isLoggedIn, (req, res) => {
+    res.json(res.body);
+});
 
 app.get("/item/:item", itemScraper.matchID, itemScraper.getData, (req) => {
     console.log(`${req.params.item} retrieved.`);
@@ -72,7 +81,7 @@ app.get("/build/:build", buildController.getFromPG, (req) => {
 
 // on server start, going to "/" serves index.html file,
 // which loads up angular, modules, and controller as usual
-app.get("*", sessionController.isLoggedIn, (req, res) => {
+app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.html"));
 });
 

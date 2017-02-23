@@ -1,11 +1,16 @@
-angular.module("AccountFactory", ["ngRoute"])
-  .factory("AccountFactory", ($http, Session) => {
+angular.module("AccountFactory", ["ngRoute", "ngCookies"])
+  .factory("AccountFactory", ($http, $cookies, Session) => {
       const authService = {};
+
+      authService.isAuthenticated = () =>
+          !!Session.id;
 
       authService.create = credentials =>
           $http.post("/create", credentials)
             .then((res) => {
-                return res;
+                Session.create(res.data.user[0].sessId, res.data.user[0].username,
+                  res.data.user[0].rsName);
+                return res.data.user[0];
             }, (err) => {
                 console.log(`Error: ${err}`);
             });
@@ -15,8 +20,20 @@ angular.module("AccountFactory", ["ngRoute"])
       authService.login = credentials =>
           $http.post("/login", credentials)
             .then((res) => {
+                // error handling here
                 if (res.constraint) return res.constraint;
-                Session.create(1, res.username);
+                Session.create(res.data.user[0].sessId, res.data.user[0].username,
+                  res.data.user[0].rsName);
+                return res.data.user[0];
+            }, (err) => {
+                console.log(`Factory error: ${err}`);
+            });
+
+      authService.logout = username =>
+          $http.get("/logout", username)
+            .then((res) => {
+                Session.destroy();
+                return res;
             }, (err) => {
                 console.log(`Factory error: ${err}`);
             });
