@@ -1,0 +1,70 @@
+<div>
+  <div ng-controller="CreateController as cc" ng-if="!currentUser">
+    <center><h1>Create an Account</h1></center>
+
+    <center>
+      <div id="account-box">
+        <div id="account-container">
+          <img id="logo-img" src="../public/img/gnome_child.png">
+          <form id="account-form" ng-submit="cc.create(cc.credentials)">
+            <input class="account-input" placeholder="Username" type="text" ng-model="cc.credentials.username">
+            <input class="account-input" placeholder="OSRS Username" type="text" ng-model="cc.credentials.rsName">
+            <input ng-style="cc.happyPassword" placeholder="Password" class="account-input" type="password" ng-model="cc.credentials.password">
+            <input ng-style="cc.happyPassword" placeholder="Retype password" class="account-input" type="password"
+              ng-model="cc.credentials.password2" ng-change="cc.checkPassword(cc.credentials.password, cc.credentials.password2)">
+            <input id="account-form-button" type="submit" value="Create" ng-submit="cc.create(cc.credentials)">
+          </form>
+        </div>
+      </div>
+    </center>
+  </div>
+  <div ng-controller="AccountController as ac" ng-if="currentUser">
+    <center><h1>My Account {{ ac.test }}</h1></center>
+
+    <center>
+      <div id="user-box"><h3>Welcome, {{ currentUser }}!</h3>
+        <div id="account-container">
+          <!-- Make the account customizable! Add custom builds! Favorite users (that player tracking thing)! -->
+          <div class="account-info">
+            <div class="pull-left">Username: <b>{{ currentUser }}</b></div>
+            <div class="pull-right">
+              <form>Change username:
+                <input class="user-input" name="username" type="text" ng-model="ac.changeInfo.username">
+                <input class="user-button" type="submit" value="Save" ng-click="ac.modify('username', ac.changeInfo)">
+              </form>
+            </div>
+          </div>
+          <hr>
+          <form>
+            <div class="account-info">
+              <div class="pull-left">Password: <b>*********</b></div>
+              <div class="pull-right">
+                <div>Change password:
+                  <input ng-style="ac.happyPassword" class="user-input" name="password" type="text" ng-model="ac.changeInfo.password">
+                </div>
+                <div class="pull-right">Type it again:
+                  <input ng-style="ac.happyPassword" class="user-input" name="password2" type="text"
+                    ng-model="ac.changeInfo.password2" ng-change="ac.checkPassword(ac.changeInfo.password, ac.changeInfo.password2)">
+                </div>
+              </div>
+            </div>
+            <input class="user-button" type="submit" value="Save" ng-click="ac.modify('password', ac.changeInfo)">
+          </form>
+          <hr>
+          <div class="account-info">
+            <div class="pull-left">OSRS: <b>{{ rsName }}</b></div>
+            <div class="pull-right">
+              <form>Change default OSRS:
+                <input class="user-input" name="rs-name" type="text" ng-model="ac.changeInfo.rsName">
+                <input class="user-button" type="submit" value="Save" ng-click="ac.modify('rsName', ac.changeInfo)">
+              </form>
+            </div>
+          </div>
+          <hr>
+          <br>
+          <button class="logout-button" ng-click="ac.logout()">LOGOUT</button>
+        </div>
+      </div>
+    </center>
+  </div>
+</div>

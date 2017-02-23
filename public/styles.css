@@ -384,7 +384,10 @@ button {
 
 #account-container {
   position: absolute;
-  margin-top: 10%;
+  width: 100%;
+  margin-top: 5%;
+  padding-right: 5%;
+  padding-left: 5%;
 }
 
 .account-input {
@@ -421,4 +424,48 @@ button {
 
 .happy-password {
   background-color: #3CBC8D;
+}
+
+/* user prefs */
+
+#user-box {
+  position: relative;
+  padding-top: 2%;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #1b1e24;
+  background-color: #EBEBEB;
+  border-color: #C1C3D1;
+  width: 50%;
+  height: 500px;
+}
+
+.account-info {
+    display: inline-block;
+    width: 100%;
+
+}
+
+hr {
+  border-color: #1b1e24;
+}
+
+.user-input {
+  outline: none;
+}
+
+.user-button {
+  background-color: #1b1e24;
+  outline: none;
+  border: 1px white;
+  color: white;
+  margin: 2px;
+}
+
+.logout-button {
+  background-color: #1b1e24;
+  outline: none;
+  border: 1px white;
+  border-radius: 2px;
+  color: white;
+  margin: 2px;
 }

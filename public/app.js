@@ -5,6 +5,7 @@ const rsApp = angular.module("rsApp", [
     "Session",
     "AccountFactory",
     "LoginController",
+    "CreateController",
     "AccountController",
     "FavoritesFactory",
     "FavoritesController",
@@ -30,8 +31,9 @@ rsApp.controller("ApplicationController", function ApplicationController(
     $scope.currentUser = null;
     $scope.isAuthorized = AccountFactory.isAuthorized;
 
-    $scope.setCurrentUser = (user) => {
-        $scope.currentUser = user;
+    $scope.setCurrentUser = (username, rsName) => {
+        $scope.currentUser = username;
+        $scope.rsName = rsName;
     };
 
     $scope.autoLogin = () => {
@@ -41,7 +43,7 @@ rsApp.controller("ApplicationController", function ApplicationController(
                   Session.create(res.data.user[0].sessId, res.data.user[0].username,
                     res.data.user[0].rsName);
                   $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                  $scope.setCurrentUser(res.data.user[0].username);
+                  $scope.setCurrentUser(res.data.user[0].username, res.data.user[0].rsname);
                   return res;
               }
           }, (err) => {
@@ -64,7 +66,7 @@ rsApp.config(($routeProvider, $locationProvider) => {
 
       .when("/account", {
           templateUrl: "public/account/account.html",
-          controller: "AccountController"
+          controller: "AccountController" // this might need to change
       })
 
       .when("/players", {

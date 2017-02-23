@@ -21,6 +21,7 @@
     <script type="text/javascript" src="public/account/services/sessionService.js"></script>
     <script type="text/javascript" src="public/account/factories/accountFactory.js"></script>
     <script type="text/javascript" src="public/account/controllers/accountController.js"></script>
+    <script type="text/javascript" src="public/account/controllers/createController.js"></script>
     <script type="text/javascript" src="public/account/controllers/loginController.js"></script>
     <script type="text/javascript" src="public/players/factories/favoritesFactory.js"></script>
     <script type="text/javascript" src="public/players/controllers/favoritesController.js"></script>
@@ -53,7 +54,7 @@
         <li class="nav-item"><a href="/build">Build</a></li>
         <li class="pull-right nav-item"><a href="http://oldschool.runescape.com/" target="_blank">Old School RS</a></li>
         <li class="pull-right nav-item dropdown" ng-controller="LoginController as lc">
-          <a class="dropdown-toggle" href="/create">Account
+          <a class="dropdown-toggle" href="/account">Account
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ng-if="!currentUser">

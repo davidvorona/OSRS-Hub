@@ -11,7 +11,7 @@ angular.module("LoginController", ["ngRoute"])
             .then((res) => {
                 console.log("This user is in db:", res);
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                $scope.setCurrentUser(res.username);
+                $scope.setCurrentUser(res.username, res.rsname);
             }, (err) => {
                 console.log(`Error: ${err}`);
                 $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
@@ -27,5 +27,5 @@ angular.module("LoginController", ["ngRoute"])
             }, (err) => {
                 console.log(`Error: ${err}`);
             });
-      }
+      };
   });

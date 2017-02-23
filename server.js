@@ -54,6 +54,13 @@ app.get("/logout", sessionController.endSession, (req, res) => {
     console.log("User logged out.");
 });
 
+app.put("/modify", userController.modifyUser, sessionController.setCookie,
+  sessionController.setSSIDCookie, sessionController.startSession, (req, res) => {
+      res.json(res.body);
+      console.log("User modified.");
+  }
+);
+
 app.get("/cookies", sessionController.isLoggedIn, (req, res) => {
     res.json(res.body);
 });

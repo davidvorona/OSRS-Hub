@@ -1,29 +1,46 @@
 angular.module("AccountController", ["ngRoute"])
   .controller("AccountController", function AccountController($scope, $rootScope, AUTH_EVENTS, AccountFactory) {
       const ac = this;
-      ac.credentials = {
+      ac.userInfo = {
+          username: $scope.currentUser,
+          rsName: $scope.rsName
+      };
+
+      ac.changeInfo = {
           username: "",
           password: "",
+          password2: "",
           rsName: ""
       };
 
-      ac.create = (credentials) => {
-          const userObj = credentials;
-          userObj.dateCreated = new Date().toISOString().slice(0, 19).replace("T", " ");
-          AccountFactory.create(userObj)
+      ac.modify = (type, changeInfo) => {
+          const changeVal = {};
+          changeVal.type = type;
+          changeVal.value = changeInfo[type];
+          changeVal.currentUser = $scope.currentUser;
+          AccountFactory.modify(changeVal)
           .then((res) => {
-              console.log("This user is in db: ", res);
-              $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-              $scope.setCurrentUser(res.username);
+              console.log("The user has been updated: ", res);
+              $scope.setCurrentUser(res.username, res.rsname);
           }, (err) => {
               console.log(`Error: ${err}`);
-              $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
           });
       };
 
+      ac.logout = () => {
+          AccountFactory.logout()
+            .then((res) => {
+                console.log("User logged out.");
+                $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+                $scope.setCurrentUser(null);
+            }, (err) => {
+                console.log(`Error: ${err}`);
+            });
+      };
+
       ac.checkPassword = (password1, password2) => {
-          if (password1 !== password2) ac.happyPassword = { "background-color": "red", "opacity": 0.5 };
+          if (password1 !== password2) ac.happyPassword = { "background-color": "red", "opacity": 1 };
           else if (password1 === null) ac.happyPassword = { "background-color": "white", "opacity": 1 }; // needs fix
-          else ac.happyPassword = { "background-color": "green", "opacity": 0.5 };
+          else ac.happyPassword = { "background-color": "green", "opacity": 1 };
       };
   });

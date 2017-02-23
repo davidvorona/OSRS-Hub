@@ -125,6 +125,57 @@ const userController = {
                 return next();
             });
         });
+    },
+
+    modifyUser: (req, res, next) => {
+        const type = req.body.type.toLowerCase();
+        const value = req.body.value;
+        const currentUser = req.body.currentUser;
+        const results = [];
+
+        pg.connect(connectionString, (err, client, done) => {
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({ success: false, data: err });
+            }
+
+            // SQL Query > Find User
+            const query = client.query(`UPDATE users SET ${type}  = ` +
+              `'${value}' WHERE (username = '${currentUser}') ` +
+              "RETURNING hashed_id, username, rsName");
+
+            // stream results back one row at a time
+            query.on("row", (row) => {
+                console.log("Updated user: ", row);
+                results.push(row);
+            });
+
+            // after all data is returned, close connection and return results
+            query.on("error", (error) => {
+                done();
+                results.push(error);
+                res.json(results);
+                return next();
+            });
+
+            // after all data is returned, close connection and return results
+            query.on("end", () => {
+                done();
+                if (results.length > 0) {
+                    console.log("Response to be sent: ", results);
+                    res.body = {};
+                    req.body.hashed = results[0].hashed_id;   // should this be moved for security?
+                    req.body.username = results[0].username;
+                    results[0].password = null;
+                    results[0].id = null;
+                    results[0].hashed_id = null;
+                    res.body.user = results;
+                    return next();
+                }
+                return res.json({ data: "There was a problem." });
+            });
+        });
     }
 };
 
