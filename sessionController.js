@@ -58,7 +58,7 @@ const sessionController = {
                     done();
                     res.body = {};
                     res.body.user = results;
-                    res.body.user[0].password = 8;    // random length
+                    res.body.user[0].password = 8;    // random length b/c you can't decrypt
                     res.body.user[0].sessId = req.cookies.user;
                     console.log("User automatically authenticated: ", res.body.user);
                     return next();

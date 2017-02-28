@@ -65,8 +65,11 @@ const userController = {
 
             // stream results back one row at a time
             query.on("row", (row) => {
-                console.log("Found user: ", row);
-                if (bcrypt.compareSync(password, row.password.toString())) results.push(row);
+                console.log("Found user.");
+                if (bcrypt.compareSync(password, row.password.toString())) {
+                    results.push(row);
+                    console.log("Password correct.");
+                }
             });
 
             // after all data is returned, close connection and return results
@@ -129,7 +132,9 @@ const userController = {
 
     modifyUser: (req, res, next) => {
         const type = req.body.type.toLowerCase();
-        const value = req.body.value;
+        let value;
+        if (type === "password") value = bcrypt.hashSync(req.body.value, 10);
+        else value = req.body.value;
         const currentUser = req.body.currentUser;
         const results = [];
 
