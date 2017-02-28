@@ -77,7 +77,7 @@ rsApp.config(($routeProvider, $locationProvider) => {
       })
 
       .when("/build", {
-          templateUrl: "public/build/build.html",
+          templateUrl: "public/builds/build.html",
           controller: "BuildController"
       })
 

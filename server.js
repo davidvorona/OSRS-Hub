@@ -5,12 +5,12 @@ const cookieParser = require("cookie-parser");
 const pg = require("pg");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
-const itemScraper = require("./itemScraper");
-const hiscoreScraper = require("./hiscoreScraper");
-const buildController = require("./buildController");
-const userController = require("./userController");
-const sessionController = require("./sessionController");
-// const childProcess = require("./childProcess");
+const itemScraper = require("./backend/items/itemScraper");
+const hiscoreScraper = require("./backend/players/hiscoreScraper");
+const buildController = require("./backend/builds/buildController");
+const userController = require("./backend/users/userController");
+const sessionController = require("./backend/users/sessionController");
+// const childProcess = require("./backend/players/childProcess");
 
 const app = express();
 
@@ -87,8 +87,8 @@ app.get("/build/:build", buildController.fetchFK, buildController.getFromPG, (re
 //     res.json(req.player);
 // });
 
-// on server start, going to "/" serves index.html file,
-// which loads up angular, modules, and controller as usual
+// TODO: move server.js into backend folder w/o
+// screwing up how it serves all the files
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.html"));
 });

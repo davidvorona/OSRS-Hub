@@ -1,6 +1,6 @@
 // angular $http module sends request to url, scrapeController executes
 const request = require("request");
-const items = require("./public/data/items.json"); // TODO: this should be updated or use official api
+const items = require("../../data/items.json"); // TODO: this should be updated or use official api
 
 const itemScraper = {
     formatSearch: (string) => {
@@ -18,8 +18,7 @@ const itemScraper = {
         for (let i = 0; i < items.length; i += 1) {
             if (items[i].name === item) {
                 itemScraper.id = items[i].id;
-                next();
-                return;
+                return next();
             } else if (i === items.length - 1) console.log("Item not found."); // needs better handling
         }
     },
@@ -38,7 +37,7 @@ const itemScraper = {
                 return res.json(item);
             });
         });
-        next();
+        return next();
     }
 };
 
