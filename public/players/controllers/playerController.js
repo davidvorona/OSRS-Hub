@@ -41,6 +41,9 @@ angular.module("PlayerController", ["ngRoute"])
                     pc.playerInfo = playerData;
                     pc.displayCollection = playerData;
                     pc.showPlayer = true;
+                }, (error) => {
+                    console.log("Error in PlayerController.");
+                    console.log(error);
                 });
           }
       };

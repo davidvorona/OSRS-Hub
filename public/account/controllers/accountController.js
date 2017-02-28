@@ -3,7 +3,8 @@ angular.module("AccountController", ["ngRoute"])
       const ac = this;
       ac.userInfo = {
           username: $scope.currentUser,
-          rsName: $scope.rsName
+          rsName: $scope.rsName,
+          password: Array($scope.pLen).fill("*").join("")
       };
 
       ac.changeInfo = {
@@ -21,9 +22,13 @@ angular.module("AccountController", ["ngRoute"])
           AccountFactory.modify(changeVal)
           .then((res) => {
               console.log("The user has been updated: ", res);
-              $scope.setCurrentUser(res.username, res.rsname);
+              if (changeVal.type === "password") {
+                  return $scope.setCurrentUser(res.username, res.rsname, res.password); // in case password changes
+              }
+              return $scope.setCurrentUser(res.username, res.rsname, $scope.pLen);
           }, (err) => {
-              console.log(`Error: ${err}`);
+              console.log("Error in AccountController.");
+              console.log(err);
           });
       };
 
@@ -34,7 +39,8 @@ angular.module("AccountController", ["ngRoute"])
                 $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
                 $scope.setCurrentUser(null);
             }, (err) => {
-                console.log(`Error: ${err}`);
+                console.log("Error in AccountController.");
+                console.log(err);
             });
       };
 

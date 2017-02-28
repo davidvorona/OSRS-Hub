@@ -14,6 +14,7 @@ const rsApp = angular.module("rsApp", [
     "PlayerFactory",
     "PlayerController",
     "BuildFactory",
+    "BuildCalculator",
     "BuildController",
     "smart-table"
 ]);
@@ -31,9 +32,10 @@ rsApp.controller("ApplicationController", function ApplicationController(
     $scope.currentUser = null;
     $scope.isAuthorized = AccountFactory.isAuthorized;
 
-    $scope.setCurrentUser = (username, rsName) => {
+    $scope.setCurrentUser = (username, rsName, pLen) => {
         $scope.currentUser = username;
         $scope.rsName = rsName;
+        $scope.pLen = pLen;
     };
 
     $scope.autoLogin = () => {
@@ -43,11 +45,12 @@ rsApp.controller("ApplicationController", function ApplicationController(
                   Session.create(res.data.user[0].sessId, res.data.user[0].username,
                     res.data.user[0].rsName);
                   $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                  $scope.setCurrentUser(res.data.user[0].username, res.data.user[0].rsname);
+                  $scope.setCurrentUser(res.data.user[0].username, res.data.user[0].rsname, res.data.user[0].password);
                   return res;
               }
           }, (err) => {
-              console.log(`Factory error: ${err}`);
+              console.log("Error in ApplicationController.");
+              console.log(err);
           });
     };
 });
@@ -66,7 +69,7 @@ rsApp.config(($routeProvider, $locationProvider) => {
 
       .when("/account", {
           templateUrl: "public/account/account.html",
-          controller: "AccountController" // this might need to change
+          controller: "AccountController"
       })
 
       .when("/players", {

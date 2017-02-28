@@ -73,11 +73,11 @@ app.get("/player/:player", hiscoreScraper.getData, hiscoreScraper.formatResponse
     console.log(`Player ${req.params.player} retrieved.`);
 });
 
-app.post("/build/:build", buildController.postToPG, (req) => {
+app.post("/build/:build", buildController.fetchFK, buildController.postToPG, (req) => {
     console.log(`${req.params.build} posted to database.`);
 });
 
-app.get("/build/:build", buildController.getFromPG, (req) => {
+app.get("/build/:build", buildController.fetchFK, buildController.getFromPG, (req) => {
     console.log(`${req.params.build} retrieved from database.`);
 });
 

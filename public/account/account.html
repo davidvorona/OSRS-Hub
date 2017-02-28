@@ -24,7 +24,6 @@
     <center>
       <div id="user-box"><h3>Welcome, {{ currentUser }}!</h3>
         <div id="account-container">
-          <!-- Make the account customizable! Add custom builds! Favorite users (that player tracking thing)! -->
           <div class="account-info">
             <div class="pull-left">Username: <b>{{ currentUser }}</b></div>
             <div class="pull-right">
@@ -37,12 +36,13 @@
           <hr>
           <form>
             <div class="account-info">
-              <div class="pull-left">Password: <b>*********</b></div>
+              <div class="pull-left">Password: <b>{{ ac.userInfo.password }}</b></div>
               <div class="pull-right">
                 <div>Change password:
                   <input ng-style="ac.happyPassword" class="user-input" name="password" type="text" ng-model="ac.changeInfo.password">
                 </div>
                 <div class="pull-right">Type it again:
+                  <!-- look at ngDisabled -->
                   <input ng-style="ac.happyPassword" class="user-input" name="password2" type="text"
                     ng-model="ac.changeInfo.password2" ng-change="ac.checkPassword(ac.changeInfo.password, ac.changeInfo.password2)">
                 </div>

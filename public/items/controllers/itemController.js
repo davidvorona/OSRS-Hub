@@ -95,7 +95,8 @@ angular.module("ItemController", ["ngRoute"])
                 vm.i = vm.itemArray.length - 1;
                 plotPrice(priceData.daily, priceData.average, itemInfo.item.name);
             }, (error) => {
-                console.log(`Error: ${error}`);
+                console.log("Error in ItemController");
+                console.log(error);
             });
       };
 

@@ -39,7 +39,7 @@ const userController = {
                 res.body = {};
                 req.body.id = results[0].id;
                 res.body.username = results[0].username;
-                results[0].password = null;
+                results[0].password = req.body.password.length;
                 res.body.user = results;
                 res.body.user[0].id = null;   // might need to change this
                 return next();
@@ -85,7 +85,7 @@ const userController = {
                     res.body = {};
                     req.body.hashed = results[0].hashed_id;   // should this be moved for security?
                     req.body.username = results[0].username;
-                    results[0].password = null;
+                    results[0].password = password.length;
                     results[0].id = null;
                     results[0].hashed_id = null;
                     res.body.user = results;
@@ -165,9 +165,10 @@ const userController = {
                 if (results.length > 0) {
                     console.log("Response to be sent: ", results);
                     res.body = {};
-                    req.body.hashed = results[0].hashed_id;   // should this be moved for security?
+                    req.body.hashed = results[0].hashed_id;
                     req.body.username = results[0].username;
                     results[0].password = null;
+                    if (req.body.type === "password") results[0].password = req.body.value.length;
                     results[0].id = null;
                     results[0].hashed_id = null;
                     res.body.user = results;

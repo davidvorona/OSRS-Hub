@@ -14,9 +14,10 @@ angular.module("CreateController", ["ngRoute"])
           .then((res) => {
               console.log("This user is in db: ", res);
               $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-              $scope.setCurrentUser(res.username, res.rsname);
+              $scope.setCurrentUser(res.username, res.rsname, res.password);
           }, (err) => {
-              console.log(`Error: ${err}`);
+              console.log("Error in CreateController.");
+              console.log(err);
               $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
           });
       };

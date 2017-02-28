@@ -12,11 +12,10 @@ angular.module("AccountFactory", ["ngRoute", "ngCookies"])
                   res.data.user[0].rsname);
                 return res.data.user[0];
             }, (err) => {
-                console.log(`Error: ${err}`);
+                console.log("Error in AccountFactory.");
+                return err;
             });
 
-      // this Session functions as a shared state across routes,
-      // will still need an express session
       authService.login = credentials =>
           $http.post("/login", credentials)
             .then((res) => {
@@ -26,7 +25,8 @@ angular.module("AccountFactory", ["ngRoute", "ngCookies"])
                   res.data.user[0].rsname);
                 return res.data.user[0];
             }, (err) => {
-                console.log(`Factory error: ${err}`);
+                console.log("Error in AccountFactory.");
+                return err;
             });
 
       authService.logout = username =>
@@ -35,7 +35,8 @@ angular.module("AccountFactory", ["ngRoute", "ngCookies"])
                 Session.destroy();
                 return res;
             }, (err) => {
-                console.log(`Factory error: ${err}`);
+                console.log("Error in AccountFactory.");
+                return err;
             });
 
       authService.modify = changeVal =>
@@ -46,7 +47,8 @@ angular.module("AccountFactory", ["ngRoute", "ngCookies"])
                   res.data.user[0].rsname);
                 return res.data.user[0];
             }, (err) => {
-                console.log(`Factory error: ${err}`);
+                console.log("Error in AccountFactory.");
+                return err;
             });
 
       return authService;
