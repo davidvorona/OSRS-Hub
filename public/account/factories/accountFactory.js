@@ -1,5 +1,11 @@
-angular.module("AccountFactory", ["ngRoute", "ngCookies"])
-  .factory("AccountFactory", ($http, $cookies, Session) => {
+angular.module("AccountFactory", ["ngRoute"])
+  .factory("AccountFactory", ($http, Session) => {
+      const handleError = (errorCode) => {
+          if (errorCode === "23505") return { err: "This username already exists." };
+          else if (errorCode === "invalid") return { err: "Your username / password is incorrect." };
+          return { err: "There was an error. Please try again." };
+      };
+
       const authService = {};
 
       authService.isAuthenticated = () =>
@@ -8,12 +14,13 @@ angular.module("AccountFactory", ["ngRoute", "ngCookies"])
       authService.create = credentials =>
           $http.post("/create", credentials)
             .then((res) => {
+                console.log(res.status);
                 Session.create(res.data.user[0].sessId, res.data.user[0].username,
                   res.data.user[0].rsname);
                 return res.data.user[0];
             }, (err) => {
                 console.log("Error in AccountFactory.");
-                return err;
+                return handleError(err.data[0].code);
             });
 
       authService.login = credentials =>
@@ -25,8 +32,8 @@ angular.module("AccountFactory", ["ngRoute", "ngCookies"])
                   res.data.user[0].rsname);
                 return res.data.user[0];
             }, (err) => {
-                console.log("Error in AccountFactory.");
-                return err;
+                console.log("Error in AccountFactory", err.data[0]);
+                return handleError(err.data[0].code);
             });
 
       authService.logout = username =>
@@ -48,7 +55,7 @@ angular.module("AccountFactory", ["ngRoute", "ngCookies"])
                 return res.data.user[0];
             }, (err) => {
                 console.log("Error in AccountFactory.");
-                return err;
+                return handleError(err.data[0].code);
             });
 
       return authService;

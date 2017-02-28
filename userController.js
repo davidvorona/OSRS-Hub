@@ -25,8 +25,7 @@ const userController = {
             query.on("error", (error) => {
                 done();
                 results.push(error);
-                res.json(results);
-                return next();
+                return res.status(500).json(results);
             });
 
             // stream results back one row at a time
@@ -63,38 +62,32 @@ const userController = {
             const query = client.query("SELECT hashed_id, username, password, rsName FROM users " +
               `WHERE (username = '${username}')`);
 
-            // stream results back one row at a time
-            query.on("row", (row) => {
-                console.log("Found user.");
-                if (bcrypt.compareSync(password, row.password.toString())) {
-                    results.push(row);
-                    console.log("Password correct.");
-                }
-            });
-
             // after all data is returned, close connection and return results
             query.on("error", (error) => {
                 done();
                 results.push(error);
-                res.json(results);
-                return next();
+                return res.status(500).json(results);
+            });
+
+            // stream results back one row at a time
+            query.on("row", (row) => {
+                if (bcrypt.compareSync(password, row.password.toString())) {
+                    results.push(row);
+                }
             });
 
             // after all data is returned, close connection and return results
             query.on("end", () => {
                 done();
-                if (results.length > 0) {
-                    console.log("Response to be sent: ", results);
-                    res.body = {};
-                    req.body.hashed = results[0].hashed_id;   // should this be moved for security?
-                    req.body.username = results[0].username;
-                    results[0].password = password.length;
-                    results[0].id = null;
-                    results[0].hashed_id = null;
-                    res.body.user = results;
-                    return next();
-                }
-                return res.json({ data: "User does not exist." });
+                if (results.length === 0) return res.status(422).json([{ code: "invalid" }]);
+                res.body = {};
+                req.body.hashed = results[0].hashed_id;   // should this be moved for security?
+                req.body.username = results[0].username;
+                results[0].password = password.length;
+                results[0].id = null;
+                results[0].hashed_id = null;
+                res.body.user = results;
+                return next();
             });
         });
     },
@@ -156,12 +149,10 @@ const userController = {
                 results.push(row);
             });
 
-            // after all data is returned, close connection and return results
             query.on("error", (error) => {
                 done();
                 results.push(error);
-                res.json(results);
-                return next();
+                return res.status(500).json(results);
             });
 
             // after all data is returned, close connection and return results

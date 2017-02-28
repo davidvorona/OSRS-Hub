@@ -16,7 +16,6 @@
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
     <script type="text/javascript" src="bower_components/angular-mocks/angular-mocks.js"></script>
-    <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script type="text/javascript" src="bower_components/angular-smart-table/dist/smart-table.js"></script>
     <script type="text/javascript" src="public/app.js"></script>
     <script type="text/javascript" src="public/account/services/sessionService.js"></script>
@@ -61,8 +60,9 @@
           <ul class="dropdown-menu">
             <li ng-if="!currentUser">
               <form ng-submit="lc.login(lc.credentials)">
-                <div class="nav-text">Username: </div><input class="nav-login" type="text" ng-model="lc.credentials.username">
-                <div class="nav-text">Password: </div><input class="nav-login" type="password" ng-model="lc.credentials.password" ng-submit="lc.login(lc.credentials)">
+                <div class="nav-text">Username: </div><input class="nav-login" type="text" ng-model="lc.credentials.username" ng-change="lc.reset()">
+                <div class="nav-text">Password: </div><input class="nav-login" type="password" ng-model="lc.credentials.password" ng-submit="lc.login(lc.credentials)" ng-change="lc.reset()">
+                <div style="color:white;" ng-show="lc.loginErr">{{ lc.errorMessage }}</div>
                 <center><input class="nav-login-button" type="submit" value="LOGIN" ng-submit="lc.login(lc.credentials)"></center>
               </form>
               <center class="nav-text">or</center>

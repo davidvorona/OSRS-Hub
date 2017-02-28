@@ -10,7 +10,6 @@ const sessionController = {
 
     setSSIDCookie: (req, res, next) => {
         const SSID = req.session.id;
-        console.log("SessionID in setCookie: ", req.session.id);
         res.cookie("user", SSID, { httpOnly: true });
         res.body.user[0].sessId = SSID;
         return next();
@@ -18,14 +17,14 @@ const sessionController = {
 
     startSession: (req, res, next) => {
         req.session.secret = req.body.hashed;
-        console.log("Session secret and end of chain: ", req.session.secret);
+        console.log("Session started for user:", req.session.secret);
         return next();
     },
 
     isLoggedIn: (req, res, next) => {
         if (!req.cookies.user) {
-            console.log("No cookie yet.");
-            return next();
+            console.log("No active session, cannot automatically authenticate.");
+            return res.json(res.body);
         }
         pg.connect(connectionString, (err, client, done) => {
             const sessId = req.cookies.user;
@@ -60,7 +59,6 @@ const sessionController = {
                     res.body.user = results;
                     res.body.user[0].password = 8;    // random length b/c you can't decrypt
                     res.body.user[0].sessId = req.cookies.user;
-                    console.log("User automatically authenticated: ", res.body.user);
                     return next();
                 }
                 return res.json({ data: "You need to log in." });

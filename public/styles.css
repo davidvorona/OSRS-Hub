@@ -407,9 +407,14 @@ button {
   border-radius: 2px;
   margin-top: 5%;
   font-family: "Runescape UF";
-  font-size: 2em;
+  font-size: 2vw;
   color: white;
-  width: 25%;
+  width: 30%;
+}
+
+#account-form-button:disabled {
+  background-color: red !important;
+  color: white !important;
 }
 
 #account-form-button:hover {

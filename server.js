@@ -63,6 +63,7 @@ app.put("/modify", userController.modifyUser, sessionController.setCookie,
 
 app.get("/cookies", sessionController.isLoggedIn, (req, res) => {
     res.json(res.body);
+    console.log("User automatically authenticated: ", res.body.user);
 });
 
 app.get("/item/:item", itemScraper.matchID, itemScraper.getData, (req) => {

@@ -1,6 +1,9 @@
 angular.module("CreateController", ["ngRoute"])
   .controller("CreateController", function CreateController($scope, $rootScope, AUTH_EVENTS, AccountFactory) {
       const cc = this;
+      cc.createErr = false;
+      cc.errorMessage = null;
+      cc.validated = false;
       cc.credentials = {
           username: "",
           password: "",
@@ -9,10 +12,15 @@ angular.module("CreateController", ["ngRoute"])
 
       cc.create = (credentials) => {
           const userObj = credentials;
+          cc.validated = false;
           userObj.dateCreated = new Date().toISOString().slice(0, 19).replace("T", " ");
           AccountFactory.create(userObj)
           .then((res) => {
-              console.log("This user is in db: ", res);
+              if (res.err) {
+                  cc.errorMessage = res.err;
+                  cc.createErr = true;
+                  return;
+              }
               $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
               $scope.setCurrentUser(res.username, res.rsname, res.password);
           }, (err) => {
@@ -23,8 +31,20 @@ angular.module("CreateController", ["ngRoute"])
       };
 
       cc.checkPassword = (password1, password2) => {
-          if (password1 !== password2) cc.happyPassword = { "background-color": "red", "opacity": 0.5 };
-          else if (password1 === null) cc.happyPassword = { "background-color": "white", "opacity": 1 }; // needs fix
-          else cc.happyPassword = { "background-color": "green", "opacity": 0.5 };
+          cc.createErr = false;
+          if (password1 !== password2) {
+              cc.validated = false;
+              cc.happyPassword = { "background-color": "red", "opacity": 0.5 };
+          } else if (password1 === null) {
+              cc.validated = false;
+              cc.happyPassword = { "background-color": "white", "opacity": 1 }; // needs fix
+          } else {
+              cc.validated = true;
+              cc.happyPassword = { "background-color": "green", "opacity": 0.5 };
+          }
+      };
+
+      cc.reset = () => {
+          cc.createErr = false;
       };
   });
