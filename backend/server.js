@@ -5,16 +5,17 @@ const cookieParser = require("cookie-parser");
 const pg = require("pg");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
-const itemScraper = require("./backend/items/itemScraper");
-const hiscoreScraper = require("./backend/players/hiscoreScraper");
-const buildController = require("./backend/builds/buildController");
-const userController = require("./backend/users/userController");
-const sessionController = require("./backend/users/sessionController");
-// const childProcess = require("./backend/players/childProcess");
+const itemScraper = require("./items/itemScraper");
+const hiscoreScraper = require("./players/hiscoreScraper");
+const buildController = require("./builds/buildController");
+const userController = require("./users/userController");
+const sessionController = require("./users/sessionController");
+// const childProcess = require("./players/childProcess");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, "../public/")));
+app.use(express.static(path.join(__dirname, "../bower_components/")));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
@@ -67,7 +68,7 @@ app.get("/cookies", sessionController.isLoggedIn, (req, res) => {
 });
 
 app.get("/item/:item", itemScraper.matchID, itemScraper.getData, (req) => {
-    console.log(`${req.params.item} retrieved.`);
+    console.log(`7. ${req.params.item} retrieved.`);
 });
 
 app.get("/player/:player", hiscoreScraper.getData, hiscoreScraper.formatResponse, (req) => {
@@ -90,7 +91,7 @@ app.get("/build/:build", buildController.fetchFK, buildController.getFromPG, (re
 // TODO: move server.js into backend folder w/o
 // screwing up how it serves all the files
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/index.html"));
+    res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 app.listen(process.env.PORT || 3000, () => {

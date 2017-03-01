@@ -1,4 +1,4 @@
-// angular $http module sends request to url, scrapeController executes
+// TODO: this seems slower than before in getData
 const request = require("request");
 const items = require("../../data/items.json"); // TODO: this should be updated or use official api
 
@@ -28,7 +28,7 @@ const itemScraper = {
         const id = itemScraper.id;
         const itemInfoUrl = `http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=${id}`;
         const itemPriceUrl = `http://services.runescape.com/m=itemdb_oldschool/api/graph/${id}.json`;
-        request(itemInfoUrl, (err1, response1) => {
+        return request(itemInfoUrl, (err1, response1) => {    // these are too slow
             if (err1) return console.log(err1);
             item.info = response1;
             return request(itemPriceUrl, (err2, response2) => {
@@ -37,7 +37,6 @@ const itemScraper = {
                 return res.json(item);
             });
         });
-        return next();
     }
 };
 

@@ -1,11 +1,3 @@
-const toLocalStorage = (username, player) => {
-    if (localStorage.length <= 5) {
-        const playerWithOrder = { order: localStorage.length, player };
-        const storedObj = JSON.stringify(playerWithOrder);
-        localStorage.setItem(username, storedObj);
-    }
-};
-
 angular.module("PlayerController", ["ngRoute"])
   .controller("PlayerController", function PlayerController(PlayerFactory, FavoritesFactory) {
       const pc = this;
@@ -36,7 +28,7 @@ angular.module("PlayerController", ["ngRoute"])
               PlayerFactory.getPlayer(pc.playerSearch)
                 .then((response) => {
                     playerData = response.data;
-                    toLocalStorage(pc.playerSearch, playerData);
+                    FavoritesFactory.storePlayer(pc.playerSearch, playerData);
 
                     pc.playerInfo = playerData;
                     pc.displayCollection = playerData;
