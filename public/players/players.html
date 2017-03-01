@@ -3,9 +3,11 @@
 <center>
   <div id="playerSearch" ng-controller="PlayerController as pc" ng-init="pc.favoriteSelected()">
     <form ng-submit="pc.submit(pc.playerSearch)">
-      <input class="searchBar" placeholder="Search for a player..." type="text" ng-model="pc.playerSearch" ng-submit="pc.submit(pc.playerSearch)">
+      <input class="searchBar" placeholder="Search for a player..." type="text" ng-model="pc.playerSearch"
+        ng-submit="pc.submit(pc.playerSearch)" ng-change="pc.reset()">
     </form>
     <br>
+    <div ng-show="pc.playerErr">{{ pc.errorMessage }}</div>
     <div ng-show="pc.showPlayer">
       <button id="x-button" ng-click="pc.removeFromFavorites()">X
         <span class="tooltiptext">Remove from recents</span>

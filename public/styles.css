@@ -8,6 +8,7 @@ body {
   background-size: cover;
   padding: 10px;
   text-rendering: optimizeLegibility;
+  color: white;
 }
 
 @font-face {

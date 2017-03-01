@@ -4,11 +4,10 @@ const hiscoreScraper = {
     getData: (req, res, next) => {
         const player = req.params.player;
         const hiscoreUrl = `http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=${player}`;
-        request(hiscoreUrl, (error, response) => {
+        return request(hiscoreUrl, (error, response) => {
             if (error) return console.log(error);
             req.player = response.body;
-            next();
-            return req.player;
+            return next();
         });
     },
 

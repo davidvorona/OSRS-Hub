@@ -23,6 +23,11 @@ angular.module("FavoritesFactory", ["ngRoute"])
           localStorage.setItem(username, storedObj);
       };
 
+      dataFactory.removePlayer = (player) => {
+          if (player in localStorage) localStorage.removeItem(player);
+          else console.log("You haven't saved this player!");
+      };
+
       dataFactory.getFavorites = () => Object.keys(localStorage);
 
       dataFactory.chooseFavorite = () => {

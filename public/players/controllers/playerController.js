@@ -2,6 +2,8 @@ angular.module("PlayerController", ["ngRoute"])
   .controller("PlayerController", function PlayerController(PlayerFactory, FavoritesFactory) {
       const pc = this;
       let playerData;
+      pc.playerErr = false;
+      pc.errorMessage = null;
       pc.showPlayer = false;
       pc.displayCollection = {};
 
@@ -26,26 +28,29 @@ angular.module("PlayerController", ["ngRoute"])
               pc.showPlayer = true;
           } else {
               PlayerFactory.getPlayer(pc.playerSearch)
-                .then((response) => {
-                    playerData = response.data;
-                    FavoritesFactory.storePlayer(pc.playerSearch, playerData);
-
+                .then((res) => {
+                    if (res.err) {
+                        pc.errorMessage = res.err;
+                        pc.playerErr = true;
+                        return;
+                    }
+                    playerData = res.data;
                     pc.playerInfo = playerData;
                     pc.displayCollection = playerData;
                     pc.showPlayer = true;
-                }, (error) => {
-                    console.log("Error in PlayerController.");
-                    console.log(error);
                 });
           }
       };
 
       pc.removeFromFavorites = () => {
-          if (pc.playerSearch in localStorage) localStorage.removeItem(pc.playerSearch);
-          else console.log("You haven't saved this player!");
+          FavoritesFactory.removePlayer(pc.playerSearch);
       };
 
       pc.defaultSort = {
           type: () => pc.playerInfo.indexOf(pc.playerInfo.type)
+      };
+
+      pc.reset = () => {
+          pc.playerErr = false;
       };
   });
