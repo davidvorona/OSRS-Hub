@@ -14,8 +14,10 @@ const sessionController = require("./users/sessionController");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "../public/")));
-app.use(express.static(path.join(__dirname, "../bower_components/")));
+// serve static files at url + "static/", this ensures
+// front-end routes don't collide with urls to static files
+app.use("/static", express.static(path.join(__dirname, "../public/")));
+app.use("/static", express.static(path.join(__dirname, "../bower_components/")));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use((req, res, next) => {

@@ -62,22 +62,22 @@ rsApp.config(($routeProvider, $locationProvider) => {
 
     $routeProvider
       .when("/", {
-          templateUrl: "items/items.html",
+          templateUrl: "static/items/items.html",
           controller: "ItemController"
       })
 
       .when("/account", {
-          templateUrl: "account/account.html",
+          templateUrl: "static/account/account.html",
           controller: "AccountController"
       })
 
       .when("/players", {
-          templateUrl: "players/players.html",
+          templateUrl: "static/players/players.html",
           controller: "PlayerController"
       })
 
       .when("/build", {
-          templateUrl: "builds/build.html",
+          templateUrl: "static/builds/build.html",
           controller: "BuildController"
       })
 
