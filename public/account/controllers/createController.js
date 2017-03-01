@@ -19,14 +19,11 @@ angular.module("CreateController", ["ngRoute"])
               if (res.err) {
                   cc.errorMessage = res.err;
                   cc.createErr = true;
+                  $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
                   return;
               }
               $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
               $scope.setCurrentUser(res.username, res.rsname, res.password);
-          }, (err) => {
-              console.log("Error in CreateController.");
-              console.log(err);
-              $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
           });
       };
 

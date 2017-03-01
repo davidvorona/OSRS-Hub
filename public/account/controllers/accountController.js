@@ -35,16 +35,12 @@ angular.module("AccountController", ["ngRoute"])
                   }
                   $scope.setCurrentUser(res.username, res.rsname, $scope.pLen);
               }
-          }, (err) => {
-              console.log("Error in AccountController.");
-              console.log(err);
           });
       };
 
       ac.logout = () => {
           AccountFactory.logout()
             .then(() => {
-                console.log("User logged out.");
                 $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
                 $scope.setCurrentUser(null);
             });

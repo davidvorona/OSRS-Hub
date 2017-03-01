@@ -83,8 +83,12 @@ angular.module("ItemController", ["ngRoute"])
 
       vm.submit = () => {
           ItemFactory.getItem(vm.itemSearch)
-            .then((response) => {
-                itemData = response.data;
+            .then((res) => {
+                if (res.err) {
+                    console.log("This needs to be error-handled.");
+                    return;
+                }
+                itemData = res.data;
 
                 itemInfo = JSON.parse(itemData.info.body);
                 priceData = JSON.parse(itemData.price.body);
@@ -94,9 +98,6 @@ angular.module("ItemController", ["ngRoute"])
                 if (vm.itemArray.length > 1) vm.showButton = true;
                 vm.i = vm.itemArray.length - 1;
                 plotPrice(priceData.daily, priceData.average, itemInfo.item.name);
-            }, (error) => {
-                console.log("Error in ItemController");
-                console.log(error);
             });
       };
 

@@ -70,32 +70,38 @@ angular.module("BuildController", ["ngRoute"])
       };
 
       bc.saveBuild = (buildName) => {
-          bc.buildName = buildName;
-          combatToPG = Object.assign(bc.combatArr);
-          combatToPG = toObject(combatToPG);
-          combatToPG.username = $scope.currentUser;
-          BuildFactory.saveBuild(buildName, combatToPG)
-            .then(() => {
-                console.log("Save successful.");
-                bc.savedBuild = true;
-            }, (error) => {
-                console.log(error);
-            });
+          if ($scope.currentUser !== null) {
+              bc.buildName = buildName;
+              combatToPG = Object.assign(bc.combatArr);
+              combatToPG = toObject(combatToPG);
+              combatToPG.username = $scope.currentUser;
+              BuildFactory.saveBuild(buildName, combatToPG)
+                .then((res) => {
+                    if (res.err) {
+                        console.log("This needs to be error-handled.");
+                        return;
+                    }
+                    bc.savedBuild = true;
+                });
+          } else console.log("You need to be logged in to save a build!");
       };
 
       bc.findBuild = (buildName) => {
-          bc.buildName = buildName;
-          BuildFactory.getBuild({ buildName: bc.buildName, username: $scope.currentUser })
-            .then((response) => {
-                bc.combatLvl = BuildCalculator.osCombatLevel(response.data[0]);
-                bc.combatArr = toTableStructure(response.data[0]);
-                bc.displayCollection = toTableStructure(response.data[0]);
-                bc.showBuild = true;
-                bc.savedBuild = true;
-            }, (error) => {
-                console.log("Error in buildController.");
-                console.log(error);
-            });
+          if ($scope.currentUser !== null) {
+              bc.buildName = buildName;
+              BuildFactory.getBuild({ buildName: bc.buildName, username: $scope.currentUser })
+                .then((res) => {
+                    if (res.err) {
+                        console.log("This needs to be error-handled.");
+                        return;
+                    }
+                    bc.combatLvl = BuildCalculator.osCombatLevel(res.data[0]);
+                    bc.combatArr = toTableStructure(res.data[0]);
+                    bc.displayCollection = toTableStructure(res.data[0]);
+                    bc.showBuild = true;
+                    bc.savedBuild = true;
+                });
+          } else console.log("You need to be logged in to find a build!");
       };
 
       $scope.$on("$destroy", () => {

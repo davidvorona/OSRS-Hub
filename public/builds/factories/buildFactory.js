@@ -1,5 +1,9 @@
 angular.module("BuildFactory", ["ngRoute"])
   .factory("BuildFactory", ($http) => {
+      const handleError = (errorCode) => {
+          if (errorCode) return { err: "There was an error. Please try again." };
+      };
+
       const dataFactory = {};
 
       dataFactory.getBuild = build =>
@@ -8,8 +12,8 @@ angular.module("BuildFactory", ["ngRoute"])
                   console.log(res);
                   return res;
               }, (err) => {
-                  console.log("Error in BuildFactory.");
-                  return err;
+                  console.log(err);
+                  return handleError(500);
               });
 
       dataFactory.saveBuild = (buildName, combatToPG) =>
@@ -18,8 +22,8 @@ angular.module("BuildFactory", ["ngRoute"])
                 console.log(res);
                 return res;
             }, (err) => {
-                console.log("Error in BuildFactory.");
-                return err;
+                console.log(err);
+                return handleError(500);
             });
 
       return dataFactory;

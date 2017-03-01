@@ -14,27 +14,19 @@ angular.module("LoginController", ["ngRoute"])
                 if (res.err) {
                     lc.errorMessage = res.err;
                     lc.loginErr = true;
+                    $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
                     return;
                 }
-                console.log("This user is in db:", res);
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
                 $scope.setCurrentUser(res.username, res.rsname, res.password);
-            }, (err) => {
-                console.log("Error in LoginController.");
-                console.log(err);
-                $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
             });
       };
 
       lc.logout = () => {
           AccountFactory.logout()
             .then((res) => {
-                console.log("User logged out.");
                 $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
-                $scope.setCurrentUser(null);
-            }, (err) => {
-                console.log("Error in LoginController.");
-                console.log(err);
+                $scope.setCurrentUser(null, null, null);
             });
       };
 
