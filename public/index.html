@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <title>OSRS Hub</title>
 
+    <!-- routing fix -->
+    <base href="/index.html">
+
     <!-- Angular & dependencies-->
     <!-- Minify in production -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -17,7 +20,7 @@
     <script type="text/javascript" src="static/angular-mocks/angular-mocks.js"></script>
     <script type="text/javascript" src="static/angular-smart-table/dist/smart-table.js"></script>
     <script type="text/javascript" src="static/app.js"></script>
-    <script type="text/javascript" src="static/account/services/sessionService.js"></script>
+    <script type="text/javascript" src="static/account/services/userService.js"></script>
     <script type="text/javascript" src="static/account/factories/accountFactory.js"></script>
     <script type="text/javascript" src="static/account/controllers/accountController.js"></script>
     <script type="text/javascript" src="static/account/controllers/createController.js"></script>
@@ -31,6 +34,8 @@
     <script type="text/javascript" src="static/builds/factories/buildFactory.js"></script>
     <script type="text/javascript" src="static/builds/factories/buildCalculator.js"></script>
     <script type="text/javascript" src="static/builds/controllers/buildController.js"></script>
+    <script type="text/javascript" src="static/friends/factories/friendsFactory.js"></script>
+    <script type="text/javascript" src="static/friends/controllers/friendsController.js"></script>
 
     <!-- Icon -->
     <link rel="icon" type="image/png" sizes="96x96" href="static/img/favicon-96x96.png">
@@ -39,7 +44,7 @@
     <link rel="stylesheet" href="static/styles.css">
   </head>
 
-  <body ng-controller="ApplicationController" ng-init="autoLogin()">
+  <body>
     <div class="container-fluid">
       <ul class="nav navbar-nav navbar-fixed-top">
         <li class="nav-item"><a href="/">Home</a></li>
@@ -57,7 +62,7 @@
           <a class="dropdown-toggle" href="/account">Account
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li ng-if="!currentUser">
+            <li ng-if="!$root.isLoggedIn">
               <form ng-submit="lc.login(lc.credentials)">
                 <div class="nav-text">Username: </div><input class="nav-login" type="text" ng-model="lc.credentials.username" ng-change="lc.reset()">
                 <div class="nav-text">Password: </div><input class="nav-login" type="password" ng-model="lc.credentials.password" ng-submit="lc.login(lc.credentials)" ng-change="lc.reset()">
@@ -67,17 +72,17 @@
               <center class="nav-text">or</center>
               <center><a class="nav-login-button" href="/account">CREATE ACCOUNT</a></center>
             </li>
-            <li ng-if="currentUser">
-                <div class="nav-text">Welcome, {{ currentUser }}</div>
-                <a class="nav-login-button" href="/account">Preferences</a>
+            <li ng-if="$root.isLoggedIn">
+                <div class="nav-text">Welcome, {{ lc.currentUser }}</div>
+                <a class="nav-login-button" href="/friends">Friends List</a>
                 <a class="nav-login-button" href="#">My Builds</a>
+                <a class="nav-login-button" href="/account">Preferences</a>
                 <a class="nav-login-button" href="#" ng-click="lc.logout()">LOGOUT</a>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-
     <div ng-view></div>
 
   </body>

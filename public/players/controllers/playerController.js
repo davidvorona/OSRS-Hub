@@ -1,5 +1,13 @@
+const toPlayerObject = (data) => {
+    const obj = {};
+    data.forEach((el) => {
+        obj[el.type] = el.level;
+    });
+    return obj;
+};
+
 angular.module("PlayerController", ["ngRoute"])
-  .controller("PlayerController", function PlayerController(PlayerFactory, FavoritesFactory) {
+  .controller("PlayerController", function PlayerController($routeParams, authVals, PlayerFactory, FavoritesFactory) {
       const pc = this;
       let playerData;
       pc.playerErr = false;
@@ -7,7 +15,7 @@ angular.module("PlayerController", ["ngRoute"])
       pc.showPlayer = false;
       pc.displayCollection = {};
 
-      pc.favoriteSelected = () => {
+      pc.playerSelected = () => {
           if (localStorage.favoritesChoice) {
               pc.playerSearch = FavoritesFactory.chooseFavorite();
               localStorage.removeItem("favoritesChoice");
@@ -16,18 +24,32 @@ angular.module("PlayerController", ["ngRoute"])
               pc.playerInfo = playerData;
               pc.displayCollection = playerData;
               pc.showPlayer = true;
+          } else if ($routeParams.player) {
+              PlayerFactory.getPlayer($routeParams.player)
+                .then((res) => {
+                    if (res.err) {
+                        pc.errorMessage = res.err;
+                        pc.playerErr = true;
+                        return;
+                    }
+                    playerData = res.data;
+                    pc.playerSearch = $routeParams.player;
+                    pc.playerInfo = playerData;
+                    pc.displayCollection = playerData;
+                    pc.showPlayer = true;
+                });
           }
       };
 
-      pc.submit = () => {
-          if (localStorage[pc.playerSearch]) {
-              playerData = JSON.parse(localStorage[pc.playerSearch]).player;
+      pc.submit = (player) => {
+          if (localStorage[player]) {
+              playerData = JSON.parse(localStorage[player]).player;
 
               pc.playerInfo = playerData;
               pc.displayCollection = playerData;
               pc.showPlayer = true;
           } else {
-              PlayerFactory.getPlayer(pc.playerSearch)
+              PlayerFactory.getPlayer(player)
                 .then((res) => {
                     if (res.err) {
                         pc.errorMessage = res.err;
@@ -40,6 +62,21 @@ angular.module("PlayerController", ["ngRoute"])
                     pc.showPlayer = true;
                 });
           }
+      };
+
+      pc.save = (playerInfo) => {
+          const playerToPG = toPlayerObject(playerInfo);
+          playerToPG.dateCreated = new Date().toISOString().slice(0, 19).replace("T", " ");
+          playerToPG.player_id = pc.playerSearch;
+          playerToPG.user_id = authVals.currentUser;
+          PlayerFactory.addPlayer(playerToPG)
+            .then((res) => {
+                if (res.err) {
+                    console.log(res.err);
+                    return;
+                }
+                console.log(res);
+            });
       };
 
       pc.removeFromFavorites = () => {

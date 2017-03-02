@@ -1,5 +1,5 @@
 angular.module("LoginController", ["ngRoute"])
-  .controller("LoginController", function LoginController($scope, $rootScope, AUTH_EVENTS, AccountFactory) {
+  .controller("LoginController", function LoginController($scope, $rootScope, authVals, AUTH_EVENTS, AccountFactory) {
       const lc = this;
       lc.loginErr = false;
       lc.errorMessage = null;
@@ -17,16 +17,17 @@ angular.module("LoginController", ["ngRoute"])
                     $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
                     return;
                 }
+                lc.currentUser = authVals.currentUser;
+                $rootScope.isLoggedIn = true;
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                $scope.setCurrentUser(res.username, res.rsname, res.password);
             });
       };
 
       lc.logout = () => {
           AccountFactory.logout()
-            .then((res) => {
+            .then(() => {
+                $rootScope.isLoggedIn = false;
                 $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
-                $scope.setCurrentUser(null, null, null);
             });
       };
 

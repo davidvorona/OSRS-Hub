@@ -6,7 +6,8 @@ module.exports = {
     ],
     "rules": {
       "comma-dangle": ["error", "never"],
-      "no-console": 0 // because it's annoying for now
+      "no-console": 0, // because it's annoying for now
+      "no-param-reassign": ["error", { "props": false }]
     },
     "globals": {
       "document": true,

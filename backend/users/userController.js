@@ -173,6 +173,41 @@ const userController = {
                 return res.json({ data: "There was a problem." });
             });
         });
+    },
+
+    getID: (req, res, next) => {
+        if (req.params.username) req.body.user_id = req.params.username;
+        const results = [];
+
+        pg.connect(connectionString, (err, client, done) => {
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({ success: false, data: err });
+            }
+
+            // SQL Query > Find User
+            const query = client.query("SELECT id FROM users " +
+            `WHERE (username = '${req.body.user_id}')`);
+
+            // stream results back one row at a time
+            query.on("row", (row) => {
+                results.push(row);
+            });
+
+            query.on("error", (error) => {
+                done();
+                results.push(error);
+                return res.status(500).json(results);
+            });
+
+            // after all data is returned, close connection and return results
+            query.on("end", () => {
+                done();
+                req.body.user_id = results[0].id;
+                return next();
+            });
+        });
     }
 };
 

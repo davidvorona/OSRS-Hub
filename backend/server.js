@@ -10,6 +10,8 @@ const hiscoreScraper = require("./players/hiscoreScraper");
 const buildController = require("./builds/buildController");
 const userController = require("./users/userController");
 const sessionController = require("./users/sessionController");
+const playerController = require("./players/playerController");
+const friendsController = require("./friends/friendsController");
 // const childProcess = require("./players/childProcess");
 
 const app = express();
@@ -66,7 +68,7 @@ app.put("/modify", userController.modifyUser, sessionController.setCookie,
 
 app.get("/cookies", sessionController.isLoggedIn, (req, res) => {
     res.json(res.body);
-    console.log("User automatically authenticated: ", res.body.user);
+    console.log("User automatically authenticated:", res.body.user);
 });
 
 app.get("/item/:item", itemScraper.matchID, itemScraper.getData, (req) => {
@@ -77,6 +79,11 @@ app.get("/player/:player", hiscoreScraper.getData, hiscoreScraper.formatResponse
     console.log(`Player ${req.params.player} retrieved.`);
 });
 
+app.post("/player", playerController.addPlayer, userController.getID, friendsController.addFriend, (req, res) => {
+    res.json({ data: "Friend added." });
+    console.log("Friend added.");
+});
+
 app.post("/build/:build", buildController.fetchFK, buildController.postToPG, (req) => {
     console.log(`${req.params.build} posted to database.`);
 });
@@ -84,6 +91,12 @@ app.post("/build/:build", buildController.fetchFK, buildController.postToPG, (re
 app.get("/build/:build", buildController.fetchFK, buildController.getFromPG, (req) => {
     console.log(`${req.params.build} retrieved from database.`);
 });
+
+app.get("/friends/:username", userController.getID, friendsController.getFriends, friendsController.formatList,
+    (req, res) => {
+        res.json(res.body);
+        console.log("Found friends");
+    });
 
 // the following code was made obsolete by poor web search capabalities
 // app.get("/player/:player", childProcess.runPhantom, childProcess.formatResponse, (req, res) => {

@@ -1,0 +1,14 @@
+<center><h1>Friends List</h1></center>
+
+<center>
+  <div id="friends-bg" ng-controller="FriendsController as fc" ng-init="fc.displayFriends()">
+    <table class="friends-table">
+      <tr class="friends-row" ng-repeat="row in fc.friendsList">
+        <td class="friends-td">{{ row.username }}</td>
+        <td class="friends-td"><div id="combat-box">{{ row.combatLvl }}</div></td>
+        <td class="friends-td remove-padding-right"><button id="stats-button"><a ng-href="/players/{{ row.username }}">Skills</a></button></td>
+        <td class="friends-td remove-padding-left"><button id="x-button">X</td>
+      </tr>
+    </table>
+  </div>
+</center>

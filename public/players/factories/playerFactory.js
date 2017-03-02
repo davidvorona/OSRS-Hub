@@ -7,6 +7,15 @@ angular.module("PlayerFactory", ["ngRoute"])
 
       const dataFactory = {};
 
+      dataFactory.addPlayer = player => $http.post("/player", player)
+        .then((res) => {
+            console.log(res);
+            return res;
+        }, (err) => {
+            console.log("Error in PlayerFactory.");
+            return handleError(err.status);
+        });
+
       dataFactory.getPlayer = player => $http.get(`/player/${player}`)
         .then((res) => {
             FavoritesFactory.storePlayer(player, res.data);

@@ -21,6 +21,6 @@ describe("PlayerController", () => {
     it("should exist and have access to its methods", () => {
         expect($controller).toBeDefined();
         expect($controller.submit).toBeDefined();
-        expect($controller.favoriteSelected).toBeDefined();
+        expect($controller.playerSelected).toBeDefined();
     });
 });

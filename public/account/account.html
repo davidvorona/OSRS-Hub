@@ -1,5 +1,5 @@
 <div>
-  <div ng-controller="CreateController as cc" ng-if="!currentUser">
+  <div ng-controller="CreateController as cc" ng-if="!$root.isLoggedIn">
     <center><h1>Create an Account</h1></center>
 
     <center>
@@ -20,14 +20,14 @@
       </div>
     </center>
   </div>
-  <div ng-controller="AccountController as ac" ng-if="currentUser">
-    <center><h1>My Account {{ ac.test }}</h1></center>
+  <div ng-controller="AccountController as ac" ng-if="$root.isLoggedIn">
+    <center><h1>My Account</h1></center>
 
     <center>
-      <div id="user-box"><h3>Welcome, {{ currentUser }}!</h3>
+      <div id="user-box"><h3>Welcome, {{ ac.user.username }}!</h3>
         <div id="account-container">
           <div class="account-info">
-            <div class="pull-left">Username: <b>{{ currentUser }}</b></div>
+            <div class="pull-left">Username: <b>{{ ac.user.username }}</b></div>
             <div class="pull-right">
               <form>Change username:
                 <input class="user-input" name="username" type="text" ng-model="ac.changeInfo.username" ng-change="ac.reset()">
@@ -39,7 +39,7 @@
           <hr>
           <form>
             <div class="account-info">
-              <div class="pull-left">Password: <b>{{ ac.userInfo.password }}</b></div>
+              <div class="pull-left">Password: <b>{{ ac.user.pLen }}</b></div>
               <div class="pull-right">
                 <div>Change password:
                   <input ng-style="ac.happyPassword" class="user-input" name="password" type="text" ng-model="ac.changeInfo.password">
@@ -54,7 +54,7 @@
           </form>
           <hr>
           <div class="account-info">
-            <div class="pull-left">OSRS: <b>{{ rsName }}</b></div>
+            <div class="pull-left">OSRS: <b>{{ ac.user.rsName }}</b></div>
             <div class="pull-right">
               <form>Change default OSRS:
                 <input class="user-input" name="rs-name" type="text" ng-model="ac.changeInfo.rsName">

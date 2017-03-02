@@ -1,7 +1,7 @@
 // register myApp as an angular module, array specifies dependencies and controllers
 const rsApp = angular.module("rsApp", [
     "ngRoute",
-    "Session",
+    "UserService",
     "AccountFactory",
     "LoginController",
     "CreateController",
@@ -15,6 +15,8 @@ const rsApp = angular.module("rsApp", [
     "BuildFactory",
     "BuildCalculator",
     "BuildController",
+    "FriendsFactory",
+    "FriendsController",
     "smart-table"
 ]);
 
@@ -26,33 +28,18 @@ rsApp.constant("AUTH_EVENTS", {
     notAuthenticated: "not-authenticated"
 });
 
-rsApp.controller("ApplicationController", function ApplicationController(
-  $scope, $rootScope, $http, AUTH_EVENTS, AccountFactory, Session) {
-    $scope.currentUser = null;
-    $scope.isAuthorized = AccountFactory.isAuthorized;
-
-    $scope.setCurrentUser = (username, rsName, pLen) => {
-        $scope.currentUser = username;
-        $scope.rsName = rsName;
-        $scope.pLen = pLen;
-    };
-
-    $scope.autoLogin = () => {
-        $http.get("/cookies")
-          .then((res) => {
-              if (res.data.user) {
-                  Session.create(res.data.user[0].sessId, res.data.user[0].username,
-                    res.data.user[0].rsName);
-                  $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                  $scope.setCurrentUser(res.data.user[0].username, res.data.user[0].rsname, res.data.user[0].password);
-                  return res;
-              }
-          }, (err) => {
-              console.log("Error in ApplicationController.");
-              console.log(err);
-          });
-    };
+rsApp.value("authVals", {
+    sessId: null,
+    currentUser: null,
+    rsName: null,
+    pLen: null
 });
+
+rsApp.run(["$rootScope", "$location", "authVals", "AccountFactory",
+    function($rootScope, $location, authVals, AccountFactory) {
+        $rootScope.isLoggedIn = false;
+        AccountFactory.autoLogin();
+    }]);
 
 rsApp.config(($routeProvider, $locationProvider) => {
     $locationProvider.html5Mode({
@@ -76,9 +63,19 @@ rsApp.config(($routeProvider, $locationProvider) => {
           controller: "PlayerController"
       })
 
+      .when("/players/:player", {
+          templateUrl: "static/players/players.html",
+          controller: "PlayerController"
+      })
+
       .when("/build", {
           templateUrl: "static/builds/build.html",
           controller: "BuildController"
+      })
+
+      .when("/friends", {
+          templateUrl: "static/friends/friends.html",
+          controller: "FriendsController"
       })
 
       .otherwise({

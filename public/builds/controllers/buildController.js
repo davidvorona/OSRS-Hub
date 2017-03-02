@@ -40,7 +40,7 @@ const buyingGf = (gp) => {
 
 // tint row red on being selected as pureType
 angular.module("BuildController", ["ngRoute"])
-  .controller("BuildController", function BuildController($scope, $http, BuildFactory, BuildCalculator) {
+  .controller("BuildController", function BuildController($scope, $http, authVals, BuildFactory, BuildCalculator) {
       const bc = this;
       bc.showBuild = false;
       bc.buildType = "Spread";
@@ -70,11 +70,11 @@ angular.module("BuildController", ["ngRoute"])
       };
 
       bc.saveBuild = (buildName) => {
-          if ($scope.currentUser !== null) {
+          if (authVals.currentUser !== null) {
               bc.buildName = buildName;
               combatToPG = Object.assign(bc.combatArr);
               combatToPG = toObject(combatToPG);
-              combatToPG.username = $scope.currentUser;
+              combatToPG.username = authVals.currentUser;
               BuildFactory.saveBuild(buildName, combatToPG)
                 .then((res) => {
                     if (res.err) {
@@ -87,9 +87,9 @@ angular.module("BuildController", ["ngRoute"])
       };
 
       bc.findBuild = (buildName) => {
-          if ($scope.currentUser !== null) {
+          if (authVals.currentUser !== null) {
               bc.buildName = buildName;
-              BuildFactory.getBuild({ buildName: bc.buildName, username: $scope.currentUser })
+              BuildFactory.getBuild({ buildName: bc.buildName, username: authVals.currentUser })
                 .then((res) => {
                     if (res.err) {
                         console.log("This needs to be error-handled.");

@@ -1,9 +1,10 @@
 angular.module("CreateController", ["ngRoute"])
-  .controller("CreateController", function CreateController($scope, $rootScope, AUTH_EVENTS, AccountFactory) {
+  .controller("CreateController", function CreateController($rootScope, authVals, AUTH_EVENTS, AccountFactory) {
       const cc = this;
       cc.createErr = false;
       cc.errorMessage = null;
       cc.validated = false;
+      cc.currentUser = authVals.currentUser;
       cc.credentials = {
           username: "",
           password: "",
@@ -15,16 +16,16 @@ angular.module("CreateController", ["ngRoute"])
           cc.validated = false;
           userObj.dateCreated = new Date().toISOString().slice(0, 19).replace("T", " ");
           AccountFactory.create(userObj)
-          .then((res) => {
-              if (res.err) {
-                  cc.errorMessage = res.err;
-                  cc.createErr = true;
-                  $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
-                  return;
-              }
-              $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-              $scope.setCurrentUser(res.username, res.rsname, res.password);
-          });
+            .then((res) => {
+                if (res.err) {
+                    cc.errorMessage = res.err;
+                    cc.createErr = true;
+                    $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+                    return;
+                }
+                $rootScope.isLoggedIn = true;
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+            });
       };
 
       cc.checkPassword = (password1, password2) => {

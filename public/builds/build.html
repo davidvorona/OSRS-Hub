@@ -25,21 +25,21 @@
       </div>
       <br>
       <br>
-      <table st-table="bc.displayCollection" st-safe-src="bc.combatArr">
+      <table class="smart-table" st-table="bc.displayCollection" st-safe-src="bc.combatArr">
         <thead>
-          <tr>
-            <th st-sort="skill">Skill</th>
-            <th st-sort="level">Level</th>
+          <tr class="smart-tr">
+            <th class="smart-th" st-sort="skill">Skill</th>
+            <th class="smart-th" st-sort="level">Level</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Total Combat:</td>
-            <td>{{ bc.combatLvl }}</td>
+          <tr class="smart-tr">
+            <td class="smart-td">Total Combat:</td>
+            <td class="smart-td">{{ bc.combatLvl }}</td>
           </tr>
-          <tr ng-repeat="row in bc.displayCollection">
-            <td>{{ row.skill }}: </td>
-            <td>{{ row.level }}</td>
+          <tr class="smart-tr" ng-repeat="row in bc.displayCollection">
+            <td class="smart-td">{{ row.skill }}: </td>
+            <td class="smart-td">{{ row.level }}</td>
           </tr>
         </tbody>
       </table>
