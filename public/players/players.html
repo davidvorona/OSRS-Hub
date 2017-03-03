@@ -11,11 +11,17 @@
     <div ng-show="pc.showPlayer">
       <div class="p-container">
         <table style="width:400px;">
-          <th class="player-th"><button id="x-button" ng-click="pc.removeFromFavorites()">X
-            <span class="tooltiptext">Remove from recents</span>
-          </button></th>
+          <th class="player-th">
+            <button class="pull-right" id="x-button" ng-click="pc.removeFromFavorites()">X
+              <span class="tooltiptext">Remove from recents</span>
+            </button>
+          </th>
           <th class="player-th"><div id="table-title">{{ pc.playerSearch }}</div></th>
-          <th ng-if="$root.isLoggedIn" class="player-th"><button class="add-friend" ng-click="pc.save(pc.playerInfo)">Add Friend</button></th>
+          <th ng-if="$root.isLoggedIn" class="player-th">
+            <div ng-show="pc.friendAdded"></div>
+            <button class="add-friend" ng-hide="pc.friendAdded" ng-click="pc.save(pc.playerInfo)">Add Friend</button>
+          </th>
+          <th ng-if="!$root.isLoggedIn"></th>
         </table>
       </div>
       <br>

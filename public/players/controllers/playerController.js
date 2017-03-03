@@ -6,6 +6,7 @@ angular.module("PlayerController", ["ngRoute"])
       pc.playerErr = false;
       pc.errorMessage = null;
       pc.showPlayer = false;
+      pc.friendAdded = false;
       pc.displayCollection = {};
 
       pc.playerSelected = () => {
@@ -57,6 +58,7 @@ angular.module("PlayerController", ["ngRoute"])
                     console.log(res.err);
                     return;
                 }
+                pc.friendAdded = true;
                 console.log(res);
             });
       };
@@ -71,5 +73,7 @@ angular.module("PlayerController", ["ngRoute"])
 
       pc.reset = () => {
           pc.playerErr = false;
+          pc.friendAdded = false;
+          pc.showPlayer = false;
       };
   });
