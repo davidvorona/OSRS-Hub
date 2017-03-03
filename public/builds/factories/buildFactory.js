@@ -1,5 +1,5 @@
 angular.module("BuildFactory", ["ngRoute"])
-  .factory("BuildFactory", ($http) => {
+  .factory("BuildFactory", ($http, BuildCalculator) => {
       const handleError = (error) => {
           console.log(error);
           if (error.data[0].code) {
@@ -12,14 +12,21 @@ angular.module("BuildFactory", ["ngRoute"])
           return { err: "There was an error. Please try again." };
       };
 
+      const addCombatLvl = (data) => {
+          data.forEach((el) => {
+              el.combatLvl = BuildCalculator.osCombatLevel(el);
+          });
+          return data;
+      };
+
       const dataFactory = {};
 
       dataFactory.getBuild = build =>
           $http.get(`/build/${build.buildName}`, { params: { username: build.username } })
-              .then((res) => {
-                  console.log(res);
-                  return res;
-              }, err => handleError(err));
+            .then((res) => {
+                console.log(res);
+                return res;
+            }, err => handleError(err));
 
       dataFactory.saveBuild = (buildName, combatToPG) =>
           $http.post(`/build/${buildName}`, combatToPG)
@@ -27,6 +34,11 @@ angular.module("BuildFactory", ["ngRoute"])
                 console.log(res);
                 return res;
             }, err => handleError(err));
+
+      dataFactory.getBuildsList = currentUser =>
+          $http.get("/builds", { params: { username: currentUser } })
+            .then(res => addCombatLvl(res.data),
+                err => handleError(err));
 
       return dataFactory;
   });

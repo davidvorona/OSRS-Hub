@@ -1,7 +1,3 @@
-// TODO: keep copy of main data object out of
-// controller scope for access between SPA Angular routes;
-// only transformed upon posting to db,
-// then reset to default vals
 const baseCombatObj = [
     { skill: "Attack", level: 1 },
     { skill: "Defence", level: 1 },
@@ -20,15 +16,20 @@ const buyingGf = (gp) => {
 };
 /* ***************** */
 
-// tint row red on being selected as pureType
 angular.module("BuildController", ["ngRoute"])
   .controller("BuildController", function BuildController(
-    $scope, $http, authVals, FormatService, BuildFactory, BuildCalculator) {
+    $scope, $http, $routeParams, authVals, FormatService, BuildFactory, BuildCalculator) {
       const bc = this;
       bc.showBuild = false;
       bc.buildType = "Spread";
       bc.combatArr = Object.assign(baseCombatObj); // shallow clone of object
       bc.savedBuild = false;
+
+      bc.buildSelected = () => {
+          if ($routeParams.build) {
+              bc.findBuild($routeParams.build);
+          }
+      };
 
       bc.submit = (combatLvl) => {
           bc.combatLvl = combatLvl;

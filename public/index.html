@@ -35,6 +35,7 @@
     <script type="text/javascript" src="static/builds/factories/buildFactory.js"></script>
     <script type="text/javascript" src="static/builds/factories/buildCalculator.js"></script>
     <script type="text/javascript" src="static/builds/controllers/buildController.js"></script>
+    <script type="text/javascript" src="static/builds/controllers/buildsListController.js"></script>
     <script type="text/javascript" src="static/friends/factories/friendsFactory.js"></script>
     <script type="text/javascript" src="static/friends/controllers/friendsController.js"></script>
 
@@ -76,7 +77,7 @@
             <li ng-if="$root.isLoggedIn">
                 <div class="nav-text">Welcome, {{ lc.currentUser }}</div>
                 <a class="nav-login-button" href="/friends">Friends List</a>
-                <a class="nav-login-button" href="#">My Builds</a>
+                <a class="nav-login-button" href="/mybuilds">My Builds</a>
                 <a class="nav-login-button" href="/account">Preferences</a>
                 <a class="nav-login-button" href="#" ng-click="lc.logout()">LOGOUT</a>
             </li>

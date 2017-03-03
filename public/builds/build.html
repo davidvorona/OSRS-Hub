@@ -1,7 +1,7 @@
 <center><h1>OSRS Builds</h1></center>
 
 <center>
-  <div id="build" ng-controller="BuildController as bc">
+  <div id="build" ng-controller="BuildController as bc" ng-init="bc.buildSelected()">
     <form ng-submit="bc.findBuild(bc.buildName)">
       <div class="display-inline">Find a build: </div><input class="find-save" type="text" ng-model="bc.buildName" ng-submit="bc.findBuild(bc.buildName)">
       <input class="find-save-button" type="submit" value="Find" ng-submit="bc.findBuild(bc.buildName)">

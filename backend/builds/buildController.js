@@ -99,6 +99,42 @@ const buildController = {
                 return next();
             });
         });
+    },
+
+    getBuildsList: (req, res, next) => {
+        const data = req.body;
+        const results = [];
+
+        pg.connect(connectionString, (err, client, done) => {
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({ success: false, data: err });
+            }
+
+            // select stats of build
+            const query = client.query("SELECT Name, Attack, Defence, Strength, Hitpoints, " +
+              `Ranged, Magic, Prayer FROM builds WHERE (user_id = '${data.user_id}')`);
+
+            query.on("error", (error) => {
+                done();
+                results.push(error);
+                return res.status(500).json(results);
+            });
+
+            // stream results back one row at a time
+            query.on("row", (row) => {
+                results.push(row);
+            });
+
+            // after all data is returned, close connection and return results
+            query.on("end", () => {
+                done();
+                if (results.length === 0) return res.status(422).json([{ code: "invalid" }]);
+                res.body = results;
+                return next();
+            });
+        });
     }
 };
 

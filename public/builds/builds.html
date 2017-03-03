@@ -1,0 +1,14 @@
+<center><h1>My Builds</h1></center>
+
+<center>
+  <div id="friends-bg" ng-controller="BuildsListController as bc" ng-init="bc.displayBuilds()">
+    <table class="friends-table">
+      <tr class="friends-row" ng-repeat="row in bc.buildsList">
+        <td style="width:35%;" class="friends-td">{{ row.name }}</td>
+        <td class="friends-td"><div id="combat-box">{{ row.combatLvl }}</div></td>
+        <td class="friends-td remove-padding-right"><button id="stats-button"><a ng-href="/build/{{ row.name }}">Full Build</a></button></td>
+        <td class="friends-td remove-padding-left"><button id="x-button">X<span class="tooltiptext">Delete build</span></button></td>
+      </tr>
+    </table>
+  </div>
+</center>

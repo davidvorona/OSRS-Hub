@@ -93,6 +93,11 @@ app.get("/build/:build", buildController.fetchFK, buildController.getFromPG, (re
     console.log(`${req.params.build} retrieved from database.`);
 });
 
+app.get("/builds", buildController.fetchFK, buildController.getBuildsList, (req, res) => {
+    res.json(res.body);
+    console.log("Builds retrieved.");
+});
+
 app.get("/friends/:username", userController.getID, friendsController.getFriends, friendsController.formatList,
     (req, res) => {
         res.json(res.body);

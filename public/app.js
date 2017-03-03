@@ -15,6 +15,7 @@ const rsApp = angular.module("rsApp", [
     "PlayerController",
     "BuildFactory",
     "BuildCalculator",
+    "BuildsListController",
     "BuildController",
     "FriendsFactory",
     "FriendsController",
@@ -74,9 +75,19 @@ rsApp.config(($routeProvider, $locationProvider) => {
           controller: "BuildController"
       })
 
+      .when("/build/:build", {
+          templateUrl: "static/builds/build.html",
+          controller: "BuildController"
+      })
+
       .when("/friends", {
           templateUrl: "static/friends/friends.html",
           controller: "FriendsController"
+      })
+
+      .when("/mybuilds", {
+          templateUrl: "static/builds/builds.html",
+          controller: "BuildsListController"
       })
 
       .otherwise({
