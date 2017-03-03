@@ -45,7 +45,7 @@ angular.module("ItemController", ["ngRoute"])
           ItemFactory.getItem(vm.itemSearch)
             .then((res) => {
                 if (res.err) {
-                    console.log("This needs to be error-handled.");
+                    console.log(res.err);
                     return;
                 }
                 itemData = res.data;

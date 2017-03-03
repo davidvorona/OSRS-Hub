@@ -59,7 +59,6 @@ angular.module("PlayerController", ["ngRoute"])
                     return;
                 }
                 pc.friendAdded = true;
-                console.log(res);
             });
       };
 

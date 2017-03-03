@@ -15,7 +15,6 @@ angular.module("PlayerFactory", ["ngRoute"])
 
       dataFactory.addPlayer = player => $http.post("/player", player)
         .then((res) => {
-            console.log(res);
             return res;
         }, err => handleError(err));
 

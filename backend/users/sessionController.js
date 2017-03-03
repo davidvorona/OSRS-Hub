@@ -23,7 +23,6 @@ const sessionController = {
 
     isLoggedIn: (req, res, next) => {
         if (!req.cookies.user) {
-            console.log("No active session, cannot automatically authenticate.");
             return res.json(res.body);
         }
         pg.connect(connectionString, (err, client, done) => {

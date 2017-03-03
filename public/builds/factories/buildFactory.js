@@ -24,14 +24,12 @@ angular.module("BuildFactory", ["ngRoute"])
       dataFactory.getBuild = build =>
           $http.get(`/build/${build.buildName}`, { params: { username: build.username } })
             .then((res) => {
-                console.log(res);
                 return res;
             }, err => handleError(err));
 
       dataFactory.saveBuild = (buildName, combatToPG) =>
           $http.post(`/build/${buildName}`, combatToPG)
             .then((res) => {
-                console.log(res);
                 return res;
             }, err => handleError(err));
 

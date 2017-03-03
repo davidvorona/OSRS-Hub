@@ -15,7 +15,6 @@ angular.module("ItemFactory", ["ngRoute"])
 
       dataFactory.getItem = item => $http.get(`/item/${item}`)
         .then((res) => {
-            console.log(res);
             return res;
         }, err => handleError(err));
 

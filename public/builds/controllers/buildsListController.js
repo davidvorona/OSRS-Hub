@@ -12,7 +12,6 @@ angular.module("BuildsListController", ["ngRoute"])
                         return;
                     }
                     bc.buildsList = res;
-                    console.log(bc.buildsList);
                 });
           }
       };

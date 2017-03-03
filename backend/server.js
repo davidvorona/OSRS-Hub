@@ -28,6 +28,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// use pgSessions for session store
 app.use(session({
     store: new pgSession({
         pg,   // use global pg-module
@@ -68,11 +69,11 @@ app.put("/modify", userController.modifyUser, sessionController.setCookie,
 
 app.get("/cookies", sessionController.isLoggedIn, (req, res) => {
     res.json(res.body);
-    console.log("User automatically authenticated:", res.body.user);
+    console.log("User automatically authenticated.");
 });
 
 app.get("/item/:item", itemScraper.matchID, itemScraper.getData, (req) => {
-    console.log(`7. ${req.params.item} retrieved.`);
+    console.log(`${req.params.item} retrieved.`);
 });
 
 app.get("/player/:player", hiscoreScraper.getData, hiscoreScraper.formatResponse, (req) => {
