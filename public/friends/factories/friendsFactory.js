@@ -1,8 +1,13 @@
 angular.module("FriendsFactory", ["ngRoute"])
   .factory("FriendsFactory", ($http, BuildCalculator) => {
-      const handleError = (errorCode, error) => {
-          if (errorCode === 500) return { err: "There was an error." };
-          return { err: error };
+      const handleError = (error) => {
+          console.log(error);
+          if (error.data[0].code) {
+              const pgErr = error.data[0].code;
+              return { err: "Unhandled pgErr." };
+          }
+          if (error.status === 500) return { err: "500: There was a problem with our server. Please try again." };
+          return { err: "There was an error. Please try again." };
       };
 
       const addCombatObj = (data) => {
@@ -27,9 +32,7 @@ angular.module("FriendsFactory", ["ngRoute"])
           $http.get(`/friends/${username}`)
             .then(res =>
                 addCombatObj(res.data)
-            , err =>
-                handleError(err.status)
-            );
+            , err => handleError(err));
 
       return friendsList;
   });

@@ -88,7 +88,8 @@ app.post("/build/:build", buildController.fetchFK, buildController.postToPG, (re
     console.log(`${req.params.build} posted to database.`);
 });
 
-app.get("/build/:build", buildController.fetchFK, buildController.getFromPG, (req) => {
+app.get("/build/:build", buildController.fetchFK, buildController.getFromPG, (req, res) => {
+    res.json(res.body);
     console.log(`${req.params.build} retrieved from database.`);
 });
 

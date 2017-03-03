@@ -23,10 +23,7 @@ angular.module("FriendsController", ["ngRoute"])
       });
   });
 
-  // make a formatter module?
-  // format all rsname to Uppercase firstletteronly
-  // see if friendlist scrolls
+  // better ux control on add friend button
+  // better account control in general
 
   // STAY BELOW 200MB http://stackoverflow.com/questions/9203306/how-much-memory-before-it-becomes-rude
-
-  // TODO: website breaks on /players/Vijuhas

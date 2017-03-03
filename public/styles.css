@@ -96,12 +96,21 @@ h1 {
 
 /* player page and table */
 
-#table-title {
-  display: inline;
-  margin: auto;
-  max-width: 600px;
-  padding: 5px;
+.p-container {
+  background: #1b1e24;
+  border: 1px solid #343a45;
+  padding-right, padding-left: 24px;
   width: 100%;
+  max-width: 600px;
+}
+
+.player-th {
+  text-align: center;
+}
+
+#table-title {
+  margin: auto;
+  padding: 5px;
   color: #fafafa;
   font-size: 2em;
   font-weight: 400;
@@ -112,13 +121,20 @@ h1 {
 }
 
 #x-button {
-  display: inline;
   color: red !important;
   font-family: "RuneScape UF";
   font-size: 2em;
   background-color: transparent;
   border: none;
   outline: none;
+}
+
+.add-friend {
+  border: 1px solid #8A3D3D;
+  background-color: #8A3D3D;
+  color: white;
+  border-radius: 3px;
+  text-align: center;
 }
 
 /* tooltip text */
@@ -131,7 +147,7 @@ h1 {
   padding: 5px 0;
   border-radius: 6px;
   font-family: "Roboto", helvetica, arial, sans-serif;
-  font-size: .5em;
+  font-size: 13px;
 
   /* position the tooltip texts */
   position: absolute;
@@ -495,8 +511,18 @@ hr {
   border-style: solid;
   border-color: #2b2314;
   width: 35%;
-  height: 75%;
+  height: 75vh;
   padding-bottom: 10px;
+  overflow-y: scroll;
+}
+
+#friends-bg::-webkit-scrollbar {
+  background-color: #2b2314;;
+}
+
+#friends-bg::-webkit-scrollbar-thumb {
+  background-color: #7d653e;
+  border: 1px solid #2b2314;
 }
 
 .friends-table {
@@ -511,6 +537,7 @@ hr {
 
 .friends-td {
   padding: 10px;
+  vertical-align: middle;
 }
 
 .friends-row:first-child {

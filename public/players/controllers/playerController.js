@@ -1,13 +1,6 @@
-const toPlayerObject = (data) => {
-    const obj = {};
-    data.forEach((el) => {
-        obj[el.type] = el.level;
-    });
-    return obj;
-};
-
 angular.module("PlayerController", ["ngRoute"])
-  .controller("PlayerController", function PlayerController($routeParams, authVals, PlayerFactory, FavoritesFactory) {
+  .controller("PlayerController", function PlayerController(
+    $routeParams, authVals, FormatService, PlayerFactory, FavoritesFactory) {
       const pc = this;
       let playerData;
       pc.playerErr = false;
@@ -25,19 +18,8 @@ angular.module("PlayerController", ["ngRoute"])
               pc.displayCollection = playerData;
               pc.showPlayer = true;
           } else if ($routeParams.player) {
-              PlayerFactory.getPlayer($routeParams.player)
-                .then((res) => {
-                    if (res.err) {
-                        pc.errorMessage = res.err;
-                        pc.playerErr = true;
-                        return;
-                    }
-                    playerData = res.data;
-                    pc.playerSearch = $routeParams.player;
-                    pc.playerInfo = playerData;
-                    pc.displayCollection = playerData;
-                    pc.showPlayer = true;
-                });
+              pc.submit($routeParams.player);   // odds are friends will also be recents
+              pc.playerSearch = $routeParams.player;
           }
       };
 
@@ -65,9 +47,9 @@ angular.module("PlayerController", ["ngRoute"])
       };
 
       pc.save = (playerInfo) => {
-          const playerToPG = toPlayerObject(playerInfo);
-          playerToPG.dateCreated = new Date().toISOString().slice(0, 19).replace("T", " ");
-          playerToPG.player_id = pc.playerSearch;
+          const playerToPG = FormatService.toPlayerObject(playerInfo);
+          playerToPG.dateCreated = FormatService.toPGDate();
+          playerToPG.player_id = pc.playerSearch.toLowerCase();
           playerToPG.user_id = authVals.currentUser;
           PlayerFactory.addPlayer(playerToPG)
             .then((res) => {

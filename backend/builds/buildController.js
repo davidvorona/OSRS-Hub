@@ -24,7 +24,6 @@ const buildController = {
             query.on("end", () => {
                 done();
                 req.body.user_id = results[0].id;
-                console.log(results);
                 return next();
             });
         });
@@ -81,6 +80,12 @@ const buildController = {
             const query = client.query("SELECT Attack, Defence, Strength, Hitpoints, " +
               `Ranged, Magic, Prayer FROM builds WHERE (Name = '${buildName}' AND user_id = '${data.user_id}')`);
 
+            query.on("error", (error) => {
+                done();
+                results.push(error);
+                return res.status(500).json(results);
+            });
+
             // stream results back one row at a time
             query.on("row", (row) => {
                 results.push(row);
@@ -89,10 +94,11 @@ const buildController = {
             // after all data is returned, close connection and return results
             query.on("end", () => {
                 done();
-                return res.json(results);
+                if (results.length === 0) return res.status(422).json([{ code: "invalid" }]);
+                res.body = results;
+                return next();
             });
         });
-        next();
     }
 };
 

@@ -1,5 +1,6 @@
 angular.module("CreateController", ["ngRoute"])
-  .controller("CreateController", function CreateController($rootScope, authVals, AUTH_EVENTS, AccountFactory) {
+  .controller("CreateController", function CreateController(
+    $rootScope, authVals, FormatService, AUTH_EVENTS, AccountFactory) {
       const cc = this;
       cc.createErr = false;
       cc.errorMessage = null;
@@ -14,7 +15,7 @@ angular.module("CreateController", ["ngRoute"])
       cc.create = (credentials) => {
           const userObj = credentials;
           cc.validated = false;
-          userObj.dateCreated = new Date().toISOString().slice(0, 19).replace("T", " ");
+          userObj.dateCreated = FormatService.toPGDate();
           AccountFactory.create(userObj)
             .then((res) => {
                 if (res.err) {

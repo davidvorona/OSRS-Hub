@@ -1,7 +1,13 @@
 angular.module("PlayerFactory", ["ngRoute"])
   .factory("PlayerFactory", ($http, FavoritesFactory) => {
-      const handleError = (errorCode) => {
-          if (errorCode === 500) return { err: "This player does not exist." };
+      const handleError = (error) => {
+          console.log(error);
+          if (error.data[0].code) {
+              const pgErr = error.data[0].code;
+              if (pgErr === "23505") return { err: "You are already friends with this player!" };
+              return { err: "Unhandled pgErr." };
+          }
+          if (error.status === 500) return { err: "500: There was a problem with our server. Please try again." };
           return { err: "There was an error. Please try again." };
       };
 
@@ -11,19 +17,13 @@ angular.module("PlayerFactory", ["ngRoute"])
         .then((res) => {
             console.log(res);
             return res;
-        }, (err) => {
-            console.log("Error in PlayerFactory.");
-            return handleError(err.status);
-        });
+        }, err => handleError(err));
 
       dataFactory.getPlayer = player => $http.get(`/player/${player}`)
         .then((res) => {
             FavoritesFactory.storePlayer(player, res.data);
             return res;
-        }, (err) => {
-            console.log("Error in PlayerFactory.");
-            return handleError(err.status);
-        });
+        }, err => handleError(err));
 
       return dataFactory;
   });

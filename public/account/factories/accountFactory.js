@@ -1,8 +1,14 @@
 angular.module("AccountFactory", ["ngRoute"])
   .factory("AccountFactory", ($http, $rootScope, UserService, authVals, AUTH_EVENTS) => {
-      const handleError = (errorCode) => {
-          if (errorCode === "23505") return { err: "This username already exists." };
-          else if (errorCode === "invalid") return { err: "Your username / password is incorrect." };
+      const handleError = (error) => {
+          console.log(error);
+          if (error.data[0].code) {
+              const pgErr = error.data[0].code;
+              if (pgErr === "23505") return { err: "This username already exists." };
+              else if (pgErr === "invalid") return { err: "Your username / password is incorrect." };
+              return { err: "Unhandled pgErr." };
+          }
+          if (error.status === 500) return { err: "500: this player does not exist." };
           return { err: "There was an error. Please try again." };
       };
 
@@ -18,8 +24,7 @@ angular.module("AccountFactory", ["ngRoute"])
                   res.data.user[0].password
                 );
                 return res.data.user[0];
-            }, err => handleError(err.data[0].code)
-            );
+            }, err => handleError(err));
 
       authService.login = credentials =>
           $http.post("/login", credentials)
@@ -32,8 +37,7 @@ angular.module("AccountFactory", ["ngRoute"])
                   res.data.user[0].password
                 );
                 return res.data.user[0];
-            }, err => handleError(err.data[0].code)
-            );
+            }, err => handleError(err));
 
       authService.autoLogin = () => {
           $http.get("/cookies")
@@ -49,8 +53,7 @@ angular.module("AccountFactory", ["ngRoute"])
                     $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
                     return res;
                 }
-            }, err => handleError(err.data[0].code)
-            );
+            }, err => handleError(err));
       };
 
       authService.logout = username =>
@@ -58,10 +61,7 @@ angular.module("AccountFactory", ["ngRoute"])
             .then((res) => {
                 UserService.destroy();
                 return res;
-            }, (err) => {
-                console.log("Error in AccountFactory.");
-                return err;
-            });
+            }, err => handleError(err));
 
       authService.modify = changeVal =>
           $http.put("/modify", changeVal)
@@ -69,8 +69,7 @@ angular.module("AccountFactory", ["ngRoute"])
                 authVals.currentUser = res.data.user[0].username;
                 authVals.rsName = res.data.user[0].rsname;
                 return res.data.user[0];
-            }, err => handleError(err.data[0].code)
-            );
+            }, err => handleError(err));
 
       return authService;
   });

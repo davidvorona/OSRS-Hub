@@ -1,23 +1,5 @@
 angular.module("BuildCalculator", ["ngRoute"])
-  .factory("BuildCalculator", () => {
-      const toObject = (data) => {
-          const obj = {};
-          data.forEach((el) => {
-              obj[el.skill] = el.level;
-          });
-          return obj;
-      };
-
-      const toTableStructure = (data) => {
-          const arrOfObj = [];
-          Object.keys(data).forEach((key, i) => {
-              arrOfObj[i] = {};
-              arrOfObj[i].skill = key.charAt(0).toUpperCase() + key.slice(1);
-              arrOfObj[i].level = data[key];
-          });
-          return arrOfObj;
-      };
-
+  .factory("BuildCalculator", (FormatService) => {
       const calculateBuild = {};
 
       // TODO:
@@ -63,7 +45,7 @@ angular.module("BuildCalculator", ["ngRoute"])
       };
 
       calculateBuild.buildifyTable = (buildType, combatLvl, combatArr) => {
-          const combatObj = toObject(combatArr);
+          const combatObj = FormatService.toObject(combatArr);
 
           if (buildType === "Spread" && combatLvl > 12) {
               let spreadLvl = Math.ceil(Math.ceil(combatLvl * 4) / 5.1);
@@ -71,7 +53,7 @@ angular.module("BuildCalculator", ["ngRoute"])
               Object.keys(combatObj).forEach((keys) => {
                   combatObj[keys] = spreadLvl;
               });
-              return toTableStructure(combatObj);
+              return FormatService.toTableStructure(combatObj);
           }
 
           const pureType = buildType;
@@ -80,7 +62,7 @@ angular.module("BuildCalculator", ["ngRoute"])
 
           combatObj[pureType] = pureLvl <= 99 ? pureLvl : 99;
 
-          return toTableStructure(combatObj);
+          return FormatService.toTableStructure(combatObj);
       };
 
       // src: http://www.runehq.com/calculator/combat-level

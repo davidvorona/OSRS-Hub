@@ -1,85 +1,45 @@
-// controller instantiated below epochToDate() and
-// plotPrice() helper functions
-
-const epochToDate = (data) => {
-    let date;
-    const eDates = Object.keys(data);
-    const dates = [];
-    for (let i = 0; i < eDates.length; i += 1) {
-        date = new Date(parseInt(eDates[i]));
-        date = date.toISOString();
-        dates.push(date);
-    }
-    return dates;
-};
-
-let width = window.innerWidth;
-let height = window.innerHeight;
-
-const plotPrice = (daily, average, itemName) => {
-    const dailyTraceName = "Daily";
-    const avgTraceName = "Average";
-    const GRAPH = document.getElementById("item-graph");
-    width = window.innerWidth;
-    height = window.innerHeight;
-    const layout = {
-        paper_bgcolor: "transparent",
-        plot_bgcolor: "transparent",
-        yaxis: { title: "Price (gp)" },
-        xaxis: { title: "Time (days)" },
-        autosize: true,
-        width: width * 0.5,
-        height: height * 0.5,
-        font: {
-            family: "Fjalla One, sans-serif",
-            size: 12,
-            color: "black"
-        },
-        margin: { t: 0, b: 50, r: 0, l: 50 }
-    };
-
-    Plotly.newPlot(GRAPH, [
-        {
-            x: epochToDate(daily),
-            y: Object.values(daily),
-            name: dailyTraceName,
-            mode: "lines",
-            line: {
-                width: 3
-            }
-        }
-    ],
-    layout,
-    { displayModeBar: false });
-
-    Plotly.plot(GRAPH, [
-        {
-            x: epochToDate(average),
-            y: Object.values(average),
-            name: avgTraceName,
-            mode: "lines",
-            line: {
-                width: 3
-            }
-        }
-    ],
-    layout,
-    { displayModeBar: false });
-};
-
-// registers controller, is ngRoute necessary here?
-// used es5 function expression here b/c
-// arrow function screwed up context of "this"
 angular.module("ItemController", ["ngRoute"])
-  .controller("ItemController", function ItemController(ItemFactory) {
+  .controller("ItemController", function ItemController(FormatService, ItemFactory) {
       const vm = this;
       let itemData;
       let itemInfo;
       let priceData;
+      const config = ItemFactory.graphConfig();
       vm.showButton = false;
       vm.showInfo = false;
       vm.itemArray = [];
       vm.i = 0;
+
+      // i'd like a better place for this
+      vm.plotPrice = (daily, average) => {
+          Plotly.newPlot(config.GRAPH, [
+              {
+                  x: FormatService.epochToDate(daily),
+                  y: Object.values(daily),
+                  name: config.dailyTraceName,
+                  mode: "lines",
+                  line: {
+                      width: 3
+                  }
+              }
+          ],
+          config.layout,
+          { displayModeBar: false });
+
+          Plotly.plot(config.GRAPH, [
+              {
+                  x: FormatService.epochToDate(average),
+                  y: Object.values(average),
+                  name: config.avgTraceName,
+                  mode: "lines",
+                  line: {
+                      width: 3
+                  }
+              }
+          ],
+          config.layout,
+          { displayModeBar: false });
+      };
 
       vm.submit = () => {
           ItemFactory.getItem(vm.itemSearch)
@@ -97,7 +57,7 @@ angular.module("ItemController", ["ngRoute"])
                 vm.showInfo = true;
                 if (vm.itemArray.length > 1) vm.showButton = true;
                 vm.i = vm.itemArray.length - 1;
-                plotPrice(priceData.daily, priceData.average, itemInfo.item.name);
+                vm.plotPrice(priceData.daily, priceData.average, itemInfo.item.name);
             });
       };
 
@@ -106,21 +66,21 @@ angular.module("ItemController", ["ngRoute"])
           vm.itemArray.splice(vm.i, 1);
           if (vm.itemArray.length === 1) vm.showButton = false;
           if (vm.i === vm.itemArray.length) vm.i = 0;
-          plotPrice(vm.itemArray[vm.i].price.daily, vm.itemArray[vm.i].price.average,
+          vm.plotPrice(vm.itemArray[vm.i].price.daily, vm.itemArray[vm.i].price.average,
             vm.itemArray[vm.i].info.item.name);
       };
 
       vm.nextItem = () => {
           if (vm.i === vm.itemArray.length - 1) vm.i = 0;
           else vm.i += 1;
-          plotPrice(vm.itemArray[vm.i].price.daily, vm.itemArray[vm.i].price.average,
+          vm.plotPrice(vm.itemArray[vm.i].price.daily, vm.itemArray[vm.i].price.average,
             vm.itemArray[vm.i].info.item.name);
       };
 
       vm.previousItem = () => {
           if (vm.i === 0) vm.i = vm.itemArray.length - 1;
           else vm.i -= 1;
-          plotPrice(vm.itemArray[vm.i].price.daily, vm.itemArray[vm.i].price.average,
+          vm.plotPrice(vm.itemArray[vm.i].price.daily, vm.itemArray[vm.i].price.average,
             vm.itemArray[vm.i].info.item.name);
       };
   });

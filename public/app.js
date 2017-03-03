@@ -1,6 +1,7 @@
 // register myApp as an angular module, array specifies dependencies and controllers
 const rsApp = angular.module("rsApp", [
     "ngRoute",
+    "FormatService",
     "UserService",
     "AccountFactory",
     "LoginController",

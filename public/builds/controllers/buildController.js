@@ -14,24 +14,6 @@ const baseCombatObj = [
 
 let combatToPG = {};
 
-const toObject = (data) => {
-    const obj = {};
-    data.forEach((el) => {
-        obj[el.skill] = el.level;
-    });
-    return obj;
-};
-
-const toTableStructure = (data) => {
-    const arrOfObj = [];
-    Object.keys(data).forEach((key, i) => {
-        arrOfObj[i] = {};
-        arrOfObj[i].skill = key.charAt(0).toUpperCase() + key.slice(1);
-        arrOfObj[i].level = data[key];
-    });
-    return arrOfObj;
-};
-
 /* WARNING: DEV ONLY */
 const buyingGf = (gp) => {
     console.log(`Buying gf ${gp}gp`);
@@ -40,7 +22,8 @@ const buyingGf = (gp) => {
 
 // tint row red on being selected as pureType
 angular.module("BuildController", ["ngRoute"])
-  .controller("BuildController", function BuildController($scope, $http, authVals, BuildFactory, BuildCalculator) {
+  .controller("BuildController", function BuildController(
+    $scope, $http, authVals, FormatService, BuildFactory, BuildCalculator) {
       const bc = this;
       bc.showBuild = false;
       bc.buildType = "Spread";
@@ -73,12 +56,12 @@ angular.module("BuildController", ["ngRoute"])
           if (authVals.currentUser !== null) {
               bc.buildName = buildName;
               combatToPG = Object.assign(bc.combatArr);
-              combatToPG = toObject(combatToPG);
+              combatToPG = FormatService.toObject(combatToPG);
               combatToPG.username = authVals.currentUser;
               BuildFactory.saveBuild(buildName, combatToPG)
                 .then((res) => {
                     if (res.err) {
-                        console.log("This needs to be error-handled.");
+                        console.log(res.err);
                         return;
                     }
                     bc.savedBuild = true;
@@ -92,12 +75,12 @@ angular.module("BuildController", ["ngRoute"])
               BuildFactory.getBuild({ buildName: bc.buildName, username: authVals.currentUser })
                 .then((res) => {
                     if (res.err) {
-                        console.log("This needs to be error-handled.");
+                        console.log(res.err);
                         return;
                     }
                     bc.combatLvl = BuildCalculator.osCombatLevel(res.data[0]);
-                    bc.combatArr = toTableStructure(res.data[0]);
-                    bc.displayCollection = toTableStructure(res.data[0]);
+                    bc.combatArr = FormatService.toTableStructure(res.data[0]);
+                    bc.displayCollection = FormatService.toTableStructure(res.data[0]);
                     bc.showBuild = true;
                     bc.savedBuild = true;
                 });
