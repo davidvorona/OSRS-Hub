@@ -20,7 +20,7 @@ angular.module("FavoritesFactory", ["ngRoute"])
           }
           const playerWithOrder = { order: localStorage.length, player };
           const storedObj = JSON.stringify(playerWithOrder);
-          localStorage.setItem(username, storedObj);
+          localStorage.setItem(username.toLowerCase(), storedObj);
       };
 
       dataFactory.removePlayer = (player) => {

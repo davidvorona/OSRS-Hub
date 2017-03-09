@@ -15,14 +15,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './bower_components/angular/angular.js',
-      './bower_components/angular-route/angular-route.js',
-      './bower_components/angular-mocks/angular-mocks.js',
-      './bower_components/angular-smart-table/dist/smart-table.js',
-      './public/app.js',
-      './public/**/factories/*.js',
-      './public/**/controllers/*.js',
-      './test/*.test.js'
+        "./bower_components/angular/angular.js",
+        "./bower_components/angular-route/angular-route.js",
+        "./bower_components/angular-mocks/angular-mocks.js",
+        "./bower_components/angular-smart-table/dist/smart-table.js",
+        "./public/app.js",
+        "./public/formatService.js",
+        "./public/**/factories/*.js",
+        "./public/**/controllers/*.js",
+        "./public/**/services/*.js",
+        "./test/*.test.js"
     ],
 
 

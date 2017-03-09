@@ -14,6 +14,12 @@ module.exports = {
       "window": true,
       "Plotly": true,
       "angular": true,
-      "localStorage": true
+      "localStorage": true,
+      "describe": true,
+      "beforeEach": true,
+      "it": true,
+      "expect": true,
+      "inject": true,
+      "jasmine": true
     }
 };

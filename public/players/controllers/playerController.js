@@ -25,8 +25,9 @@ angular.module("PlayerController", ["ngRoute"])
       };
 
       pc.submit = (player) => {
-          if (localStorage[player]) {
-              playerData = JSON.parse(localStorage[player]).player;
+          const storedPlayer = player.toLowerCase();
+          if (localStorage[storedPlayer]) {
+              playerData = JSON.parse(localStorage[storedPlayer]).player;
 
               pc.playerInfo = playerData;
               pc.displayCollection = playerData;
