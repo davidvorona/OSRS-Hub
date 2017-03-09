@@ -34,4 +34,10 @@ angular.module("LoginController", ["ngRoute"])
       lc.reset = () => {
           lc.loginErr = false;
       };
+
+      $rootScope.$on("login-success", () => {   // otherwise $scope's currentUser not set on auto-login
+          if (!lc.currentUser) {
+              lc.currentUser = authVals.currentUser;
+          }
+      });
   });
