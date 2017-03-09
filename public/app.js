@@ -22,6 +22,7 @@ const rsApp = angular.module("rsApp", [
     "smart-table"
 ]);
 
+// account events
 rsApp.constant("AUTH_EVENTS", {
     loginSuccess: "login-success",
     loginFailure: "login-failure",
@@ -30,6 +31,7 @@ rsApp.constant("AUTH_EVENTS", {
     notAuthenticated: "not-authenticated"
 });
 
+// login information
 rsApp.value("authVals", {
     sessId: null,
     currentUser: null,
@@ -37,12 +39,13 @@ rsApp.value("authVals", {
     pLen: null
 });
 
-rsApp.run(["$rootScope", "$location", "authVals", "AccountFactory",
-    function($rootScope, $location, authVals, AccountFactory) {
-        $rootScope.isLoggedIn = false;
-        AccountFactory.autoLogin();
-    }]);
+// runs on load, after config
+rsApp.run(["$rootScope", "AccountFactory", function($rootScope, AccountFactory) {
+    $rootScope.isLoggedIn = false;
+    AccountFactory.autoLogin();
+}]);
 
+// routing
 rsApp.config(($routeProvider, $locationProvider) => {
     $locationProvider.html5Mode({
         enabled: true,
