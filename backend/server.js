@@ -110,8 +110,6 @@ app.get("/friends/:username", userController.getID, friendsController.getFriends
 //     res.json(req.player);
 // });
 
-// TODO: move server.js into backend folder w/o
-// screwing up how it serves all the files
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
 });
