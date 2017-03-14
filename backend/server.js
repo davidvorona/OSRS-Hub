@@ -116,7 +116,7 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", () => {
     console.log(`You're listening on port ${process.env.PORT || 3000}.`);
 });
 
