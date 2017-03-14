@@ -22,6 +22,9 @@ const rsApp = angular.module("rsApp", [
     "smart-table"
 ]);
 
+// TODO: overall recommendation tool that
+// takes skills / desired skills and returns quests
+
 // account events
 rsApp.constant("AUTH_EVENTS", {
     loginSuccess: "login-success",

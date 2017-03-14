@@ -5,6 +5,7 @@ angular.module("BuildCalculator", ["ngRoute"])
       // TODO:
       // use remainingCmb to get how many
       // possible lvls left in each skill
+      // xp calc for rsName given desired skill/level
       calculateBuild.extractRemainingCmb = (pureLvl, pureType) => {
           if (pureLvl <= 99) return;
           let adaptedCmb;
