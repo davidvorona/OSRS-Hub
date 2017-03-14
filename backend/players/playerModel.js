@@ -1,7 +1,7 @@
 const pg = require("pg");
 
-const connectionString = process.env.DATABASE_URL || "postgres://localhost:5432/osrs_hub";
-// const SALT_WORK_FACTOR = 10;
+const connectionString = "postgres://localhost:5432/osrs_hub";
+// const connectionString = "postgres://vijuhas:Teslapercocet45@localhost:5432/osrs_hub";
 
 const client = new pg.Client(connectionString);
 client.connect();

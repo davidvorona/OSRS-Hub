@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 app.use(session({
     store: new pgSession({
         pg,   // use global pg-module
-        conString: "postgres://localhost:5432/osrs_hub" || process.env.DATABASE_URL,
+        conString: process.env.DATABASE_URL || "postgres://localhost:5432/osrs_hub",
         tableName: "session"
     }),
     secret: "user",
