@@ -49,7 +49,7 @@ rsApp.run(["$rootScope", "AccountFactory", function($rootScope, AccountFactory) 
 }]);
 
 // routing
-rsApp.config(($routeProvider, $locationProvider) => {
+rsApp.config(["$routeProvider", "$locationProvider", ($routeProvider, $locationProvider) => {
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false
@@ -99,4 +99,4 @@ rsApp.config(($routeProvider, $locationProvider) => {
       .otherwise({
           redirectTo: "/"
       });
-});
+}]);

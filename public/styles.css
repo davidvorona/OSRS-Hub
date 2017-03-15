@@ -411,7 +411,7 @@ button {
   height: 500px;
 }
 
-#account-container {
+.account-container {
   position: absolute;
   width: 100%;
   margin-top: 5%;

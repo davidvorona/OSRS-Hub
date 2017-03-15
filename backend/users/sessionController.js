@@ -21,11 +21,11 @@ const sessionController = {
         return next();
     },
 
-    isLoggedIn: (req, res, next) => {
+    isLoggedIn: (req, res, next) => { // eslint-disable-line consistent-return
         if (!req.cookies.user) {
             return res.json(res.body);
         }
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             const sessId = req.cookies.user;
             const results = [];
 

@@ -1,5 +1,8 @@
 angular.module("PlayerFactory", ["ngRoute"])
-  .factory("PlayerFactory", ($http, FavoritesFactory) => {
+  .factory("PlayerFactory", [
+      "$http",
+      "FavoritesFactory",
+  function($http, FavoritesFactory) { // eslint-disable-line indent
       const handleError = (error) => {
           console.log(error);
           if (error.data[0].code) {
@@ -14,7 +17,7 @@ angular.module("PlayerFactory", ["ngRoute"])
       const dataFactory = {};
 
       dataFactory.addPlayer = player => $http.post("/player", player)
-        .then((res) => {
+        .then((res) => {  // eslint-disable-line arrow-body-style
             return res;
         }, err => handleError(err));
 
@@ -25,4 +28,4 @@ angular.module("PlayerFactory", ["ngRoute"])
         }, err => handleError(err));
 
       return dataFactory;
-  });
+  }]);

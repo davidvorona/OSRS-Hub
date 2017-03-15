@@ -1,5 +1,10 @@
 angular.module("FriendsController", ["ngRoute"])
-  .controller("FriendsController", function FriendsController($http, $rootScope, authVals, FriendsFactory) {
+  .controller("FriendsController", [
+      "$http",
+      "$rootScope",
+      "authVals",
+      "FriendsFactory",
+  function FriendsController($http, $rootScope, authVals, FriendsFactory) { // eslint-disable-line indent, max-len
       const fc = this;
       fc.friendsList = null;
 
@@ -21,6 +26,6 @@ angular.module("FriendsController", ["ngRoute"])
               fc.displayFriends();
           }
       });
-  });
+  }]);
 
   // STAY BELOW 200MB http://stackoverflow.com/questions/9203306/how-much-memory-before-it-becomes-rude

@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const pg = require("pg");
 const session = require("express-session");
-const pgSession = require("connect-pg-simple")(session);
+const Session = require("connect-pg-simple")(session);
 const itemScraper = require("./items/itemScraper");
 const hiscoreScraper = require("./players/hiscoreScraper");
 const buildController = require("./builds/buildController");
@@ -18,8 +18,16 @@ const app = express();
 
 // serve static files at url + "static/", this ensures
 // front-end routes don't collide with urls to static files
-app.use("/static", express.static(path.join(__dirname, "../public/")));
-app.use("/static", express.static(path.join(__dirname, "../bower_components/")));
+if (process.env.NODE_ENV === undefined) {
+    app.use("/static", express.static(path.join(__dirname, "../public/")));
+    app.use("/static", express.static(path.join(__dirname, "../bower_components/")));
+} else if (process.env.NODE_ENV === "development") {
+    app.use("/static", express.static(path.join(__dirname, "../dev/static/")));
+} else if (process.env.NODE_ENV === "production") {
+    app.use("/static", express.static(path.join(__dirname, "../prod/static/")));
+}
+
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
@@ -28,9 +36,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// use pgSessions for session store
+// use connect-pg-simple(session) for session store
 app.use(session({
-    store: new pgSession({
+    store: new Session({
         pg,   // use global pg-module
         conString: process.env.DATABASE_URL || "postgres://localhost:5432/osrs_hub",
         tableName: "session"
@@ -111,7 +119,9 @@ app.get("/friends/:username", userController.getID, friendsController.getFriends
 // });
 
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
+    if (process.env.NODE_ENV === undefined) res.send("Temp Fix: Add the ng-app files to index.html.");
+    else if (process.env.NODE_ENV === "development") res.sendFile(path.join(__dirname, "../dev/index.html"));
+    else if (process.env.NODE_ENV === "production") res.sendFile(path.join(__dirname, "../prod/index.html"));
 });
 
 app.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", () => {

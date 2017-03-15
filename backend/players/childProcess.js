@@ -60,7 +60,7 @@ const childProcess = {
                         newLineCount = 0;
                     }
                 } else {
-                    if (newLineCount === 0) skillVal += playerArr[i];
+                    if (newLineCount === 0) skillVal += playerArr[i]; // eslint-disable-line no-lonely-if
                     else if (newLineCount === 1) {
                         playerObj[skillType].push(parseInt(skillVal));
                         skillVal = "";

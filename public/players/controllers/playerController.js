@@ -1,6 +1,11 @@
 angular.module("PlayerController", ["ngRoute"])
-  .controller("PlayerController", function PlayerController(
-    $routeParams, authVals, FormatService, PlayerFactory, FavoritesFactory) {
+  .controller("PlayerController", [
+      "$routeParams",
+      "authVals",
+      "FormatService",
+      "PlayerFactory",
+      "FavoritesFactory",
+  function PlayerController($routeParams, authVals, FormatService, PlayerFactory, FavoritesFactory) { // eslint-disable-line indent, max-len
       const pc = this;
       let playerData;
       pc.playerErr = false;
@@ -76,4 +81,4 @@ angular.module("PlayerController", ["ngRoute"])
           pc.friendAdded = false;
           pc.showPlayer = false;
       };
-  });
+  }]);

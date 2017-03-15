@@ -1,5 +1,8 @@
 angular.module("FavoritesController", ["ngRoute"])
-  .controller("FavoritesController", function FavoritesController(FavoritesFactory, $route) {
+  .controller("FavoritesController", [
+      "$route",
+      "FavoritesFactory",
+  function FavoritesController($route, FavoritesFactory) { // eslint-disable-line indent, max-len
       const fc = this;
 
       fc.displayFaves = () => {
@@ -16,4 +19,4 @@ angular.module("FavoritesController", ["ngRoute"])
           $route.reload(); // added so 'Players' route reloads
           localStorage.setItem("favoritesChoice", player);
       };
-  });
+  }]);

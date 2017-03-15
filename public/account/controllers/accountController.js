@@ -1,6 +1,11 @@
 angular.module("AccountController", ["ngRoute"])
-  .controller("AccountController", function AccountController(
-  $scope, $rootScope, AUTH_EVENTS, authVals, AccountFactory) {
+  .controller("AccountController", [
+      "$scope",
+      "$rootScope",
+      "AUTH_EVENTS",
+      "authVals",
+      "AccountFactory",
+  function AccountController($scope, $rootScope, AUTH_EVENTS, authVals, AccountFactory) { // eslint-disable-line indent
       const ac = this;
       ac.errorMessage = null;
       ac.usernameErr = false;
@@ -62,4 +67,4 @@ angular.module("AccountController", ["ngRoute"])
       ac.reset = () => {
           ac.usernameErr = false;
       };
-  });
+  }]);

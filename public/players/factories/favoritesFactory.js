@@ -30,7 +30,7 @@ angular.module("FavoritesFactory", ["ngRoute"])
 
       dataFactory.getFavorites = () => Object.keys(localStorage);
 
-      dataFactory.chooseFavorite = () => {
+      dataFactory.chooseFavorite = () => {  // eslint-disable-line consistent-return
           if (localStorage.favoritesChoice) return localStorage.favoritesChoice;
       };
 

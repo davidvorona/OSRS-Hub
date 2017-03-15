@@ -1,6 +1,11 @@
 angular.module("CreateController", ["ngRoute"])
-  .controller("CreateController", function CreateController(
-    $rootScope, authVals, FormatService, AUTH_EVENTS, AccountFactory) {
+  .controller("CreateController", [
+      "$rootScope",
+      "authVals",
+      "FormatService",
+      "AUTH_EVENTS",
+      "AccountFactory",
+  function CreateController($rootScope, authVals, FormatService, AUTH_EVENTS, AccountFactory) { // eslint-disable-line indent, max-len
       const cc = this;
       cc.createErr = false;
       cc.errorMessage = null;
@@ -46,4 +51,4 @@ angular.module("CreateController", ["ngRoute"])
       cc.reset = () => {
           cc.createErr = false;
       };
-  });
+  }]);

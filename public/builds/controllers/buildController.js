@@ -17,8 +17,15 @@ const buyingGf = (gp) => {
 /* ***************** */
 
 angular.module("BuildController", ["ngRoute"])
-  .controller("BuildController", function BuildController(
-    $scope, $http, $routeParams, authVals, FormatService, BuildFactory, BuildCalculator) {
+  .controller("BuildController", [
+      "$scope",
+      "$http",
+      "$routeParams",
+      "authVals",
+      "FormatService",
+      "BuildFactory",
+      "BuildCalculator",
+  function BuildController($scope, $http, $routeParams, authVals, FormatService, BuildFactory, BuildCalculator) { // eslint-disable-line indent, max-len
       const bc = this;
       bc.showBuild = false;
       bc.buildType = "Spread";
@@ -91,4 +98,4 @@ angular.module("BuildController", ["ngRoute"])
       $scope.$on("$destroy", () => {
           buyingGf(5);
       });
-  });
+  }]);

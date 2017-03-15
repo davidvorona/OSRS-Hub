@@ -1,5 +1,5 @@
 angular.module("UserService", ["ngRoute"])
-  .factory("UserService", (authVals) => {
+  .factory("UserService", ["authVals", function(authVals) {
       const User = {};
 
       User.create = (sessId, username, rsName, pLen) => {
@@ -17,4 +17,4 @@ angular.module("UserService", ["ngRoute"])
       };
 
       return User;
-  });
+  }]);

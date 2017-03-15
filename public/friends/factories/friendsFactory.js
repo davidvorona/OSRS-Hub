@@ -1,9 +1,11 @@
 angular.module("FriendsFactory", ["ngRoute"])
-  .factory("FriendsFactory", ($http, BuildCalculator) => {
+  .factory("FriendsFactory", [
+      "$http",
+      "BuildCalculator",
+  function($http, BuildCalculator) { // eslint-disable-line indent
       const handleError = (error) => {
           console.log(error);
           if (error.data[0].code) {
-              const pgErr = error.data[0].code;
               return { err: "Unhandled pgErr." };
           }
           if (error.status === 500) return { err: "500: There was a problem with our server. Please try again." };
@@ -35,4 +37,4 @@ angular.module("FriendsFactory", ["ngRoute"])
             , err => handleError(err));
 
       return friendsList;
-  });
+  }]);

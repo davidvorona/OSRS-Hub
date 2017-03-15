@@ -7,13 +7,12 @@ const buildController = {
         const username = req.body.username || req.query.username;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);
                 return res.status(500).json({ success: false, data: err });
             }
-
             const query = client.query(`SELECT id FROM users WHERE (username = '${username}')`);
 
             query.on("row", (row) => {
@@ -34,7 +33,7 @@ const buildController = {
         const buildName = req.params.build;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);
@@ -69,7 +68,7 @@ const buildController = {
         const buildName = req.params.build;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);
@@ -105,7 +104,7 @@ const buildController = {
         const data = req.body;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);

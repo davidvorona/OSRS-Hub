@@ -1,5 +1,11 @@
 angular.module("AccountFactory", ["ngRoute"])
-  .factory("AccountFactory", ($http, $rootScope, UserService, authVals, AUTH_EVENTS) => {
+  .factory("AccountFactory", [
+      "$http",
+      "$rootScope",
+      "UserService",
+      "authVals",
+      "AUTH_EVENTS",
+  function($http, $rootScope, UserService, authVals, AUTH_EVENTS) { // eslint-disable-line indent
       const handleError = (error) => {
           console.log(error);
           if (error.data[0].code) {
@@ -41,7 +47,7 @@ angular.module("AccountFactory", ["ngRoute"])
 
       authService.autoLogin = () => {
           $http.get("/cookies")
-            .then((res) => {
+            .then((res) => { // eslint-disable-line consistent-return
                 if (res.data.user) {
                     UserService.create(
                       res.data.user[0].sessId,
@@ -49,6 +55,7 @@ angular.module("AccountFactory", ["ngRoute"])
                       res.data.user[0].rsname,
                       res.data.user[0].password
                     );
+
                     $rootScope.isLoggedIn = true;
                     $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
                     return res;
@@ -72,4 +79,4 @@ angular.module("AccountFactory", ["ngRoute"])
             }, err => handleError(err));
 
       return authService;
-  });
+  }]);

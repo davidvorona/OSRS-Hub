@@ -1,5 +1,5 @@
 angular.module("BuildCalculator", ["ngRoute"])
-  .factory("BuildCalculator", (FormatService) => {
+  .factory("BuildCalculator", ["FormatService", function(FormatService) {
       const calculateBuild = {};
 
       // TODO:
@@ -79,4 +79,4 @@ angular.module("BuildCalculator", ["ngRoute"])
       };
 
       return calculateBuild;
-  });
+  }]);

@@ -4,7 +4,7 @@
 
     <center>
       <div id="account-box">
-        <div id="account-container">
+        <div class="account-container">
           <img id="logo-img" src="static/img/gnome_child.png">
           <form id="account-form" ng-submit="cc.create(cc.credentials)">
             <input class="account-input" placeholder="Username" type="text" ng-model="cc.credentials.username" ng-change="cc.reset()">
@@ -25,7 +25,7 @@
 
     <center>
       <div id="user-box"><h3>Welcome, {{ ac.user.username }}!</h3>
-        <div id="account-container">
+        <div class="account-container">
           <div class="account-info">
             <div class="pull-left">Username: <b>{{ ac.user.username }}</b></div>
             <div class="pull-right">

@@ -1,5 +1,8 @@
 angular.module("ItemController", ["ngRoute"])
-  .controller("ItemController", function ItemController(FormatService, ItemFactory) {
+  .controller("ItemController", [
+      "FormatService",
+      "ItemFactory",
+  function ItemController(FormatService, ItemFactory) { // eslint-disable-line indent, max-len
       const vm = this;
       let itemData;
       let itemInfo;
@@ -83,4 +86,4 @@ angular.module("ItemController", ["ngRoute"])
           vm.plotPrice(vm.itemArray[vm.i].price.daily, vm.itemArray[vm.i].price.average,
             vm.itemArray[vm.i].info.item.name);
       };
-  });
+  }]);

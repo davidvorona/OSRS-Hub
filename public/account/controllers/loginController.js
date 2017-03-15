@@ -1,5 +1,11 @@
 angular.module("LoginController", ["ngRoute"])
-  .controller("LoginController", function LoginController($scope, $rootScope, authVals, AUTH_EVENTS, AccountFactory) {
+  .controller("LoginController", [
+      "$scope",
+      "$rootScope",
+      "authVals",
+      "AUTH_EVENTS",
+      "AccountFactory",
+  function LoginController($scope, $rootScope, authVals, AUTH_EVENTS, AccountFactory) { // eslint-disable-line indent
       const lc = this;
       lc.loginErr = false;
       lc.errorMessage = null;
@@ -40,4 +46,4 @@ angular.module("LoginController", ["ngRoute"])
               lc.currentUser = authVals.currentUser;
           }
       });
-  });
+  }]);

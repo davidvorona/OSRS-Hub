@@ -1,5 +1,8 @@
 angular.module("BuildFactory", ["ngRoute"])
-  .factory("BuildFactory", ($http, BuildCalculator) => {
+  .factory("BuildFactory", [
+      "$http",
+      "BuildCalculator",
+  function($http, BuildCalculator) {  // eslint-disable-line indent
       const handleError = (error) => {
           console.log(error);
           if (error.data[0].code) {
@@ -23,13 +26,13 @@ angular.module("BuildFactory", ["ngRoute"])
 
       dataFactory.getBuild = build =>
           $http.get(`/build/${build.buildName}`, { params: { username: build.username } })
-            .then((res) => {
+            .then((res) => { // eslint-disable-line arrow-body-style
                 return res;
             }, err => handleError(err));
 
       dataFactory.saveBuild = (buildName, combatToPG) =>
           $http.post(`/build/${buildName}`, combatToPG)
-            .then((res) => {
+            .then((res) => {  // eslint-disable-line arrow-body-style
                 return res;
             }, err => handleError(err));
 
@@ -39,4 +42,4 @@ angular.module("BuildFactory", ["ngRoute"])
                 err => handleError(err));
 
       return dataFactory;
-  });
+  }]);

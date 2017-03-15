@@ -7,7 +7,7 @@ const friendsController = {
         const data = req.body;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);
@@ -34,7 +34,7 @@ const friendsController = {
     getFriends: (req, res, next) => {
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);

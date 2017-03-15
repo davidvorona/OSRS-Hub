@@ -13,7 +13,7 @@ const itemScraper = {
         return item.join("");
     },
 
-    matchID: (req, res, next) => {
+    matchID: (req, res, next) => {  // eslint-disable-line consistent-return
         const item = itemScraper.formatSearch(req.params.item);
         for (let i = 0; i < items.length; i += 1) {
             if (items[i].name === item) {
@@ -23,7 +23,7 @@ const itemScraper = {
         }
     },
 
-    getData: (req, res, next) => {
+    getData: (req, res) => {
         const item = {};
         const id = itemScraper.id;
         const itemInfoUrl = `http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=${id}`;

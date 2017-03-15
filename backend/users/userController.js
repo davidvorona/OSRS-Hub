@@ -11,7 +11,7 @@ const userController = {
         const rsName = req.body.rsName;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);
@@ -51,7 +51,7 @@ const userController = {
         const password = req.body.password;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);
@@ -95,7 +95,7 @@ const userController = {
     addHash: (req, res, next) => {
         req.body.hashed = bcrypt.hashSync(req.body.id.toString(), 10);
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);
@@ -131,7 +131,7 @@ const userController = {
         const currentUser = req.body.currentUser;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);
@@ -179,7 +179,7 @@ const userController = {
         if (req.params.username) req.body.user_id = req.params.username;
         const results = [];
 
-        pg.connect(connectionString, (err, client, done) => {
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
             if (err) {
                 done();
                 console.log(err);

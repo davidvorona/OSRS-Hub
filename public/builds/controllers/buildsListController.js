@@ -1,5 +1,10 @@
 angular.module("BuildsListController", ["ngRoute"])
-  .controller("BuildsListController", function BuildsListController($http, $rootScope, authVals, BuildFactory) {
+  .controller("BuildsListController", [
+      "$scope",
+      "$rootScope",
+      "authVals",
+      "BuildFactory",
+  function BuildsListController($http, $rootScope, authVals, BuildFactory) {  // eslint-disable-line indent, max-len
       const bc = this;
       bc.buildsList = null;
 
@@ -21,4 +26,4 @@ angular.module("BuildsListController", ["ngRoute"])
               bc.displayBuilds();
           }
       });
-  });
+  }]);
