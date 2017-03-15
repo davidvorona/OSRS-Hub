@@ -166,14 +166,14 @@ pipes.builtAppProd = () =>
 
 // removes all dev files
 gulp.task("clean-dev", () =>
-    del(paths.distDev).then((paths) => {  // eslint-disable-line no-shadow
-        console.log("Deleted files and folders in:\n", paths.join("\n"));
+    del(paths.distDev).then((path) => {
+        console.log("Deleted files and folders in:\n", path.join("\n"));
     }));
 
 // removes all compiled production files
 gulp.task("clean-prod", () =>
-    del(paths.distProd).then((paths) => { // eslint-disable-line no-shadow
-        console.log("Deleted files and folders in:\n", paths.join("\n"));
+    del(paths.distProd).then((path) => {
+        console.log("Deleted files and folders in:\n", path.join("\n"));
     }));
 
 // checks html source files for syntax errors
