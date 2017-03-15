@@ -1,0 +1,13 @@
+# Ignore git specs
+.DS_STORE
+
+# Ignore project dependencies
+node_modules/
+bower_components/
+
+# Ignore gulp builds
+dev/
+prod/
+
+# Ignore super secret text doc
+info.txt
