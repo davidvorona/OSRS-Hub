@@ -101,6 +101,16 @@ pipes.minifiedFileName = () =>
         path.extname = `.min${path.extname}`;
     });
 
+pipes.scriptedPartials = () =>
+    pipes.validatedPartials()
+      .pipe(plugins.htmlhint.failReporter())
+      .pipe(plugins.htmlhint({ collapseWhitespace: true, removeComments: true }))
+      .pipe(plugins.ngHtml2js({
+          moduleName: "rsApp",
+          prefix: "static/",
+          declareModule: false
+      }));
+
 pipes.builtProdImgs = () =>
     gulp.src(paths.images)
       .pipe(image())
@@ -127,16 +137,6 @@ pipes.builtAppScriptsProd = () => {
       .pipe(plugins.sourcemaps.write())
       .pipe(gulp.dest(paths.distScriptsProd));
 };
-
-pipes.scriptedPartials = () =>
-    pipes.validatedPartials()
-      .pipe(plugins.htmlhint.failReporter())
-      .pipe(plugins.htmlhint({ collapseWhitespace: true, removeComments: true }))
-      .pipe(plugins.ngHtml2js({
-          moduleName: "rsApp",
-          prefix: "static/",
-          declareModule: false
-      }));
 
 pipes.builtStylesProd = () =>
     gulp.src(paths.styles)
@@ -166,13 +166,13 @@ pipes.builtAppProd = () =>
 
 // removes all dev files
 gulp.task("clean-dev", () =>
-    del(paths.distDev).then((paths) => {
+    del(paths.distDev).then((paths) => {  // eslint-disable-line no-shadow
         console.log("Deleted files and folders in:\n", paths.join("\n"));
     }));
 
 // removes all compiled production files
 gulp.task("clean-prod", () =>
-    del(paths.distProd).then((paths) => {
+    del(paths.distProd).then((paths) => { // eslint-disable-line no-shadow
         console.log("Deleted files and folders in:\n", paths.join("\n"));
     }));
 
@@ -310,5 +310,5 @@ gulp.task("watch-prod", ["clean-build-app-prod", "validate-devserver-scripts", "
     );
 });
 
-// default task builds for prod
+// default task builds for dev
 gulp.task("default", ["watch-dev"]);
