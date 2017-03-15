@@ -239,7 +239,17 @@ gulp.task("clean-build-app-prod", ["clean-prod"], pipes.builtAppProd);
 // clean, build, and watch live changes to the dev environment
 gulp.task("watch-dev", ["clean-build-app-dev", "validate-devserver-scripts", "build-images-dev"], () => {
     // start nodemon to auto-reload the dev server
-    plugins.nodemon({ script: "backend/server.js", ext: "js", watch: ["backend/"], env: { NODE_ENV: "development" } })
+    plugins.nodemon({
+        script: "backend/server.js",
+        ext: "js",
+        watch: ["backend/"],
+        env: {
+            NODE_ENV: "development",
+            PORT: 3000,
+            IP: "127.0.0.1",
+            DATABASE_URL: "postgres://localhost:5432/osrs_hub"
+        }
+    })
       .on("change", ["validate-devserver-scripts"])
       .on("restart", () => {
           console.log("[nodemon] restarted dev server.");
@@ -276,7 +286,17 @@ gulp.task("watch-dev", ["clean-build-app-dev", "validate-devserver-scripts", "bu
 // clean, build, and watch live changes to the prod environment
 gulp.task("watch-prod", ["clean-build-app-prod", "validate-devserver-scripts", "build-images-prod"], () => {
     // start nodemon to auto-reload the dev server
-    plugins.nodemon({ script: "backend/server.js", ext: "js", watch: ["backend/"], env: { NODE_ENV: "production" } })
+    plugins.nodemon({
+        script: "backend/server.js",
+        ext: "js",
+        watch: ["backend/"],
+        env: {
+            NODE_ENV: "production",
+            PORT: 8080,
+            IP: "10.134.12.247",
+            DATABASE_URL: "postgres://vijuhas:Teslapercocet45@localhost:5432/osrs_hub"
+        }
+    })
       .on("change", ["validate-devserver-scripts"])
       .on("restart", () => {
           console.log("[nodemon] restarted prod server");

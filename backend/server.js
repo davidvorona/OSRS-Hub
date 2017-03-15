@@ -27,7 +27,6 @@ if (process.env.NODE_ENV === undefined) {
     app.use("/static", express.static(path.join(__dirname, "../prod/static/")));
 }
 
-
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
@@ -40,7 +39,7 @@ app.use((req, res, next) => {
 app.use(session({
     store: new Session({
         pg,   // use global pg-module
-        conString: process.env.DATABASE_URL || "postgres://localhost:5432/osrs_hub",
+        conString: process.env.DATABASE_URL,
         tableName: "session"
     }),
     secret: "user",
@@ -119,13 +118,13 @@ app.get("/friends/:username", userController.getID, friendsController.getFriends
 // });
 
 app.get("*", (req, res) => {
-    if (process.env.NODE_ENV === undefined) res.send("Temp Fix: Add the ng-app files to index.html.");
+    if (process.env.NODE_ENV === undefined) res.send("Error: app not built.");
     else if (process.env.NODE_ENV === "development") res.sendFile(path.join(__dirname, "../dev/index.html"));
     else if (process.env.NODE_ENV === "production") res.sendFile(path.join(__dirname, "../prod/index.html"));
 });
 
-app.listen(process.env.PORT || 3000, process.env.IP || "127.0.0.1", () => {
-    console.log(`You're listening on port ${process.env.PORT || 3000}.`);
+app.listen(process.env.PORT, process.env.IP, () => {
+    console.log(`You're listening on port ${process.env.PORT}.`);
 });
 
 module.exports = app;
