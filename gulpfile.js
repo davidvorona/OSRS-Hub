@@ -234,7 +234,10 @@ gulp.task("build-app-prod", pipes.builtAppProd);
 gulp.task("clean-build-app-dev", ["clean-dev"], pipes.builtAppDev);
 
 // cleans and builds a complete prod environment
-gulp.task("clean-build-app-prod", ["clean-prod"], pipes.builtAppProd);
+gulp.task("clean-build-app-prod", [
+    "clean-prod",
+    "validate-devserver-scripts",
+    "build-images-prod"], pipes.builtAppProd);
 
 // clean, build, and watch live changes to the dev environment
 gulp.task("watch-dev", ["clean-build-app-dev", "validate-devserver-scripts", "build-images-dev"], () => {
@@ -283,52 +286,9 @@ gulp.task("watch-dev", ["clean-build-app-dev", "validate-devserver-scripts", "bu
     );
 });
 
-// clean, build, and watch live changes to the prod environment
-gulp.task("watch-prod", ["clean-build-app-prod", "validate-devserver-scripts", "build-images-prod"], () => {
-    // start nodemon to auto-reload the dev server
-    plugins.nodemon({
-        script: "backend/server.js",
-        ext: "js",
-        watch: ["backend/"],
-        env: {
-            NODE_ENV: "production",
-            PORT: 8080,
-            IP: "10.134.12.247",
-            DATABASE_URL: "postgres://vijuhas:Teslapercocet45@localhost:5432/osrs_hub"
-        }
-    })
-      .on("change", ["validate-devserver-scripts"])
-      .on("restart", () => {
-          console.log("[nodemon] restarted prod server");
-      });
+gulp.task("dev", ["watch-dev"]);
 
-    // start live-reload server
-    plugins.livereload.listen({ start: true });
-
-    // watch index
-    gulp.watch(paths.index, () =>
-        pipes.builtIndexProd()
-          .pipe(plugins.livereload())
-    );
-
-    // watch app scripts
-    gulp.watch(paths.scripts, () =>
-        pipes.builtAppScriptsProd()
-          .pipe(plugins.livereload())
-    );
-
-    // watch html partials
-    gulp.watch(paths.partials, () =>
-        pipes.builtAppScriptsProd()
-          .pipe(plugins.livereload())
-    );
-
-    // watch styles
-    gulp.watch(paths.styles, () =>
-        pipes.builtStylesProd()
-          .pipe(plugins.livereload())
-    );
-});
+gulp.task("prod", ["clean-build-app-prod"]);
 
 // default task builds for dev
 gulp.task("default", ["watch-dev"]);
