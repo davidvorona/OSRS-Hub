@@ -111,6 +111,11 @@ app.get("/friends/:username", userController.getID, friendsController.getFriends
         console.log("Found friends");
     });
 
+app.delete("/friends", userController.getID, friendsController.deleteFriend, (req, res) => {
+    res.json({ data: "Friend deleted." });
+    console.log(`${req.body.friend} deleted.`);
+});
+
 // env determines src of served index.html
 app.get("*", (req, res) => {
     if (process.env.NODE_ENV === undefined) res.send("Error: app not built.");

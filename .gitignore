@@ -1,4 +1,5 @@
-# Ignore git specs
+# Ignore misc
+npm-debug.log
 .DS_STORE
 
 # Ignore project dependencies

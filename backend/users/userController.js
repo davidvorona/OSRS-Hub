@@ -177,6 +177,7 @@ const userController = {
 
     getID: (req, res, next) => {
         if (req.params.username) req.body.user_id = req.params.username;
+        else if (req.query.username) req.body.user_id = req.query.username;
         const results = [];
 
         pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return

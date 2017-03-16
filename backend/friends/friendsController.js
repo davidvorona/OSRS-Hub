@@ -59,6 +59,33 @@ const friendsController = {
         });
     },
 
+    deleteFriend: (req, res, next) => {
+        req.body.friend = req.query.friend;
+        const results = [];
+
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({ success: false, data: err });
+            }
+
+            const query = client.query("DELETE FROM friends WHERE " +
+            `(user_id = '${req.body.user_id}' AND player_id = '${req.body.friend}')`);
+
+            query.on("error", (error) => {
+                results.push(error);
+                return res.status(500).json(results);
+            });
+
+            // after all data is returned, close connection and return results
+            query.on("end", () => {
+                done();
+                return next();
+            });
+        });
+    },
+
     formatList: (req, res, next) => {
         const data = res.body;
         const friendsList = [];

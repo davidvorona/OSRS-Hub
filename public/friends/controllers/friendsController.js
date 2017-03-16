@@ -21,6 +21,17 @@ angular.module("FriendsController", ["ngRoute"])
           }
       };
 
+      fc.deleteFriend = (friend, i) => {
+          FriendsFactory.deleteFriend(authVals.currentUser, friend)
+            .then((res) => {
+                if (res.err) {
+                    console.log(res.err);
+                    return;
+                }
+                fc.friendsList.splice(i, 1);
+            });
+      };
+
       $rootScope.$on("login-success", () => {   // solves race condition issue
           if (fc.friendsList === null) {
               fc.displayFriends();

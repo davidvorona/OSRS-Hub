@@ -36,5 +36,11 @@ angular.module("FriendsFactory", ["ngRoute"])
                 addCombatObj(res.data)
             , err => handleError(err));
 
+      friendsList.deleteFriend = (username, friend) =>
+          $http.delete("/friends", { params: { username, friend } })
+            .then((res) => { // eslint-disable-line arrow-body-style
+                return res;
+            }, err => handleError(err));
+
       return friendsList;
   }]);
