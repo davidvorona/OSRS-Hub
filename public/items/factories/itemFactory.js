@@ -1,11 +1,8 @@
 angular.module("ItemFactory", ["ngRoute"])
   .factory("ItemFactory", ["$http", function($http) {
       const handleError = (error) => {
-          console.log(error);
-          if (error.data[0].code) {
-              return { err: "Unhandled pgErr." };
-          }
           if (error.status === 500) return { err: "500: There was a problem with our server. Please try again." };
+          else if (error.status === 422) return { err: "This item doesn't exist!" };
           return { err: "There was an error. Please try again." };
       };
 

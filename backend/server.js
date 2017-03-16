@@ -12,12 +12,11 @@ const userController = require("./users/userController");
 const sessionController = require("./users/sessionController");
 const playerController = require("./players/playerController");
 const friendsController = require("./friends/friendsController");
-// const childProcess = require("./players/childProcess");
 
 const app = express();
 
-// serve static files at url + "static/", this ensures
-// front-end routes don't collide with urls to static files
+// env determines route for static files
+// url + "static/" to prevent route collision
 if (process.env.NODE_ENV === undefined) {
     app.use("/static", express.static(path.join(__dirname, "../public/")));
     app.use("/static", express.static(path.join(__dirname, "../bower_components/")));
@@ -79,8 +78,8 @@ app.get("/cookies", sessionController.isLoggedIn, (req, res) => {
     console.log("User automatically authenticated.");
 });
 
-app.get("/item/:item", itemScraper.matchID, itemScraper.getData, (req) => {
-    console.log(`${req.params.item} retrieved.`);
+app.get("/item/:item", itemScraper.matchID, itemScraper.getData, () => {
+    console.log("Item retrieved."); // this will never log
 });
 
 app.get("/player/:player", hiscoreScraper.getData, hiscoreScraper.formatResponse, (req) => {
@@ -112,11 +111,7 @@ app.get("/friends/:username", userController.getID, friendsController.getFriends
         console.log("Found friends");
     });
 
-// the following code was made obsolete by poor web search capabalities
-// app.get("/player/:player", childProcess.runPhantom, childProcess.formatResponse, (req, res) => {
-//     res.json(req.player);
-// });
-
+// env determines src of served index.html
 app.get("*", (req, res) => {
     if (process.env.NODE_ENV === undefined) res.send("Error: app not built.");
     else if (process.env.NODE_ENV === "development") res.sendFile(path.join(__dirname, "../dev/index.html"));

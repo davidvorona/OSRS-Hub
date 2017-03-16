@@ -1,7 +1,7 @@
 const pg = require("pg");
 const bcrypt = require("bcrypt");
 
-const connectionString = process.env.DATABASE_URL || "postgres://localhost:5432/osrs_hub";
+const connectionString = process.env.DATABASE_URL;
 
 const userController = {
     createUser: (req, res, next) => {

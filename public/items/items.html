@@ -3,9 +3,11 @@
 <center>
   <div id="itemSearch" ng-controller="ItemController as vm">
     <form ng-submit="vm.submit(vm.itemSearch)">
-      <input class="searchBar" placeholder="Search for an item..." type="text" ng-model="vm.itemSearch" ng-submit="vm.submit(vm.itemSearch)">
+      <input class="searchBar" placeholder="Search for an item..." type="text" ng-model="vm.itemSearch"
+        ng-submit="vm.submit(vm.itemSearch)" ng-change="vm.reset()">
     </form>
     <br>
+    <div ng-show="vm.itemErr">{{ vm.errorMessage }}</div>
     <div id="itemInfo" ng-show="vm.showInfo">
       <img ng-src="{{ vm.itemArray[vm.i].info.item.icon_large }}" alt="">
       <div>Item: {{ vm.itemArray[vm.i].info.item.name }}</div>

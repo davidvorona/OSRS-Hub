@@ -10,6 +10,8 @@ angular.module("ItemController", ["ngRoute"])
       const config = ItemFactory.graphConfig();
       vm.showButton = false;
       vm.showInfo = false;
+      vm.itemErr = false;
+      vm.errorMessage = null;
       vm.itemArray = [];
       vm.i = 0;
 
@@ -48,7 +50,8 @@ angular.module("ItemController", ["ngRoute"])
           ItemFactory.getItem(vm.itemSearch)
             .then((res) => {
                 if (res.err) {
-                    console.log(res.err);
+                    vm.errorMessage = res.err;
+                    vm.itemErr = true;
                     return;
                 }
                 itemData = res.data;
@@ -85,5 +88,9 @@ angular.module("ItemController", ["ngRoute"])
           else vm.i -= 1;
           vm.plotPrice(vm.itemArray[vm.i].price.daily, vm.itemArray[vm.i].price.average,
             vm.itemArray[vm.i].info.item.name);
+      };
+
+      vm.reset = () => {
+          vm.itemErr = false;
       };
   }]);

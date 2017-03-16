@@ -19,8 +19,9 @@ const itemScraper = {
             if (items[i].name === item) {
                 itemScraper.id = items[i].id;
                 return next();
-            } else if (i === items.length - 1) console.log("Item not found."); // needs better handling
+            } else if (i === items.length - 1) console.log(`${req.params.item} not found.`);
         }
+        return res.status(422).json({ data: "invalid" });
     },
 
     getData: (req, res) => {
@@ -28,12 +29,13 @@ const itemScraper = {
         const id = itemScraper.id;
         const itemInfoUrl = `http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=${id}`;
         const itemPriceUrl = `http://services.runescape.com/m=itemdb_oldschool/api/graph/${id}.json`;
-        return request(itemInfoUrl, (err1, response1) => {    // these are too slow
+        return request(itemInfoUrl, (err1, response1) => {
             if (err1) return console.log(err1);
             item.info = response1;
             return request(itemPriceUrl, (err2, response2) => {
                 if (err2) return console.log(err2);
                 item.price = response2;
+                console.log(`${req.params.item} retrieved.`);
                 return res.json(item);
             });
         });
