@@ -116,7 +116,7 @@ pipes.minifiedFileName = () =>
     });
 
 pipes.scriptedPartials = () =>
-    pipes.validatedPartials()
+    pipes.validatedPartials(paths.partials)
       .pipe(plugins.htmlhint.failReporter())
       .pipe(plugins.htmlhint({ collapseWhitespace: true, removeComments: true }))
       .pipe(plugins.ngHtml2js({
@@ -139,7 +139,7 @@ pipes.builtVendorScriptsProd = () =>
 
 pipes.builtAppScriptsProd = () => {
     const scriptedPartials = pipes.scriptedPartials();
-    const validatedAppScripts = pipes.validatedAppScripts();
+    const validatedAppScripts = pipes.validatedAppScripts(paths.scripts);
 
     return es.merge(scriptedPartials, validatedAppScripts)
       .pipe(babel({ presets: ["es2015"] }))
