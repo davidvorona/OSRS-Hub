@@ -8,11 +8,13 @@ angular.module("AccountFactory", ["ngRoute"])
   function($http, $rootScope, UserService, authVals, AUTH_EVENTS) { // eslint-disable-line indent
       const handleError = (error) => {
           console.log(error);
-          if (error.data[0].code) {
-              const pgErr = error.data[0].code;
-              if (pgErr === "23505") return { err: "This username already exists." };
-              else if (pgErr === "invalid") return { err: "Your username / password is incorrect." };
-              return { err: "Unhandled pgErr." };
+          if (error.data[0]) {
+              if (error.data[0].code) {
+                  const pgErr = error.data[0].code;
+                  if (pgErr === "23505") return { err: "This username already exists." };
+                  else if (pgErr === "invalid") return { err: "Your username / password is incorrect." };
+                  return { err: "Unhandled pgErr." };
+              }
           }
           if (error.status === 500) return { err: "500: this player does not exist." };
           return { err: "There was an error. Please try again." };

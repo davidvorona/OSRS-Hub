@@ -7,7 +7,7 @@
         <td style="width:35%;" class="friends-td">{{ row.name }}</td>
         <td class="friends-td"><div id="combat-box">{{ row.combatLvl }}</div></td>
         <td class="friends-td remove-padding-right"><button id="stats-button"><a ng-href="/build/{{ row.name }}">Full Build</a></button></td>
-        <td class="friends-td remove-padding-left"><button id="x-button">X<span class="tooltiptext">Delete build</span></button></td>
+        <td class="friends-td remove-padding-left"><button id="x-button" ng-click="bc.deleteBuild(row.name, $index)">X</button></td>
       </tr>
     </table>
   </div>

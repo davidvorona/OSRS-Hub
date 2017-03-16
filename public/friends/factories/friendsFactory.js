@@ -5,8 +5,10 @@ angular.module("FriendsFactory", ["ngRoute"])
   function($http, BuildCalculator) { // eslint-disable-line indent
       const handleError = (error) => {
           console.log(error);
-          if (error.data[0].code) {
-              return { err: "Unhandled pgErr." };
+          if (error.data[0]) {
+              if (error.data[0].code) {
+                  return { err: "Unhandled pgErr." };
+              }
           }
           if (error.status === 500) return { err: "500: There was a problem with our server. Please try again." };
           return { err: "There was an error. Please try again." };

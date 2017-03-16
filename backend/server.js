@@ -105,6 +105,11 @@ app.get("/builds", buildController.fetchFK, buildController.getBuildsList, (req,
     console.log("Builds retrieved.");
 });
 
+app.delete("/builds", userController.getID, buildController.deleteBuild, (req, res) => {
+    res.json({ data: "Build deleted." });
+    console.log(`${req.body.buildName} deleted.`);
+});
+
 app.get("/friends/:username", userController.getID, friendsController.getFriends, friendsController.formatList,
     (req, res) => {
         res.json(res.body);

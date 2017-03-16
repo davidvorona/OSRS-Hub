@@ -134,6 +134,33 @@ const buildController = {
                 return next();
             });
         });
+    },
+
+    deleteBuild: (req, res, next) => {
+        req.body.buildName = req.query.buildName;
+        const results = [];
+
+        pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
+            if (err) {
+                done();
+                console.log(err);
+                return res.status(500).json({ success: false, data: err });
+            }
+
+            const query = client.query("DELETE FROM builds WHERE " +
+            `(user_id = '${req.body.user_id}' AND name = '${req.body.buildName}')`);
+
+            query.on("error", (error) => {
+                results.push(error);
+                return res.status(500).json(results);
+            });
+
+            // after all data is returned, close connection and return results
+            query.on("end", () => {
+                done();
+                return next();
+            });
+        });
     }
 };
 
