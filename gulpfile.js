@@ -26,6 +26,16 @@ const paths = {
     scriptsDevServer: "backend/**/*.js"
 };
 
+const resolvePath = (path) => {
+    let appendPath = path;
+    let index = appendPath.match(/public/i).index;
+
+    appendPath = appendPath.split("").splice(index + 6).join("");
+    index = appendPath.lastIndexOf("/");
+    appendPath = appendPath.split("").splice(0, index).join("");
+    return appendPath;
+};
+
 const pipes = {};
 
 // validators
@@ -64,14 +74,18 @@ pipes.builtVendorScriptsDev = () =>
     gulp.src(bowerFiles())
       .pipe(gulp.dest("dev/static/bower_components"));
 
-pipes.builtAppScriptsDev = scripts =>
-    pipes.validatedAppScripts(scripts)
+pipes.builtAppScriptsDev = (scripts, appendPath) => {
+    const path = appendPath || "";
+    return pipes.validatedAppScripts(scripts)
       .pipe(babel({ presets: ["es2015"] }))
-      .pipe(gulp.dest(paths.distDevStatic));
+      .pipe(gulp.dest(paths.distDevStatic + path));
+};
 
-pipes.builtPartialsDev = partials =>
-    pipes.validatedPartials(partials)
-      .pipe(gulp.dest(paths.distDevStatic));
+pipes.builtPartialsDev = (partials, appendPath) => {
+    const path = appendPath || "";
+    return pipes.validatedPartials(partials)
+      .pipe(gulp.dest(paths.distDevStatic + path));
+};
 
 pipes.builtStylesDev = () =>
     gulp.src(paths.styles)
@@ -268,16 +282,18 @@ gulp.task("watch-dev", ["clean-build-app-dev", "validate-devserver-scripts", "bu
     );
 
     // watch app scripts
-    gulp.watch(paths.scripts, e =>
-        pipes.builtAppScriptsDev(e.path)
-          .pipe(plugins.livereload())
-    );
+    gulp.watch(paths.scripts, (e) => {
+        const appendPath = resolvePath(e.path);
+        return pipes.builtAppScriptsDev(e.path, appendPath)
+          .pipe(plugins.livereload());
+    });
 
     // watch html partials
-    gulp.watch(paths.partials, e =>
-        pipes.builtPartialsDev(e.path)
-          .pipe(plugins.livereload())
-    );
+    gulp.watch(paths.partials, (e) => {
+        const appendPath = resolvePath(e.path);
+        return pipes.builtPartialsDev(e.path, appendPath)
+          .pipe(plugins.livereload());
+    });
 
     // watch styles
     gulp.watch(paths.styles, () =>
