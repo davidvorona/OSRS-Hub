@@ -30,13 +30,13 @@ const pipes = {};
 
 // validators
 
-pipes.validatedAppScripts = () =>
-    gulp.src(paths.scripts)
+pipes.validatedAppScripts = scripts =>
+    gulp.src(scripts)
       .pipe(plugins.eslint())
       .pipe(plugins.eslint.format());
 
-pipes.validatedPartials = () =>
-    gulp.src(paths.partials)
+pipes.validatedPartials = partials =>
+    gulp.src(partials)
       .pipe(plugins.htmlhint({ "doctype-first": false }))
       .pipe(plugins.htmlhint.reporter());
 
@@ -64,13 +64,13 @@ pipes.builtVendorScriptsDev = () =>
     gulp.src(bowerFiles())
       .pipe(gulp.dest("dev/static/bower_components"));
 
-pipes.builtAppScriptsDev = () =>
-    pipes.validatedAppScripts()
+pipes.builtAppScriptsDev = scripts =>
+    pipes.validatedAppScripts(scripts)
       .pipe(babel({ presets: ["es2015"] }))
       .pipe(gulp.dest(paths.distDevStatic));
 
-pipes.builtPartialsDev = () =>
-    pipes.validatedPartials()
+pipes.builtPartialsDev = partials =>
+    pipes.validatedPartials(partials)
       .pipe(gulp.dest(paths.distDevStatic));
 
 pipes.builtStylesDev = () =>
@@ -80,7 +80,7 @@ pipes.builtStylesDev = () =>
 pipes.builtIndexDev = () => {
     const orderedVendorScripts = pipes.builtVendorScriptsDev()
       .pipe(pipes.orderedVendorScripts());
-    const orderedAppScripts = pipes.builtAppScriptsDev()
+    const orderedAppScripts = pipes.builtAppScriptsDev(paths.scripts)
       .pipe(angularFilesort());
     const appStyles = pipes.builtStylesDev();
 
@@ -92,7 +92,7 @@ pipes.builtIndexDev = () => {
 };
 
 pipes.builtAppDev = () =>
-    es.merge(pipes.builtIndexDev(), pipes.builtPartialsDev());
+    es.merge(pipes.builtIndexDev(), pipes.builtPartialsDev(paths.partials));
 
 // ***** PROD ONLYS ***** //
 
@@ -268,14 +268,14 @@ gulp.task("watch-dev", ["clean-build-app-dev", "validate-devserver-scripts", "bu
     );
 
     // watch app scripts
-    gulp.watch(paths.scripts, () =>
-        pipes.builtAppScriptsDev()
+    gulp.watch(paths.scripts, e =>
+        pipes.builtAppScriptsDev(e.path)
           .pipe(plugins.livereload())
     );
 
     // watch html partials
-    gulp.watch(paths.partials, () =>
-        pipes.builtPartialsDev()
+    gulp.watch(paths.partials, e =>
+        pipes.builtPartialsDev(e.path)
           .pipe(plugins.livereload())
     );
 

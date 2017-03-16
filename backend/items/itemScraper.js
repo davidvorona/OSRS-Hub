@@ -1,4 +1,3 @@
-// TODO: this seems slower than before in getData
 const request = require("request");
 const items = require("../../data/items.json"); // TODO: this should be updated or use official api
 
