@@ -127,12 +127,15 @@ async.waterfall([
             // after all data is returned, close connection and return results
             query.on("end", () => {
                 done();
-                console.log("Players updated.");
                 return callback(null, results);
             });
         });
     }
 ], (err, results) => {
-    if (err) return err;
+    if (err) {
+        console.log(err, Date.now());
+        return err;
+    }
+    console.log("Players updated.", Date.now());
     return results;
 });
