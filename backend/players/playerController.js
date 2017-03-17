@@ -5,6 +5,7 @@ const connectionString = process.env.DATABASE_URL;
 const playerController = {
     addPlayer: (req, res, next) => {
         const data = req.body;
+        console.log(data);
         const results = [];
 
         pg.connect(connectionString, (err, client, done) => { // eslint-disable-line consistent-return
