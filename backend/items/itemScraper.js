@@ -26,8 +26,8 @@ const itemScraper = {
     getData: (req, res) => {
         const item = {};
         const id = itemScraper.id;
-        const itemInfoUrl = `http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=${id}`;
-        const itemPriceUrl = `http://services.runescape.com/m=itemdb_oldschool/api/graph/${id}.json`;
+        const itemInfoUrl = `https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=${id}`;
+        const itemPriceUrl = `https://services.runescape.com/m=itemdb_oldschool/api/graph/${id}.json`;
         return request(itemInfoUrl, (err1, response1) => {
             if (err1) return console.log(err1);
             item.info = response1;
