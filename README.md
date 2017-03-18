@@ -1,6 +1,7 @@
 # OSRS-Hub
 
 A companion app for the classic MMORPG, Runescape - 2007 version.
+Check it out at https://oldschoolscaper.com/ !
 
 ## Items
 
@@ -10,7 +11,7 @@ Compare complementary items for ultimate merching potential.
 ## Players
 
 Search for any player in OSRS and retrieve a table of his/her stats. The app saves frequent searches for you, for quick reference.
-Soon: You will also have access to the players combat level and descriptive, data-dependent functionality for min/maxing builds.
+Add that player as a friend for permanent easy access and level updates.
 
 ## Build
 
@@ -18,7 +19,7 @@ Create, save, and retrieve custom builds. Input your desired combat level and bu
 
 ## Account
 
-Create a user account to save builds. Also, add "friends" for quick access to friends' skill tables and recent skilling activity.
+Create a user account to save builds, add friends, and more.
 
 ## Stack
 
