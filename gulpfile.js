@@ -18,6 +18,7 @@ const paths = {
     partials: ["public/**/*.html", "!public/index.html"],
     images: ["public/img/favicon-96x96.png", "public/img/rsbackground.png",
         "public/img/osrs_logo.png", "public/img/gnome_child.png"],
+    font: ["public/runescape_uf.ttf"],
     distDev: "./dev",
     distDevStatic: "./dev/static",
     distProd: "./prod",
@@ -62,13 +63,17 @@ pipes.validatedDevServerScripts = () =>
 
 // ***** DEV ONLY ***** //
 
-pipes.orderedVendorScripts = () =>
-    plugins.order(["angular.js", "angular-route", "angular-mock", "angular-smart-table"]);
-
 pipes.builtDevImgs = () =>
     gulp.src(paths.images)
       .pipe(image())
       .pipe(gulp.dest("dev/static/img"));
+
+pipes.builtDevFonts = () =>
+    gulp.src(paths.font)
+      .pipe(gulp.dest("dev/static"));
+
+pipes.orderedVendorScripts = () =>
+    plugins.order(["angular.js", "angular-route", "angular-mock", "angular-smart-table"]);
 
 pipes.builtVendorScriptsDev = () =>
     gulp.src(bowerFiles())
@@ -115,6 +120,16 @@ pipes.minifiedFileName = () =>
         path.extname = `.min${path.extname}`;
     });
 
+pipes.builtProdImgs = () =>
+    gulp.src(paths.images)
+      .pipe(image())
+      .pipe(gulp.dest("prod/static/img"));
+
+pipes.builtProdFonts = () => {
+    gulp.src(paths.font)
+      .pipe(gulp.dest("prod/static"));
+};
+
 pipes.scriptedPartials = () =>
     pipes.validatedPartials(paths.partials)
       .pipe(plugins.htmlhint.failReporter())
@@ -124,11 +139,6 @@ pipes.scriptedPartials = () =>
           prefix: "static/",
           declareModule: false
       }));
-
-pipes.builtProdImgs = () =>
-    gulp.src(paths.images)
-      .pipe(image())
-      .pipe(gulp.dest("prod/static/img"));
 
 pipes.builtVendorScriptsProd = () =>
     gulp.src(bowerFiles("**/*.js"))
@@ -190,71 +200,25 @@ gulp.task("clean-prod", () =>
         console.log("Deleted files and folders in:\n", path.join("\n"));
     }));
 
-// checks html source files for syntax errors
-gulp.task("validate-partials", pipes.validatedPartials);
-
-// checks index.html for syntax errors
-gulp.task("validate-index", pipes.validatedIndex);
-
-// moves html source files into the dev environment
-gulp.task("build-partials-dev", pipes.builtPartialsDev);
-
-// converts partials to javascript using html2js
-gulp.task("convert-partials-to-js", pipes.scriptedPartials);
-
 // runs eslint on the dev server scripts
 gulp.task("validate-devserver-scripts", pipes.validatedDevServerScripts);
 
-// runs eslint on the app scripts
-gulp.task("validate-app-scripts", pipes.validatedAppScripts);
-
-// moves app images into dev environment
-gulp.task("build-images-dev", pipes.builtDevImgs);
-
-// moves app images into prod environment
-gulp.task("build-images-prod", pipes.builtProdImgs);
-
-// moves app scripts into the dev environment
-gulp.task("build-app-scripts-dev", pipes.builtAppScriptsDev);
-
-// concatenates, uglifies, and moves app scripts and partials into the prod environment
-gulp.task("build-app-scripts-prod", pipes.builtAppScriptsProd);
-
-// compiles app sass and moves to the dev environment
-gulp.task("build-styles-dev", pipes.builtStylesDev);
-
-// compiles and minifies app sass to css and moves to the prod environment
-gulp.task("build-styles-prod", pipes.builtStylesProd);
-
-// moves vendor scripts into the dev environment
-gulp.task("build-vendor-scripts-dev", pipes.builtVendorScriptsDev);
-
-// concatenates, uglifies, and moves vendor scripts into the prod environment
-gulp.task("build-vendor-scripts-prod", pipes.builtVendorScriptsProd);
-
-// validates and injects sources into index.html and moves it to the dev environment
-gulp.task("build-index-dev", pipes.builtIndexDev);
-
-// validates and injects sources into index.html, minifies and moves it to the dev environment
-gulp.task("build-index-prod", pipes.builtIndexProd);
-
-// builds a complete dev environment
-gulp.task("build-app-dev", pipes.builtAppDev);
-
 // builds a complete prod environment
-gulp.task("build-app-prod", pipes.builtAppProd);
+gulp.task("build-app-prod", ["build-prod-fonts"], pipes.builtAppProd);
+
+gulp.task("build-prod-fonts", ["build-prod-images"], pipes.builtProdFonts);
+
+gulp.task("build-prod-images", ["clean-prod"], pipes.builtProdImgs);
 
 // cleans and builds a complete dev environment
-gulp.task("clean-build-app-dev", ["clean-dev"], pipes.builtAppDev);
+gulp.task("build-app-dev", ["build-dev-fonts"], pipes.builtAppDev);
 
-// cleans and builds a complete prod environment
-gulp.task("clean-build-app-prod", [
-    "clean-prod",
-    "validate-devserver-scripts",
-    "build-images-prod"], pipes.builtAppProd);
+gulp.task("build-dev-fonts", ["build-dev-images"], pipes.builtDevFonts);
+
+gulp.task("build-dev-images", ["clean-dev"], pipes.builtDevImgs);
 
 // clean, build, and watch live changes to the dev environment
-gulp.task("watch-dev", ["clean-build-app-dev", "validate-devserver-scripts", "build-images-dev"], () => {
+gulp.task("watch-dev", ["build-app-dev", "validate-devserver-scripts"], () => {
     // start nodemon to auto-reload the dev server
     plugins.nodemon({
         script: "backend/server.js",
@@ -304,7 +268,7 @@ gulp.task("watch-dev", ["clean-build-app-dev", "validate-devserver-scripts", "bu
 
 gulp.task("dev", ["watch-dev"]);
 
-gulp.task("prod", ["clean-build-app-prod"]);
+gulp.task("prod", ["build-app-prod", "validate-devserver-scripts"], () => console.log("Production app built!"));
 
 // default task builds for dev
 gulp.task("default", ["watch-dev"]);
