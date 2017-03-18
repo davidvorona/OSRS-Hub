@@ -203,7 +203,7 @@ gulp.task("clean-prod", () =>
 // runs eslint on the dev server scripts
 gulp.task("validate-devserver-scripts", pipes.validatedDevServerScripts);
 
-// builds a complete prod environment
+// cleans and builds a complete prod environment
 gulp.task("build-app-prod", ["build-prod-fonts"], pipes.builtAppProd);
 
 gulp.task("build-prod-fonts", ["build-prod-images"], pipes.builtProdFonts);
@@ -217,7 +217,7 @@ gulp.task("build-dev-fonts", ["build-dev-images"], pipes.builtDevFonts);
 
 gulp.task("build-dev-images", ["clean-dev"], pipes.builtDevImgs);
 
-// clean, build, and watch live changes to the dev environment
+// run devserver and watch live changes to the dev environment
 gulp.task("watch-dev", ["build-app-dev", "validate-devserver-scripts"], () => {
     // start nodemon to auto-reload the dev server
     plugins.nodemon({
@@ -266,8 +266,10 @@ gulp.task("watch-dev", ["build-app-dev", "validate-devserver-scripts"], () => {
     );
 });
 
+// start dev
 gulp.task("dev", ["watch-dev"]);
 
+// start prod
 gulp.task("prod", ["build-app-prod", "validate-devserver-scripts"], () => console.log("Production app built!"));
 
 // default task builds for dev

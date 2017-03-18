@@ -43,7 +43,7 @@ app.use(session({
     }),
     secret: "user",
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: false, // session only saved when user creates / logs in and sets secret
     cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 7 days
 }));
 
