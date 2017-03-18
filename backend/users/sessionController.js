@@ -68,6 +68,7 @@ const sessionController = {
     endSession: (req, res, next) => {
         res.clearCookie("user");
         res.clearCookie("nm");
+        res.clearCookie("connect.sid");
         req.session.destroy();
         return next();
     }
