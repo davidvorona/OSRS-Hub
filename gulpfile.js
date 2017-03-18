@@ -18,7 +18,7 @@ const paths = {
     partials: ["public/**/*.html", "!public/index.html"],
     images: ["public/img/favicon-96x96.png", "public/img/rsbackground.png",
         "public/img/osrs_logo.png", "public/img/gnome_child.png"],
-    font: ["public/runescape_uf.ttf"],
+    fonts: ["public/runescape_uf.ttf"],
     distDev: "./dev",
     distDevStatic: "./dev/static",
     distProd: "./prod",
@@ -69,7 +69,7 @@ pipes.builtDevImgs = () =>
       .pipe(gulp.dest("dev/static/img"));
 
 pipes.builtDevFonts = () =>
-    gulp.src(paths.font)
+    gulp.src(paths.fonts)
       .pipe(gulp.dest("dev/static"));
 
 pipes.orderedVendorScripts = () =>
@@ -126,7 +126,7 @@ pipes.builtProdImgs = () =>
       .pipe(gulp.dest("prod/static/img"));
 
 pipes.builtProdFonts = () => {
-    gulp.src(paths.font)
+    gulp.src(paths.fonts)
       .pipe(gulp.dest("prod/static"));
 };
 
