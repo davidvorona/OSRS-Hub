@@ -133,9 +133,9 @@ async.waterfall([
     }
 ], (err, results) => {
     if (err) {
-        console.log(err, Date.now());
+        console.log(err, new Date());
         return err;
     }
-    console.log("Players updated.", Date.now());
+    console.log("Players updated at", new Date());
     return results;
 });
