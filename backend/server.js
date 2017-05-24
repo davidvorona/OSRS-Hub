@@ -35,6 +35,7 @@ app.use((req, res, next) => {
 });
 
 // use connect-pg-simple(session) for session store
+// 'psql osrs_hub < node_modules/connect-pg-simple/table.sql'
 app.use(session({
     store: new Session({
         pg,   // use global pg-module

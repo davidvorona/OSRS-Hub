@@ -113,7 +113,7 @@ pipes.builtIndexDev = () => {
 pipes.builtAppDev = () =>
     es.merge(pipes.builtIndexDev(), pipes.builtPartialsDev(paths.partials));
 
-// ***** PROD ONLYS ***** //
+// ***** PROD ONLY ***** //
 
 pipes.minifiedFileName = () =>
     plugins.rename((path) => {

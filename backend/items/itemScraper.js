@@ -1,5 +1,5 @@
 const request = require("request");
-const items = require("../../data/items.json"); // TODO: this should be updated or use official api
+const items = require("../../data/items.json"); // TODO: updated 05/23/17
 
 const itemScraper = {
     formatSearch: (string) => {
