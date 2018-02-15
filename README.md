@@ -1,7 +1,6 @@
 # OSRS-Hub
 
 A companion app for the classic MMORPG, Runescape - 2007 version.
-Check it out at https://oldschoolscaper.com/ !
 
 ## Items
 
